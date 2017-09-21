@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=gnu++11
 
 CXX_DEFINES = -DUNIX
 
-CXX_INCLUDES = -I/home/nog/GitRepository/cs480Quijada/GROUP_PROJECTS/PA5/include -I/usr/include/SDL2 
+CXX_INCLUDES = -I/home/nog/GitRepository/GROUP_PROJECTS/PA5/include -I/usr/include/SDL2 
 
