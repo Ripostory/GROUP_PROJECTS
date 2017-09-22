@@ -4,7 +4,7 @@
 CMakeFiles/Tutorial.dir/src/camera.cpp.o
  ../include/camera.h
  ../include/graphics_headers.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/camera.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/camera.cpp
 CMakeFiles/Tutorial.dir/src/engine.cpp.o
  ../include/camera.h
  ../include/engine.h
@@ -18,11 +18,11 @@ CMakeFiles/Tutorial.dir/src/engine.cpp.o
  ../include/planet.h
  ../include/shader.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/engine.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/engine.cpp
 CMakeFiles/Tutorial.dir/src/event.cpp.o
  ../include/event.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/event.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/event.cpp
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o
  ../include/camera.h
  ../include/event.h
@@ -35,12 +35,12 @@ CMakeFiles/Tutorial.dir/src/graphics.cpp.o
  ../include/planet.h
  ../include/shader.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/graphics.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/graphics.cpp
 CMakeFiles/Tutorial.dir/src/loader.cpp.o
  ../include/graphics_headers.h
  ../include/loader.h
  ../include/obj.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/loader.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/loader.cpp
 CMakeFiles/Tutorial.dir/src/main.cpp.o
  ../include/camera.h
  ../include/engine.h
@@ -54,7 +54,7 @@ CMakeFiles/Tutorial.dir/src/main.cpp.o
  ../include/planet.h
  ../include/shader.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/main.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/main.cpp
 CMakeFiles/Tutorial.dir/src/moon.cpp.o
  ../include/event.h
  ../include/graphics_headers.h
@@ -63,11 +63,11 @@ CMakeFiles/Tutorial.dir/src/moon.cpp.o
  ../include/obj.h
  ../include/object.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/moon.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/moon.cpp
 CMakeFiles/Tutorial.dir/src/obj.cpp.o
  ../include/graphics_headers.h
  ../include/obj.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/obj.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/obj.cpp
 CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/event.h
  ../include/graphics_headers.h
@@ -75,7 +75,7 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/obj.h
  ../include/object.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/object.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/object.cpp
 CMakeFiles/Tutorial.dir/src/planet.cpp.o
  ../include/event.h
  ../include/graphics_headers.h
@@ -84,13 +84,13 @@ CMakeFiles/Tutorial.dir/src/planet.cpp.o
  ../include/object.h
  ../include/planet.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/planet.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/planet.cpp
 CMakeFiles/Tutorial.dir/src/shader.cpp.o
  ../include/graphics_headers.h
  ../include/loader.h
  ../include/obj.h
  ../include/shader.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/shader.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/shader.cpp
 CMakeFiles/Tutorial.dir/src/window.cpp.o
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/window.cpp
+ /media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/src/window.cpp

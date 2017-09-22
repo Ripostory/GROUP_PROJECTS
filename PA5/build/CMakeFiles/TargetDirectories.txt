@@ -1,4 +1,4 @@
-/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/edit_cache.dir
-/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
-/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/rebuild_cache.dir
-/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir
+/media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/build/CMakeFiles/edit_cache.dir
+/media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
+/media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/build/CMakeFiles/rebuild_cache.dir
+/media/nog/Projects/_Projects/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir
