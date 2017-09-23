@@ -136,32 +136,32 @@ Tutorial/fast:
 	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/build
 .PHONY : Tutorial/fast
 
-src/camera.o: src/camera.cpp.o
+src/Camera.o: src/Camera.cpp.o
 
-.PHONY : src/camera.o
+.PHONY : src/Camera.o
 
 # target to build an object file
-src/camera.cpp.o:
-	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/camera.cpp.o
-.PHONY : src/camera.cpp.o
+src/Camera.cpp.o:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/Camera.cpp.o
+.PHONY : src/Camera.cpp.o
 
-src/camera.i: src/camera.cpp.i
+src/Camera.i: src/Camera.cpp.i
 
-.PHONY : src/camera.i
+.PHONY : src/Camera.i
 
 # target to preprocess a source file
-src/camera.cpp.i:
-	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/camera.cpp.i
-.PHONY : src/camera.cpp.i
+src/Camera.cpp.i:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/Camera.cpp.i
+.PHONY : src/Camera.cpp.i
 
-src/camera.s: src/camera.cpp.s
+src/Camera.s: src/Camera.cpp.s
 
-.PHONY : src/camera.s
+.PHONY : src/Camera.s
 
 # target to generate assembly for a file
-src/camera.cpp.s:
-	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/camera.cpp.s
-.PHONY : src/camera.cpp.s
+src/Camera.cpp.s:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/Camera.cpp.s
+.PHONY : src/Camera.cpp.s
 
 src/engine.o: src/engine.cpp.o
 
@@ -470,9 +470,9 @@ help:
 	@echo "... Tutorial_SUCCESSFUL"
 	@echo "... rebuild_cache"
 	@echo "... Tutorial"
-	@echo "... src/camera.o"
-	@echo "... src/camera.i"
-	@echo "... src/camera.s"
+	@echo "... src/Camera.o"
+	@echo "... src/Camera.i"
+	@echo "... src/Camera.s"
 	@echo "... src/engine.o"
 	@echo "... src/engine.i"
 	@echo "... src/engine.s"

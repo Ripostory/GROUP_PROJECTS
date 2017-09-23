@@ -12,14 +12,14 @@ else
 endif
 
 # Paths, use this to set Include directories, or library directories; uncomment in all: if used
-PATHI=-I/usr/local/include/
-PATHL=-L/usr/local/lib/
+#PATHI=-I/usr/local/include/
+#PATHL=-L/usr/local/lib/
 
 #Compiler Flags
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o planet.o moon.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o planet.o moon.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -31,8 +31,8 @@ all: $(O_FILES)
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INDLUDES)
 
-camera.o: ../src/camera.cpp
-	$(CC) $(CXXFLAGS) -c ../src/camera.cpp -o camera.o $(INDLUDES)
+Camera.o: ../src/camera.cpp
+	$(CC) $(CXXFLAGS) -c ../src/Camera.cpp -o Camera.o $(INDLUDES)
 
 engine.o: ../src/engine.cpp
 	$(CC) $(CXXFLAGS) -c ../src/engine.cpp -o engine.o $(INDLUDES)

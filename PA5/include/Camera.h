@@ -3,11 +3,11 @@
 
 #include "graphics_headers.h"
 
-class Camera
+class camera
 {
   public:
-    Camera();
-    ~Camera();
+    camera();
+    ~camera();
     bool Initialize(int w, int h);
     glm::mat4 GetProjection();
     glm::mat4 GetView();

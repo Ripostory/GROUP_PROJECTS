@@ -68,13 +68,10 @@ bool loader::loadObject(string filename, obj &inputObj)
 		face = mesh->mFaces[i];
 
 		//made to only work with triangles
-		final.addIndice(face.mIndices[0]);
-		final.addIndice(face.mIndices[1]);
-		final.addIndice(face.mIndices[2]);
+		final.addIndice(face.mIndices[0]+1);
+		final.addIndice(face.mIndices[1]+1);
+		final.addIndice(face.mIndices[2]+1);
 	}
-
-	delete mesh;
-	delete scene;
 
 	mesh = NULL;
 	scene = NULL;

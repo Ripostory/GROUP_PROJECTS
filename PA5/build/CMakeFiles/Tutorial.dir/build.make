@@ -105,9 +105,33 @@ CMakeFiles/Tutorial.dir/src/main.cpp.o.provides: CMakeFiles/Tutorial.dir/src/mai
 CMakeFiles/Tutorial.dir/src/main.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/main.cpp.o
 
 
+CMakeFiles/Tutorial.dir/src/Camera.cpp.o: CMakeFiles/Tutorial.dir/flags.make
+CMakeFiles/Tutorial.dir/src/Camera.cpp.o: ../src/Camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/Camera.cpp.o -c /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/Camera.cpp
+
+CMakeFiles/Tutorial.dir/src/Camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/Camera.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/Camera.cpp > CMakeFiles/Tutorial.dir/src/Camera.cpp.i
+
+CMakeFiles/Tutorial.dir/src/Camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/Camera.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/Camera.cpp -o CMakeFiles/Tutorial.dir/src/Camera.cpp.s
+
+CMakeFiles/Tutorial.dir/src/Camera.cpp.o.requires:
+
+.PHONY : CMakeFiles/Tutorial.dir/src/Camera.cpp.o.requires
+
+CMakeFiles/Tutorial.dir/src/Camera.cpp.o.provides: CMakeFiles/Tutorial.dir/src/Camera.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/Camera.cpp.o.provides.build
+.PHONY : CMakeFiles/Tutorial.dir/src/Camera.cpp.o.provides
+
+CMakeFiles/Tutorial.dir/src/Camera.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/Camera.cpp.o
+
+
 CMakeFiles/Tutorial.dir/src/loader.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/loader.cpp.o: ../src/loader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/loader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/loader.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/loader.cpp.o -c /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/loader.cpp
 
 CMakeFiles/Tutorial.dir/src/loader.cpp.i: cmake_force
@@ -127,30 +151,6 @@ CMakeFiles/Tutorial.dir/src/loader.cpp.o.provides: CMakeFiles/Tutorial.dir/src/l
 .PHONY : CMakeFiles/Tutorial.dir/src/loader.cpp.o.provides
 
 CMakeFiles/Tutorial.dir/src/loader.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/loader.cpp.o
-
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.o: CMakeFiles/Tutorial.dir/flags.make
-CMakeFiles/Tutorial.dir/src/camera.cpp.o: ../src/camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/camera.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/camera.cpp.o -c /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/camera.cpp
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/camera.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/camera.cpp > CMakeFiles/Tutorial.dir/src/camera.cpp.i
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/camera.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/camera.cpp -o CMakeFiles/Tutorial.dir/src/camera.cpp.s
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.o.requires:
-
-.PHONY : CMakeFiles/Tutorial.dir/src/camera.cpp.o.requires
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.o.provides: CMakeFiles/Tutorial.dir/src/camera.cpp.o.requires
-	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/camera.cpp.o.provides.build
-.PHONY : CMakeFiles/Tutorial.dir/src/camera.cpp.o.provides
-
-CMakeFiles/Tutorial.dir/src/camera.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/camera.cpp.o
 
 
 CMakeFiles/Tutorial.dir/src/window.cpp.o: CMakeFiles/Tutorial.dir/flags.make
@@ -349,8 +349,8 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 Tutorial_OBJECTS = \
 "CMakeFiles/Tutorial.dir/src/graphics.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/main.cpp.o" \
+"CMakeFiles/Tutorial.dir/src/Camera.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/loader.cpp.o" \
-"CMakeFiles/Tutorial.dir/src/camera.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/window.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/planet.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/obj.cpp.o" \
@@ -365,8 +365,8 @@ Tutorial_EXTERNAL_OBJECTS =
 
 Tutorial: CMakeFiles/Tutorial.dir/src/graphics.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/main.cpp.o
+Tutorial: CMakeFiles/Tutorial.dir/src/Camera.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/loader.cpp.o
-Tutorial: CMakeFiles/Tutorial.dir/src/camera.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/window.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/planet.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/obj.cpp.o
@@ -376,8 +376,8 @@ Tutorial: CMakeFiles/Tutorial.dir/src/engine.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/event.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/object.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/build.make
-Tutorial: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libassimp.so
+Tutorial: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libGLU.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libGL.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libSDL2main.a
@@ -393,8 +393,8 @@ CMakeFiles/Tutorial.dir/build: Tutorial
 
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/graphics.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/main.cpp.o.requires
+CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/Camera.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/loader.cpp.o.requires
-CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/camera.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/window.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/planet.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/obj.cpp.o.requires

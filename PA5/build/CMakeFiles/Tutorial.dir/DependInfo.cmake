@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/camera.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/camera.cpp.o"
+  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/Camera.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/engine.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/event.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/event.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/graphics.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
