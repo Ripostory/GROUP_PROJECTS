@@ -79,8 +79,8 @@ assimp/color4.h
 -
 
 ../include/moon.h
-object.h
-../include/object.h
+planet.h
+../include/planet.h
 
 ../include/obj.h
 vector

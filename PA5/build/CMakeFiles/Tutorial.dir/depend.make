@@ -61,6 +61,7 @@ CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/loader.h
 CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/moon.h
 CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/obj.h
 CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/object.h
+CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/planet.h
 CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../include/window.h
 CMakeFiles/Tutorial.dir/src/moon.cpp.o: ../src/moon.cpp
 

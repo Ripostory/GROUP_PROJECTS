@@ -13,7 +13,6 @@ class Object
 {
   public:
     Object();
-    Object(string, float, float, float);
     virtual ~Object();
     virtual void Update(unsigned int dt);
     void loadNewModel(string filename);
@@ -23,15 +22,6 @@ class Object
 
   protected:
     glm::mat4 model;
-
-    float angle;
-    float orbit;
-    float xPos;
-    float yPos;
-
-    float distance;
-    float orbitSpeed;
-    float rotationSpeed;
     event listener;
     virtual void keyboard(eventType);
 

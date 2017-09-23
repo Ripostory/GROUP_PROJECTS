@@ -44,6 +44,5 @@ void Moon::Update(unsigned int dt)
 	model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
 
 	//make moon smaller
-	//TODO: probably make this a parameter
-	model = glm::scale(model, glm::vec3(0.5f));
+	model = glm::scale(model, glm::vec3(size));
 }

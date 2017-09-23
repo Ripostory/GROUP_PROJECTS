@@ -8,9 +8,9 @@
 #ifndef MOON_H_
 #define MOON_H_
 
-#include "object.h"
+#include "planet.h"
 
-class Moon : public Object
+class Moon : public Planet
 {
 private:
 	Object *parent;

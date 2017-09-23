@@ -30,10 +30,18 @@ bool loader::loadObject(string filename, obj &inputObj)
 
 	//load object from file
 	Assimp::Importer import;
-	const aiScene *scene = import.ReadFile(filename,aiProcessPreset_TargetRealtime_Fast);
+	const aiScene *scene = import.ReadFile(filename, \
+			aiProcess_CalcTangentSpace      |  \
+			aiProcess_GenNormals            |  \
+			aiProcess_JoinIdenticalVertices |  \
+			aiProcess_Triangulate           |  \
+			aiProcess_GenUVCoords           |  \
+			0
+			);
 
 	//if fail, throw error
-	if (scene == NULL) {
+	if (scene == NULL)
+	{
 		//read failed, return empty object
 		cout << "FILE " << filename << " UNABLE TO BE READ" << endl;
 		return false;

@@ -62,6 +62,7 @@ CMakeFiles/Tutorial.dir/src/moon.cpp.o
  ../include/moon.h
  ../include/obj.h
  ../include/object.h
+ ../include/planet.h
  ../include/window.h
  /home/nog/GitRepository/GROUP_PROJECTS/PA5/src/moon.cpp
 CMakeFiles/Tutorial.dir/src/obj.cpp.o
