@@ -1,3 +1,4 @@
+
 #include "camera.h"
 
 Camera::Camera()
@@ -36,5 +37,3 @@ glm::mat4 Camera::GetView()
 {
   return view;
 }
-
-

@@ -21,35 +21,65 @@ loader::~loader()
 
 bool loader::loadObject(string filename, obj &inputObj)
 {
-	obj output;
-	char type;
-	filein.open(filename.c_str());
+	aiMesh *mesh;
+	aiVector3D vert;
+	aiFace face;
+	glm::vec3 tempVec;
+	glm::vec3 tempColor;
+	int indice;
 
-	if (filein.fail())
-	{
+	//load object from file
+	Assimp::Importer import;
+	const aiScene *scene = import.ReadFile(filename,aiProcessPreset_TargetRealtime_Fast);
+
+	//if fail, throw error
+	if (scene == NULL) {
 		//read failed, return empty object
 		cout << "FILE " << filename << " UNABLE TO BE READ" << endl;
 		return false;
 	}
 
-	isEOF = false;
-	//walk through file line by line
-	//read starting character
-	filein >> type;
-	while (!isEOF)
+	//otherwise, pack object data into the OBJ ADT and send to inputObj
+	//get mesh (should be at index 0 since it's the only mesh)
+	mesh = scene->mMeshes[0];
+
+	obj final;
+	for (int i = 0; i < mesh->mNumVertices; i++)
 	{
-		//read line and return next
-		if (isAnnoying)
-			cout << type << "| ";
+		//get vertices
+		vert = mesh->mVertices[i];
+		tempVec.x = vert.x;
+		tempVec.y = vert.y;
+		tempVec.z = vert.z;
 
-		//skip whitespace
-		readLine(filein, type, output);
+		//get color (get them from normals)
+		vert = mesh->mNormals[i];
+		tempColor.r = vert.x;
+		tempColor.g = vert.y;
+		tempColor.b = vert.z;
+
+		//push into object
+		final.addVert(Vertex(tempVec, tempColor));
 	}
-	//build object normals and create vertices
-	calculateNormals(output);
 
-	filein.close();
-	inputObj = output;
+	//load indices
+	for (int i = 0; i < mesh->mNumFaces; i++)
+	{
+		face = mesh->mFaces[i];
+
+		//made to only work with triangles
+		final.addIndice(face.mIndices[0]);
+		final.addIndice(face.mIndices[1]);
+		final.addIndice(face.mIndices[2]);
+	}
+
+	delete mesh;
+	delete scene;
+
+	mesh = NULL;
+	scene = NULL;
+
+	inputObj = final;
 	return true;
 }
 
@@ -85,6 +115,15 @@ bool loader::loadShader(string filename, string& output) {
 	filein.close();
 	return true;
 }
+
+
+/*========
+ * DEPRECATED
+ *
+ * All these functions below are deprecated
+ * assimp now handles all the file loading
+ * =======
+ */
 
 void loader::readLine(fstream &file, char &current, obj &object)
 {

@@ -11,6 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../CMakeModules/FindGLEW.cmake"
   "../CMakeModules/FindGLM.cmake"
   "../CMakeModules/FindSDL2.cmake"
+  "../CMakeModules/Findassimp.cmake"
   "CMakeFiles/3.5.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeSystem.cmake"

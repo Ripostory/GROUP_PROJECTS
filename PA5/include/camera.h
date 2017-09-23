@@ -1,5 +1,5 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CAMERALOC_H
+#define CAMERALOC_H
 
 #include "graphics_headers.h"
 
@@ -17,4 +17,4 @@ class Camera
     glm::mat4 view;
 };
 
-#endif /* CAMERA_H */
+#endif /* CAMERALOC_H */
