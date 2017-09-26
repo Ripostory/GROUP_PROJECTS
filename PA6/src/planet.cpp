@@ -12,14 +12,14 @@ Planet::Planet()
 	  //updated file loading, default to cube object
 	  loadNewModel("assets/planet.obj");
 	  loadNewTexture("assets/a_earth.jpg");
-
+	  loadNewNormal("assets/n_earth.jpg");
+	  setSize(5.0f);
 	  angle = 0.0f;
 	  orbit = 0.0f;
 
 	  rotationSpeed = 0.3f;
 	  orbitSpeed = 0.0f;
 	  distance = 0.0f;
-	  size = 1.0f;
 }
 
 Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, float siz)
@@ -118,18 +118,20 @@ void Planet::keyboard(eventType event)
 	  //choose model
 	  if (event.key == SDLK_t)
 	  {
-		  loadNewModel("assets/teapot.obj");
+		  loadNewTexture("assets/a_earth.jpg");
+		  loadNewNormal("assets/n_earth.jpg");
 	  }
 
 	  if (event.key == SDLK_y)
 	  {
-		  loadNewModel("assets/board.obj");
+		  loadNewTexture("assets/a_pluto.jpg");
+		  loadNewNormal("assets/n_earth.jpg");
 	  }
 
 	  if (event.key == SDLK_u)
 	  {
-		  loadNewModel("assets/planet.obj");
-		  setSize(3.0f);
+		  loadNewTexture("assets/a_mars.jpg");
+		  loadNewNormal("assets/n_mars.jpg");
 	  }
 
 	  // orbit clockwise

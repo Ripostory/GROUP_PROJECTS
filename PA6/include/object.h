@@ -17,6 +17,7 @@ class Object
     virtual void Update(unsigned int dt);
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
+    void loadNewNormal(string filename);
     void Render();
 
     glm::mat4 GetModel();
@@ -32,6 +33,7 @@ class Object
     GLuint VB;
     GLuint IB;
     GLuint tex;
+    GLuint normal;
 
 
 };

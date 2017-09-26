@@ -40,11 +40,11 @@ void Object::loadNewTexture(string filename)
 	  if (fileLoader.loadTexture(filename, texture))
 	  {
 		  //texture loaded
-		  //TODO: probably do something more
 	  }
 
 	  //texture loading
 	  glGenTextures(1, &tex);
+	  glActiveTexture(GL_TEXTURE0);
 	  glBindTexture(GL_TEXTURE_2D, tex);
 	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
 	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -53,8 +53,27 @@ void Object::loadNewTexture(string filename)
 
 	  //texture choosing
 	  //TODO implement
-	  glActiveTexture(GL_TEXTURE1);
 	  //glBindTexture(GL_TEXTURE_2D, tex);
+}
+
+void Object::loadNewNormal(string filename)
+{
+	  loader fileLoader;
+
+	  Texture texture(0,0,NULL);
+	  if (fileLoader.loadTexture(filename, texture))
+	  {
+		  //texture loaded
+		  //TODO: probably do something more
+	  }
+
+	  //texture loading
+	  glGenTextures(1, &normal);
+	  glActiveTexture(GL_TEXTURE0 +1);
+	  glBindTexture(GL_TEXTURE_2D, normal);
+	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
+	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Object::Update(unsigned int dt)

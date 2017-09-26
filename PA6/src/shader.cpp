@@ -22,7 +22,6 @@ Shader::~Shader()
 bool Shader::Initialize()
 {
   m_shaderProg = glCreateProgram();
-
   if (m_shaderProg == 0) 
   {
     std::cerr << "Error creating shader program\n";
@@ -41,11 +40,11 @@ bool Shader::AddShader(GLenum ShaderType)
   if(ShaderType == GL_VERTEX_SHADER)
   {
 
-	loadShader.loadShader("assets/vertexShader.s", s);
+	loadShader.loadShader("assets/vertexShader.vsh", s);
   }
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
-	loadShader.loadShader("assets/fragmentShader.s", s);
+	loadShader.loadShader("assets/fragmentShader.fsh", s);
   }
 
   GLuint ShaderObj = glCreateShader(ShaderType);
@@ -125,6 +124,9 @@ bool Shader::Finalize()
 void Shader::Enable()
 {
     glUseProgram(m_shaderProg);
+    //bind texture locations
+    glUniform1i(GetUniformLocation("texture"), 0);
+    glUniform1i(GetUniformLocation("normalMap"), 1);
 }
 
 
