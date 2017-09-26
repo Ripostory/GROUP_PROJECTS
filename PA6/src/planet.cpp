@@ -59,6 +59,16 @@ void Planet::Update(unsigned int dt)
 	  model = glm::scale(model, glm::vec3(size));
 }
 
+void Planet::setSize(float siz)
+{
+	size = siz;
+}
+
+void Planet::setMultiplier(float mult)
+{
+	multiplier = mult;
+}
+
 void Planet::keyboard(eventType event)
 {
 	if (event.eventVer == SDL_KEYDOWN)
@@ -119,6 +129,7 @@ void Planet::keyboard(eventType event)
 	  if (event.key == SDLK_u)
 	  {
 		  loadNewModel("assets/planet.obj");
+		  setSize(3.0f);
 	  }
 
 	  // orbit clockwise

@@ -24,11 +24,16 @@ protected:
     float orbitSpeed;
     float rotationSpeed;
     float size;
+    float multiplier;
 public:
 	Planet();
 	Planet(string, float, float, float, float);
 	virtual void Update(unsigned int);
 	~Planet();
+
+	void setSize(float);
+
+	void setMultiplier(float);
 };
 
 

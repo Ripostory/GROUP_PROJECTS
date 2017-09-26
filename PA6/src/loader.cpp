@@ -155,7 +155,6 @@ bool loader::loadTexture(string filename, Texture &output)
 
 	//extract data
 	output = Texture(tex->rows(), tex->columns(), blob.data());
-	delete tex;
 	return true;
 }
 

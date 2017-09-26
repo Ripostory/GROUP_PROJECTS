@@ -46,16 +46,14 @@ void Object::loadNewTexture(string filename)
 	  //texture loading
 	  glGenTextures(1, &tex);
 	  glBindTexture(GL_TEXTURE_2D, tex);
-
-	  cout << texture.data << endl;
-	  //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
-	  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
+	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
 	  //texture choosing
 	  //TODO implement
-	  //glActiveTexture(GL_TEXTURE1);
+	  glActiveTexture(GL_TEXTURE1);
 	  //glBindTexture(GL_TEXTURE_2D, tex);
 }
 
@@ -77,12 +75,12 @@ void Object::Render()
 {
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
-  //glEnableVertexAttribArray(2);
+  glEnableVertexAttribArray(2);
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-  //glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
@@ -90,6 +88,6 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
-  //glDisableVertexAttribArray(2);
+  glDisableVertexAttribArray(2);
 }
 
