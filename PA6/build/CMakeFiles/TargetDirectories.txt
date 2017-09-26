@@ -1,0 +1,4 @@
+/home/nog/GitRepository/GROUP_PROJECTS/PA6/build/CMakeFiles/edit_cache.dir
+/home/nog/GitRepository/GROUP_PROJECTS/PA6/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
+/home/nog/GitRepository/GROUP_PROJECTS/PA6/build/CMakeFiles/rebuild_cache.dir
+/home/nog/GitRepository/GROUP_PROJECTS/PA6/build/CMakeFiles/Tutorial.dir

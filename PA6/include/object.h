@@ -16,6 +16,7 @@ class Object
     virtual ~Object();
     virtual void Update(unsigned int dt);
     void loadNewModel(string filename);
+    void loadNewTexture(string filename);
     void Render();
 
     glm::mat4 GetModel();
@@ -30,6 +31,7 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    GLuint tex;
 
 
 };

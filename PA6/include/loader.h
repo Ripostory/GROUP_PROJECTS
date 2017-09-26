@@ -16,6 +16,7 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
+#include <Magick++.h>
 
 using namespace std;
 
@@ -43,6 +44,7 @@ public:
 
 	bool loadObject(string, obj&);
 	bool loadShader(string, string&);
+	bool loadTexture(string, Texture&);
 
 };
 

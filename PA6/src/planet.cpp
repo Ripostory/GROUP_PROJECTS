@@ -10,7 +10,8 @@
 Planet::Planet()
 {
 	  //updated file loading, default to cube object
-	  loadNewModel("assets/cube.obj");
+	  loadNewModel("assets/planet.obj");
+	  loadNewTexture("assets/a_earth.jpg");
 
 	  angle = 0.0f;
 	  orbit = 0.0f;

@@ -26,8 +26,18 @@ struct Vertex
 {
   glm::vec3 vertex;
   glm::vec3 color;
+  glm::vec2 texCoord;
 
-  Vertex(glm::vec3 v, glm::vec3 c): vertex(v), color(c) {}
+  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t): vertex(v), color(c), texCoord(t){}
+};
+
+struct Texture
+{
+  size_t row;
+  size_t column;
+  const void *data;
+
+  Texture(size_t r, size_t c, const void* d): row(r), column(c), data(d)  {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */

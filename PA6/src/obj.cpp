@@ -56,7 +56,8 @@ void obj::addRaw(glm::vec3 raw)
 
 	//allocate size for new vertex in vertices
 	glm::vec3 item;
-	Vertex temp(item,item);
+	glm::vec2 item2;
+	Vertex temp(item,item, item2);
 	vertices.push_back(temp);
 }
 

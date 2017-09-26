@@ -23,9 +23,11 @@ bool loader::loadObject(string filename, obj &inputObj)
 {
 	aiMesh *mesh;
 	aiVector3D vert;
+	aiVector3D texture;
 	aiFace face;
 	glm::vec3 tempVec;
 	glm::vec3 tempColor;
+	glm::vec2 tempTex;
 	int indice;
 
 	//load object from file
@@ -66,8 +68,21 @@ bool loader::loadObject(string filename, obj &inputObj)
 		tempColor.g = vert.y;
 		tempColor.b = vert.z;
 
+		//get texture coordinates
+		if (mesh->mTextureCoords[0] != NULL)
+		{
+			texture = mesh->mTextureCoords[0][i];
+			tempTex.x = texture.x;
+			tempTex.y = texture.y;
+			//if fails, default to 0,0 coords
+		}
+		else
+		{
+			tempTex = glm::vec2(0,0);
+		}
+
 		//push into object
-		final.addVert(Vertex(tempVec, tempColor));
+		final.addVert(Vertex(tempVec, tempColor, tempTex));
 	}
 
 	//load indices
@@ -118,6 +133,29 @@ bool loader::loadShader(string filename, string& output) {
 	output = final;
 
 	filein.close();
+	return true;
+}
+
+bool loader::loadTexture(string filename, Texture &output)
+{
+	Magick::Blob blob;
+	Magick::Image *tex;
+
+	// load texture
+	try
+	{
+		tex = new Magick::Image(filename);
+		tex->write(&blob, "RGBA");
+	}
+	catch (Magick::Error& Error)
+	{
+		cout << "Error loading Texture " << filename << ": " << Error.what() << endl;
+		return false;
+	}
+
+	//extract data
+	output = Texture(tex->rows(), tex->columns(), blob.data());
+	delete tex;
 	return true;
 }
 
@@ -329,65 +367,11 @@ void loader::readUnknown(fstream &file, char &current, obj &object)
 
 void loader::calculateNormals(obj &object)
 {
-	glm::vec3 vert1;
-	glm::vec3 vert2;
-	glm::vec3 vert3;
-	glm::vec3 final;
-
-	Vertex *temp = NULL;
-
-	vector<unsigned int> indices = object.getIndices();
-	vector<glm::vec3> vertices = object.getRawVerts();
-	//iterate through all faces and build vertex normals
-	for (int i = 0; i < indices.size(); i += 3) {
-		//load all three vertices
-		//get indices-1 to get the correct vertex index
-
-		if (isAnnoying)
-			cout << "loaded" << indices[i] << indices[i+1]<< indices[i+2] << endl;
-		vert1 = vertices[indices[i]];
-		vert2 = vertices[indices[i+1]];
-		vert3 = vertices[indices[i+2]];
-
-		//calculate face normal
-		final = glm::cross(vert2 - vert1, vert3 - vert1);
-		final = glm::normalize(final);
-		if (isAnnoying)
-			cout << final.x << " " << final.y << " " << final.z << endl;
-
-		//add to all affected vertices
-		//normalize with any existing normals
-		if (isAnnoying)
-			cout << "built vert at" << indices[i] << endl;
-
-		temp = new Vertex(vert1, final);
-		object.addVert(*temp, indices[i]);
-		delete temp;
-
-		temp = new Vertex(vert2, final);
-		object.addVert(*temp, indices[i+1]);
-		delete temp;
-
-		temp = new Vertex(vert3, final);
-		object.addVert(*temp, indices[i+2]);
-		delete temp;
-		temp = NULL;
-	}
+	//OBSOLETE
 }
 
 bool loader::isHeader(string test)
 {
-	char extracted = test.c_str()[0];
-
-	switch (extracted)
-	{
-	case '#':
-	case 'o':
-	case 'v':
-	case 's':
-	case 'f':
-		return true;
-	default:
-		return false;
-	}
+	//OBSOLETE
+	return false;
 }
