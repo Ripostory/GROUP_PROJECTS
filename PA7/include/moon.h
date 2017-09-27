@@ -10,15 +10,27 @@
 
 #include "planet.h"
 
-class Moon : public Planet
+class Moon : public Object
 {
 private:
+    float angle;
+    float orbit;
+    float xPos;
+    float yPos;
+
+    float distance;
+    float orbitSpeed;
+    float rotationSpeed;
+    float size;
+    float multiplier;
 	Object *parent;
 public:
 	Moon();
 	Moon(float, float, float, Object*);
 	~Moon();
 
+	void setParent(Object*);
+	void setSize(float);
 	void Update(unsigned int dt);
 };
 

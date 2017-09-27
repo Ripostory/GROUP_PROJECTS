@@ -862,6 +862,7 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o: /usr/include/x86_64-linux-gnu/ImageMag
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/event.h
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/graphics_headers.h
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/loader.h
+CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/moon.h
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/obj.h
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/object.h
 CMakeFiles/Tutorial.dir/src/planet.cpp.o: ../include/planet.h

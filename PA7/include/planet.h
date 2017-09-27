@@ -9,6 +9,7 @@
 #define PLANET_H_
 
 #include "object.h"
+#include "moon.h"
 
 class Planet : public Object
 {
@@ -25,11 +26,18 @@ protected:
     float rotationSpeed;
     float size;
     float multiplier;
+
+    std::vector<Object*> moons;
+
 public:
 	Planet();
 	Planet(string, float, float, float, float);
-	virtual void Update(unsigned int);
+	void Update(unsigned int);
+	void RenderSet();
 	~Planet();
+
+	void addMoon(Object*);
+	void clearMoons();
 
 	void setSize(float);
 

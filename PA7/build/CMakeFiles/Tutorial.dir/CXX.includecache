@@ -107,6 +107,8 @@ event.h
 ../include/planet.h
 object.h
 ../include/object.h
+moon.h
+../include/moon.h
 
 ../include/shader.h
 vector

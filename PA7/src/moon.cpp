@@ -10,6 +10,7 @@
 Moon::Moon()
 {
 	parent = NULL;
+	size = 1.0f;
 }
 
 Moon::Moon(float rotSpeed, float orbSpeed, float dist, Object *parentModel)
@@ -18,6 +19,7 @@ Moon::Moon(float rotSpeed, float orbSpeed, float dist, Object *parentModel)
 	orbitSpeed = orbSpeed;
 	distance  = dist;
 	parent = parentModel;
+	size = 1.0f;
 }
 
 Moon::~Moon()
@@ -45,4 +47,14 @@ void Moon::Update(unsigned int dt)
 
 	//make moon smaller
 	model = glm::scale(model, glm::vec3(size));
+}
+
+void Moon::setParent(Object *par)
+{
+	parent = par;
+}
+
+void Moon::setSize(float siz)
+{
+	size = siz;
 }

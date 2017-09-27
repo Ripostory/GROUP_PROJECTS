@@ -34,7 +34,8 @@ void main(void)
   normal = vec3(modelMatrix * vec4(aNormal, 0.0f));
   
   //get view position
-  viewDir = normalize(vec3(viewMatrix * vec4(0.0, 0.0, 0.0, 1.0)));
+  mat4 view = viewMatrix;
+  viewDir = normalize((inverse(view) * vec4(0.0f, 0.0f, 0.0f, 1.0f))).xyz;
   
   //calculate planet normals from model origin
   vec4 calcNormal = (modelMatrix * vec4(0,0,0,1)) - vec4(fragPos.xyz, 0.0f);

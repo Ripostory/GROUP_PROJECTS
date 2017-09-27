@@ -9,6 +9,7 @@ camera::camera()
     lookAt = glm::vec4(0.0f);
     distance = -16.0f;
     height = 8.0f;
+    parent = NULL;
 }
 
 camera::~camera()

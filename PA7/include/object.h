@@ -18,7 +18,7 @@ class Object
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
     void loadNewNormal(string filename);
-    void Render();
+    virtual void Render();
 
     glm::mat4 GetModel();
 
