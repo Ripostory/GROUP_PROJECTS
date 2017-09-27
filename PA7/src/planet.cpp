@@ -14,7 +14,7 @@ Planet::Planet()
 	  loadNewTexture("assets/a_earth.jpg");
 	  loadNewNormal("assets/n_earth.jpg");
 	  //add moon
-	  addMoon(new Moon(15.0f, 1.0f, 1.0f, this));
+	  addMoon(new Moon(-0.2f, -0.3f, 8.0f, this));
 	  setSize(5.0f);
 	  angle = 0.0f;
 	  orbit = 0.0f;
@@ -38,7 +38,6 @@ Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, floa
 
 Planet::~Planet()
 {
-	clearMoons();
 }
 
 void Planet::addMoon(Object *moon)
@@ -74,15 +73,17 @@ void Planet::Update(unsigned int dt)
 
 	  //scale model based on size;
 	  model = glm::scale(model, glm::vec3(size));
+
+	  //update children
+	  for (int i = 0; i < moons.size(); i++)
+	  {
+		  moons[i]->Update(dt);
+	  }
 }
 
-void Planet::RenderSet()
+std::vector<Object*> Planet::getChildren()
 {
-	Render();
-	for (int i = 0; i < moons.size(); i++)
-	{
-		moons[i]->Render();
-	}
+	return moons;
 }
 
 void Planet::setSize(float siz)

@@ -15,6 +15,9 @@ Moon::Moon()
 
 Moon::Moon(float rotSpeed, float orbSpeed, float dist, Object *parentModel)
 {
+	loadNewModel("assets/planet.obj");
+	loadNewTexture("assets/a_mercury.jpg");
+	loadNewNormal("assets/n_earth.jpg");
 	rotationSpeed = rotSpeed;
 	orbitSpeed = orbSpeed;
 	distance  = dist;

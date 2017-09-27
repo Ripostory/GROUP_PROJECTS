@@ -46,7 +46,7 @@ bool Graphics::Initialize(int width, int height)
 
   // Create the object
   m_cube = new Planet();
-  m_moon = NULL;
+  renderTarget = m_cube;
 
   // Set up the shaders
   m_shader = new Shader();
@@ -127,9 +127,18 @@ void Graphics::Render()
   // Send in the projection and view to the shader
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
-  // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
-  m_cube->Render();
+  // Render all objects
+  renderTarget = m_cube;
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
+  renderTarget->Render();
+  std::vector<Object*> renderList = m_cube->getChildren();
+  for (int i = 0; i < renderList.size(); i++)
+  {
+	  renderTarget = renderList[i];
+	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
+	  renderTarget->Render();
+  }
+
 
   // Get any errors from OpenGL
   auto error = glGetError();

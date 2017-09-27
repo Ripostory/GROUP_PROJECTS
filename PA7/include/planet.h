@@ -33,7 +33,7 @@ public:
 	Planet();
 	Planet(string, float, float, float, float);
 	void Update(unsigned int);
-	void RenderSet();
+	std::vector<Object*> getChildren();
 	~Planet();
 
 	void addMoon(Object*);

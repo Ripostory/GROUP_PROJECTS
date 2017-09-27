@@ -38,6 +38,7 @@ struct Texture
   const void *data;
 
   Texture(size_t r, size_t c, const void* d): row(r), column(c), data(d)  {}
+  Texture(): row(0), column(0), data(NULL)  {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */

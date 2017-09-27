@@ -18,6 +18,8 @@ class Object
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
     void loadNewNormal(string filename);
+    GLuint bindTex(GLuint&, GLenum);
+    void setTex(Texture);
     virtual void Render();
 
     glm::mat4 GetModel();
@@ -34,6 +36,8 @@ class Object
     GLuint IB;
     GLuint tex;
     GLuint normal;
+    Texture albedo;
+    Texture normalMap;
 
 
 };

@@ -46,6 +46,8 @@ glm::mat4 camera::GetView()
 
 void camera::Update(unsigned int dt)
 {
+
+
 	if (parent != NULL) {
 		//extract parent location
 		lookAt = *parent * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);

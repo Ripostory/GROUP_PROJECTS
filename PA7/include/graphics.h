@@ -30,8 +30,8 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Object *m_cube;
-    Object *m_moon;
+    Planet *m_cube;
+    Object *renderTarget;
 };
 
 #endif /* GRAPHICS_H */
