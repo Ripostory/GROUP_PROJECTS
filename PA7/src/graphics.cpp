@@ -132,6 +132,8 @@ void Graphics::Render()
   glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
   renderTarget->Render();
   std::vector<Object*> renderList = m_cube->getChildren();
+  //TODO remove test
+    m_camera->SetParent(renderList[0]);
   for (int i = 0; i < renderList.size(); i++)
   {
 	  renderTarget = renderList[i];

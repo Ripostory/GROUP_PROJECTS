@@ -18,6 +18,7 @@ class Object
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
     void loadNewNormal(string filename);
+    void setMultiplier(float);
     GLuint bindTex(GLuint&, GLenum);
     void setTex(Texture);
     virtual void Render();
@@ -28,6 +29,7 @@ class Object
     glm::mat4 model;
     event listener;
     virtual void keyboard(eventType);
+    float multiplier;
 
   private:
     std::vector<Vertex> Vertices;

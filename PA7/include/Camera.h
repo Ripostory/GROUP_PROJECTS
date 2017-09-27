@@ -3,6 +3,7 @@
 
 #include "graphics_headers.h"
 #include "event.h"
+#include "object.h"
 
 class camera
 {
@@ -12,17 +13,16 @@ class camera
     bool Initialize(int w, int h);
     glm::mat4 GetProjection();
     glm::mat4 GetView();
-    void SetParent(glm::mat4*);
+    void SetParent(Object*);
     void Update(unsigned int);
 
   private:
     glm::mat4 projection;
     glm::mat4 view;
-    glm::mat4 *parent;
     glm::vec4 lookAt;
     glm::vec3 position;
     event listener;
-
+    Object *parent;
     float orbit;
     float xPos;
     float yPos;

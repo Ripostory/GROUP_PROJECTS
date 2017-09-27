@@ -15,6 +15,7 @@ Planet::Planet()
 	  loadNewNormal("assets/n_earth.jpg");
 	  //add moon
 	  addMoon(new Moon(-0.2f, -0.3f, 8.0f, this));
+	  addMoon(new Moon(-0.2f, -0.8f, 12.0f, this));
 	  setSize(5.0f);
 	  angle = 0.0f;
 	  orbit = 0.0f;
@@ -22,6 +23,7 @@ Planet::Planet()
 	  rotationSpeed = 0.3f;
 	  orbitSpeed = 0.0f;
 	  distance = 0.0f;
+	  multiplier = 1.0f;
 }
 
 Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, float siz)
@@ -34,6 +36,7 @@ Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, floa
 	  orbitSpeed = orbSpeed;
 	  distance = dist;
 	  size = siz;
+	  multiplier = 1.0f;
 }
 
 Planet::~Planet()
@@ -62,13 +65,13 @@ void Planet::Update(unsigned int dt)
 		  keyboard(listener.getEvent(i));
 	  }
 	  //calculate orbit and convert to position matrix
-	  orbit -= orbitSpeed * dt * M_PI/1000;
+	  orbit -= orbitSpeed * multiplier * dt * M_PI/1000 ;
 	  xPos = glm::sin(orbit);
 	  yPos = glm::cos(orbit);
 	  model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos*distance, 0.0, yPos*distance));
 
 	  //original rotate code modified to take initial translated matrix
-	  angle += rotationSpeed * dt * M_PI/1000;
+	  angle += rotationSpeed * multiplier *  dt * M_PI/1000 ;
 	  model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
 
 	  //scale model based on size;
@@ -77,6 +80,7 @@ void Planet::Update(unsigned int dt)
 	  //update children
 	  for (int i = 0; i < moons.size(); i++)
 	  {
+		  moons[i]->setMultiplier(multiplier);
 		  moons[i]->Update(dt);
 	  }
 }
@@ -89,11 +93,6 @@ std::vector<Object*> Planet::getChildren()
 void Planet::setSize(float siz)
 {
 	size = siz;
-}
-
-void Planet::setMultiplier(float mult)
-{
-	multiplier = mult;
 }
 
 void Planet::keyboard(eventType event)
@@ -127,19 +126,13 @@ void Planet::keyboard(eventType event)
 	  // toggle orbit direction
 	  if (event.key == SDLK_q)
 	  {
-	   	if (orbitSpeed > 0)
-	   		orbitSpeed = -0.5f;
-	   	else
-	  		orbitSpeed = 0.5f;
+	   	multiplier += SPEED_STEP;
 	  }
 
 	  // toggle rotation direction
 	  if (event.key == SDLK_e)
 	  {
-	   	if (rotationSpeed > 0)
-	   		rotationSpeed = -0.5f;
-	   	else
-	  		rotationSpeed = 0.5f;
+	   	multiplier -=SPEED_STEP;
 	  }
 
 	  //choose model

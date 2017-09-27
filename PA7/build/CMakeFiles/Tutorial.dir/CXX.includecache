@@ -11,6 +11,8 @@ graphics_headers.h
 ../include/graphics_headers.h
 event.h
 ../include/event.h
+object.h
+../include/object.h
 
 ../include/engine.h
 sys/time.h

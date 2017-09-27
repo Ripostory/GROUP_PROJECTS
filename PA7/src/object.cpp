@@ -85,6 +85,11 @@ void Object::Update(unsigned int dt)
 {
 }
 
+void Object::setMultiplier(float mult)
+{
+	multiplier = mult;
+}
+
 void Object::keyboard(eventType event)
 {
 	//does nothing, is virtual for inherited objects

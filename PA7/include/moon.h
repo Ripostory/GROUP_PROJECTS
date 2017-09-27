@@ -22,7 +22,6 @@ private:
     float orbitSpeed;
     float rotationSpeed;
     float size;
-    float multiplier;
 	Object *parent;
 public:
 	Moon();

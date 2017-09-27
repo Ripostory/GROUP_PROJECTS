@@ -42,8 +42,7 @@ void main(void)
 	vec3 atmFinal = mix(atmHorizon, atmColor, pow(diff, 0.5f));
 	float atmBrightness = pow(sin(acos(dot(planetNormal, viewDir))), 5.0f);
 	atmBrightness = clamp(atmBrightness, 0 ,1);
-// 
-	vec4 atmOut = vec4(atmFinal * atmBrightness * horizonBrightness , 1.0f);
+	vec4 atmOut = vec4(atmFinal * atmBrightness * horizonBrightness, 1.0f);
 	vec4 base = (texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)) * vec4((ambientColor.rgb + diffuse.rgb), 1.0));
 	frag_color =  1- (1-base) * (1-atmOut);
 }

@@ -25,7 +25,6 @@ protected:
     float orbitSpeed;
     float rotationSpeed;
     float size;
-    float multiplier;
 
     std::vector<Object*> moons;
 
@@ -40,8 +39,6 @@ public:
 	void clearMoons();
 
 	void setSize(float);
-
-	void setMultiplier(float);
 };
 
 

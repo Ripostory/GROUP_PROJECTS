@@ -18,6 +18,8 @@ struct eventType {
 	Uint32 eventVer;
 	Uint8 mButton;
 	SDL_Keycode key;
+	Sint32 x;
+	Sint32 y;
 };
 
 class event {
@@ -25,7 +27,7 @@ private:
 	static vector<eventType> eventQueue;
 	SDL_Event m_event;
 
-	void pushEvent(Uint32, Uint8, SDL_Keycode);
+	void pushEvent(Uint32, Uint8, SDL_Keycode, Sint32, Sint32);
 public:
 	void update();
 	event();
