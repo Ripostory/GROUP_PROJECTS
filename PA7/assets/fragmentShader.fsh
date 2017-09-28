@@ -26,10 +26,10 @@ void main(void)
 	vec3 ambientColor = ambience * lightColor;
 	
 	//get norm and light direction;
-	vec3 lightDir = lightPos - fragPos;
+	vec3 lightDir = normalize(lightPos - fragPos);
 	//get diffuse strength
 	vec3 newNormal = normalize(normal * (texture2D(normalMap, vec2(texCoordMod.x, -texCoordMod.y)).xyz));
-	float diff = dot(newNormal, lightDir) / (length(lightDir) * length(newNormal));
+	float diff = dot(newNormal, lightDir);
 	diff = clamp(diff, 0, 1);
 	
 	vec3 diffuse = diff * lightColor;
@@ -38,9 +38,9 @@ void main(void)
 	//atmosphere effects
 	vec3 atmColor = vec3(0.3f, 0.5f, 0.7f);
 	vec3 atmHorizon = vec3(0.8f, 0.2f, 0.1f);
-	float horizonBrightness = max(dot(normal, lightDir), 0)/50;
-	vec3 atmFinal = mix(atmHorizon, atmColor, pow(diff, 0.5f));
-	float atmBrightness = pow(sin(acos(dot(planetNormal, viewDir))), 5.0f);
+	float horizonBrightness = max(dot(normal, lightDir), 0);
+	vec3 atmFinal = mix(atmHorizon, atmColor, pow(diff, 1.0f));
+	float atmBrightness = pow(sin(acos(dot(planetNormal, viewDir))), 4.0f)*1.5;
 	atmBrightness = clamp(atmBrightness, 0 ,1);
 	vec4 atmOut = vec4(atmFinal * atmBrightness * horizonBrightness, 1.0f);
 	vec4 base = (texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)) * vec4((ambientColor.rgb + diffuse.rgb), 1.0));
