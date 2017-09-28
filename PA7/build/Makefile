@@ -433,6 +433,33 @@ src/shader.cpp.s:
 	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
 
+src/solarSystem.o: src/solarSystem.cpp.o
+
+.PHONY : src/solarSystem.o
+
+# target to build an object file
+src/solarSystem.cpp.o:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/solarSystem.cpp.o
+.PHONY : src/solarSystem.cpp.o
+
+src/solarSystem.i: src/solarSystem.cpp.i
+
+.PHONY : src/solarSystem.i
+
+# target to preprocess a source file
+src/solarSystem.cpp.i:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/solarSystem.cpp.i
+.PHONY : src/solarSystem.cpp.i
+
+src/solarSystem.s: src/solarSystem.cpp.s
+
+.PHONY : src/solarSystem.s
+
+# target to generate assembly for a file
+src/solarSystem.cpp.s:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/solarSystem.cpp.s
+.PHONY : src/solarSystem.cpp.s
+
 src/window.o: src/window.cpp.o
 
 .PHONY : src/window.o
@@ -503,6 +530,9 @@ help:
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"
+	@echo "... src/solarSystem.o"
+	@echo "... src/solarSystem.i"
+	@echo "... src/solarSystem.s"
 	@echo "... src/window.o"
 	@echo "... src/window.i"
 	@echo "... src/window.s"

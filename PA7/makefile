@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o planet.o moon.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o planet.o moon.o solarSystem.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -63,6 +63,9 @@ planet.o: ../src/planet.cpp
 
 moon.o: ../src/moon.cpp
 	$(CC) $(CXXFLAGS) -c ../src/moon.cpp -o moon.o $(INDLUDES)
+
+solarSystem.o: ../src/solarSystem.cpp
+	$(CC) $(CXXFLAGS) -c ../src/solarSystem.cpp -o solarSystem.o $(INDLUDES)
 
 
 clean:

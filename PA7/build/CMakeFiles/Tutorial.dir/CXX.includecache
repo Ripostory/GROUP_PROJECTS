@@ -47,6 +47,8 @@ planet.h
 ../include/planet.h
 moon.h
 ../include/moon.h
+solarSystem.h
+../include/solarSystem.h
 
 ../include/graphics_headers.h
 iostream
@@ -120,6 +122,14 @@ loader.h
 graphics_headers.h
 ../include/graphics_headers.h
 
+../include/solarSystem.h
+planet.h
+../include/planet.h
+moon.h
+../include/moon.h
+object.h
+../include/object.h
+
 ../include/window.h
 SDL2/SDL.h
 -
@@ -171,6 +181,10 @@ planet.h
 /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.cpp
 shader.h
 /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.h
+
+/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.cpp
+solarSystem.h
+/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.h
 
 /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/window.cpp
 window.h

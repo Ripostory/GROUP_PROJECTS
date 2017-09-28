@@ -26,8 +26,6 @@ protected:
     float rotationSpeed;
     float size;
 
-    std::vector<Object*> moons;
-
 public:
 	Planet();
 	Planet(string, float, float, float, float);

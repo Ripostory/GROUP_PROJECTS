@@ -23,7 +23,7 @@ void main(void)
   fragPos = vec3(modelMatrix * vec4(v_position, 1.0));
   //use temp color
   
-  lightPos = vec3(-50.0f, 1.0f, -10.0f);
+  lightPos = vec3(0.0f, 0.0f, 0.0f);
   texCoordMod = v_texcoord;
   
   //did normal calculation in color array

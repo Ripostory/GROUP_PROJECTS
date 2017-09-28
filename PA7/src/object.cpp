@@ -122,3 +122,11 @@ void Object::Render()
   glDisableVertexAttribArray(2);
 }
 
+std::vector<Object*> Object::getChildren()
+{
+	return children;
+}
+void Object::addChild(Object *child)
+{
+	children.push_back(child);
+}

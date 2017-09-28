@@ -10,6 +10,7 @@ using namespace std;
 #include "object.h"
 #include "planet.h"
 #include "moon.h"
+#include "solarSystem.h"
 
 class Graphics
 {
@@ -19,6 +20,8 @@ class Graphics
     bool Initialize(int width, int height);
     void Update(unsigned int dt);
     void Render();
+    void RenderList(vector<Object*>);
+    void TreeRender(Object*);
 
   private:
     std::string ErrorString(GLenum error);
@@ -30,7 +33,7 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Planet *m_cube;
+    SolarSystem *m_cube;
     Object *renderTarget;
 };
 

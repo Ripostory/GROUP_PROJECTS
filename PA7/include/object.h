@@ -25,11 +25,14 @@ class Object
 
     glm::mat4 GetModel();
 
+    std::vector<Object*> getChildren();
+    void addChild(Object*);
   protected:
     glm::mat4 model;
     event listener;
     virtual void keyboard(eventType);
     float multiplier;
+    std::vector<Object*> children;
 
   private:
     std::vector<Vertex> Vertices;

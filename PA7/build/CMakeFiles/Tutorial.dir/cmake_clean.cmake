@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
   "CMakeFiles/Tutorial.dir/src/main.cpp.o"
+  "CMakeFiles/Tutorial.dir/src/solarSystem.cpp.o"
   "CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
   "CMakeFiles/Tutorial.dir/src/loader.cpp.o"
   "CMakeFiles/Tutorial.dir/src/window.cpp.o"

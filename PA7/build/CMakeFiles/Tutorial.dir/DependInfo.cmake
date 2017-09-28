@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/object.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/CMakeFiles/Tutorial.dir/src/object.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/planet.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/CMakeFiles/Tutorial.dir/src/planet.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/CMakeFiles/Tutorial.dir/src/shader.cpp.o"
+  "/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/CMakeFiles/Tutorial.dir/src/solarSystem.cpp.o"
   "/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/window.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/CMakeFiles/Tutorial.dir/src/window.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -45,7 +45,7 @@ bool Graphics::Initialize(int width, int height)
   }
 
   // Create the object
-  m_cube = new Planet();
+  m_cube = new SolarSystem("assets/planet.obj", 1.0f, 5.0f);
   renderTarget = m_cube;
 
   // Set up the shaders
@@ -118,7 +118,7 @@ void Graphics::Update(unsigned int dt)
 void Graphics::Render()
 {
   //clear the screen
-  glClearColor(0.0, 0.0, 0.2, 1.0);
+  glClearColor(0.0, 0.2, 0.4, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program
@@ -127,21 +127,13 @@ void Graphics::Render()
   // Send in the projection and view to the shader
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+
+
   // Render all objects
-  renderTarget = m_cube;
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
-  renderTarget->Render();
-  std::vector<Object*> renderList = m_cube->getChildren();
+  TreeRender(m_cube);
   //TODO remove test
-    m_camera->SetParent(renderList[0]);
-  for (int i = 0; i < renderList.size(); i++)
-  {
-	  renderTarget = renderList[i];
-	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
-	  renderTarget->Render();
-  }
 
-
+    m_camera->SetParent(m_cube->getChildren()[0]);
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
@@ -149,6 +141,27 @@ void Graphics::Render()
     string val = ErrorString( error );
     std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
+}
+
+void Graphics::RenderList(vector<Object*> list)
+{
+	  for (int i = 0; i < list.size(); i++)
+	  {
+		  renderTarget = list[i];
+		  TreeRender(renderTarget);
+	  }
+}
+
+void Graphics::TreeRender(Object* object)
+{
+	  //render this model
+	  renderTarget = object;
+	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
+	  renderTarget->Render();
+
+	  //render children if there are children
+	  if (object->getChildren().size() != 0)
+		  RenderList(object->getChildren());
 }
 
 std::string Graphics::ErrorString(GLenum error)
