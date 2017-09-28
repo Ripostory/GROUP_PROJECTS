@@ -47,9 +47,6 @@ void Object::loadNewTexture(string filename)
 		  bindTex(tex, GL_TEXTURE0);
 		  setTex(albedo);
 	  }
-	  //texture choosing
-	  //TODO implement
-	  //glBindTexture(GL_TEXTURE_2D, tex);
 }
 
 void Object::loadNewNormal(string filename)

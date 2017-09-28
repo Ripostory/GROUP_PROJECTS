@@ -8,8 +8,6 @@
 
 class SolarSystem : public Object{
 private:
-	event listener;
-
     float angle;
     float size;
     float rotationSpeed;

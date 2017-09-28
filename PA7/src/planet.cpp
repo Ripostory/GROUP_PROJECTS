@@ -22,7 +22,7 @@ Planet::Planet()
 
 	  rotationSpeed = 0.3f;
 	  orbitSpeed = 0.2f;
-	  distance = 120.0f;
+	  distance = 20.0f;
 	  multiplier = 1.0f;
 }
 

@@ -133,7 +133,8 @@ void Graphics::Render()
   TreeRender(m_cube);
   //TODO remove test
 
-    m_camera->SetParent(m_cube->getChildren()[0]);
+  //->getChildren()[0]->getChildren()[0]
+    m_camera->SetParent(m_cube);
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
