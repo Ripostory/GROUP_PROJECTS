@@ -79,7 +79,8 @@ bool Graphics::Initialize(int width, int height)
   }
 
   // Create the object
-  m_cube = new SolarSystem("planet.obj", 1.0f, 5.0f);
+  m_cube = new SolarSystem(1.0f, 5.0f);
+  m_cube->LoadSolSystem("solarSystem.JSON");
   renderTarget = m_cube;
 
   //create shader

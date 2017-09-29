@@ -14,9 +14,10 @@ private:
     void keyboard(eventType);
 public:
     SolarSystem();
-    SolarSystem(string, float, float);
+    SolarSystem(float, float);
     ~SolarSystem();
 	void Update(unsigned int);
+	void LoadSolSystem(string filename);
 
 	void setSize(float);
 };

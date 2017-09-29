@@ -10,10 +10,7 @@
 Planet::Planet()
 {
 	  //updated file loading, default to cube object
-	  loadNewModel("planet.obj");
-	  loadNewTexture("a_earth.jpg");
-	  loadNewNormal("n_earth.jpg");
-	  setSize(5.0f);
+	  size = 5.0f;
 	  angle = 0.0f;
 	  orbit = 0.0f;
 
@@ -24,17 +21,18 @@ Planet::Planet()
 	  isPlanet = true;
 }
 
-Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, float siz)
+Planet::Planet(float rotSpeed, float orbSpeed, float dist, float siz)
 {
-	  loadNewModel(filename);
 	  angle = 0.0f;
 	  orbit = 0.0f;
 
-	  rotationSpeed = rotSpeed;
-	  orbitSpeed = orbSpeed;
-	  distance = dist;
-	  size = siz;
+	  //modify with multipliers
+	  rotationSpeed = rotSpeed * ROTATION_MULT;
+	  orbitSpeed = orbSpeed * ORBIT_MULT;
+	  distance = dist * DISTANCE_MULT;
+	  size = siz * SIZE_MULT;
 	  multiplier = 1.0f;
+	  isPlanet = true;
 }
 
 Planet::~Planet()

@@ -12,22 +12,63 @@ SolarSystem::SolarSystem()
 	loadNewNormal("n_earth.jpg");
 }
 
-SolarSystem::SolarSystem(string filename, float rotation, float siz)
+SolarSystem::SolarSystem(float rotation, float siz)
 {
 	angle = 0.0f;
 	size = siz;
 	rotationSpeed = rotation;
 	multiplier = 1.0f;
-	loadNewModel(filename);
-
-	//TODO remove temp files
-	setVisual("planet.obj", "a_mars.jpg", "n_earth.jpg");
-	addChild(new Planet());
 }
 
 SolarSystem::~SolarSystem()
 {
 
+}
+
+void SolarSystem::LoadSolSystem(string filename)
+{
+	//TODO load from a file using filename
+
+	/*===============
+	 * LOAD SOLAR SYSTEM
+	 *
+	 * for now, is loaded via a whole bunch of function calls
+	 * This function will read from a file and setup all the
+	 * visuals, textures, and data for all objects
+	 *
+	 * note: all values have been scaled to be in relation to earth
+	 * the default size is 10.0f
+	 * =============*/
+
+	Object *loader;
+	//planet: rotation, orbit, distance, size
+	//moon: rotation, orbit, distance, size, parent
+
+	//visuals: model, albedo, normal
+
+	//load visuals for the sun
+	setVisual("planet.obj", "a_pluto.jpg", "n_earth.jpg");
+
+	//Mercury
+
+	//Venus
+
+	//Earth [REFERENCE]
+	loader = new Planet(10.0f, 10.0f, 10.0f, 10.0f);
+	loader->setVisual("planet.obj", "a_earth.jpg", "n_earth.jpg");
+	addChild(loader);
+
+	//Mars
+
+	//Jupiter
+
+	//Saturn
+
+	//Uranus
+
+	//Neptune
+
+	//Pluto
 }
 
 void SolarSystem::Update(unsigned int dt)

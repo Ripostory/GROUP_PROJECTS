@@ -9,6 +9,8 @@
 
 Moon::Moon()
 {
+	angle = 0.0f;
+	orbit = 0.0f;
 	rotationSpeed = 1.0f;
 	orbitSpeed = 1.0f;
 	distance  = 1.0f;
@@ -20,6 +22,8 @@ Moon::Moon()
 
 Moon::Moon(float rotSpeed, float orbSpeed, float dist, float siz, Object *parentModel)
 {
+	angle = 0.0f;
+	orbit = 0.0f;
 	rotationSpeed = rotSpeed;
 	orbitSpeed = orbSpeed;
 	distance  = dist;
