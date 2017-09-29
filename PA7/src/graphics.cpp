@@ -81,11 +81,12 @@ bool Graphics::Initialize(int width, int height)
   // Create the object
   m_cube = new SolarSystem(1.0f, 5.0f);
   m_cube->LoadSolSystem("solarSystem.JSON");
+  m_camera->SetWorld(m_cube);
   renderTarget = m_cube;
 
   //create shader
-  InitShader(m_shader, "assets/vertexShader.s", "assets/fragmentShader.s");
-  InitShader(m_planetShader, "assets/vertexShader.vsh", "assets/fragmentShader.fsh");
+  InitShader(m_shader, "assets/shaders/vertexShader.s", "assets/shaders/fragmentShader.s");
+  InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh");
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -133,9 +134,6 @@ void Graphics::Render()
 
   // Render all objects
   TreeRender(m_cube);
-
-  //TODO REMOVE CAMERA TEST
-    m_camera->SetParent(m_cube);
 
 
   // Get any errors from OpenGL

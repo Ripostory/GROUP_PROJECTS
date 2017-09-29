@@ -28,7 +28,6 @@ protected:
     float distance;
     float orbitSpeed;
     float rotationSpeed;
-    float size;
 
 public:
 	Planet();
@@ -38,7 +37,7 @@ public:
 
 	void addMoon(Object*);
 	void clearMoons();
-
+	float getRadius();
 	void setSize(float);
 };
 

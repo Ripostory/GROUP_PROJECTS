@@ -14,6 +14,7 @@ class camera
     glm::mat4 GetProjection();
     glm::mat4 GetView();
     void SetParent(Object*);
+    void SetWorld(Object*);
     void Update(unsigned int);
 
   private:
@@ -23,6 +24,7 @@ class camera
     glm::vec3 position;
     event listener;
     Object *parent;
+    Object *world;
     float orbit;
     float xPos;
     float yPos;

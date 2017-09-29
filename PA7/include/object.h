@@ -26,6 +26,7 @@ class Object
     bool isaPlanet();
 
     glm::mat4 GetModel();
+    float getSize();
 
     std::vector<Object*> getChildren();
     void addChild(Object*);
@@ -37,6 +38,7 @@ class Object
     std::vector<Object*> children;
     bool isPlanet;
     string rootDir;
+    float size;
 
   private:
     std::vector<Vertex> Vertices;

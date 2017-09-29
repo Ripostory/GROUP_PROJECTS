@@ -36,11 +36,11 @@ bool Shader::AddShader(GLenum ShaderType)
 {
   if(ShaderType == GL_VERTEX_SHADER)
   {
-	return AddShader(ShaderType, "assets/vertexShader.s");
+	return AddShader(ShaderType, "assets/shaders/vertexShader.s");
   }
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
-	return AddShader(ShaderType, "assets/fragmentShader.s");
+	return AddShader(ShaderType, "assets/shaders/fragmentShader.s");
   }
   return false;
 }

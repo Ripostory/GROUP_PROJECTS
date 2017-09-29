@@ -9,7 +9,6 @@
 class SolarSystem : public Object{
 private:
     float angle;
-    float size;
     float rotationSpeed;
     void keyboard(eventType);
 public:

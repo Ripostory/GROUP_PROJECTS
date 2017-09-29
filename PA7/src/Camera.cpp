@@ -10,6 +10,7 @@ camera::camera()
     distance = -25.0f;
     height = 8.0f;
     parent = NULL;
+    world = NULL;
 }
 
 camera::~camera()
@@ -53,15 +54,32 @@ void camera::Update(unsigned int dt)
 		if (type.eventVer == SDL_MOUSEMOTION)
 		{
 			orbit -= type.x * 0.01f;
-			if (distance < 8.0f)
-				distance = 8.0f;
-			else
-				distance += type.y * 0.03f;
+		}
+		else if (type.eventVer == SDL_MOUSEWHEEL)
+		{
+			distance += type.y;
+		}
+		else if (type.eventVer == SDL_KEYDOWN)
+		{
+			  //get next or previous child
+			  if (type.key == SDLK_LEFT)
+			  {
+
+			  }
+
+			  if (type.key == SDLK_RIGHT)
+			  {
+
+			  }
 		}
 	}
 
 	if (parent != NULL) {
 		//extract parent location
+		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+	else if (world != NULL) {
+		parent = world;
 		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
@@ -76,6 +94,11 @@ void camera::Update(unsigned int dt)
 	view = glm::lookAt( glm::vec3(position), //Eye Position
 	                      glm::vec3(lookAt.x, lookAt.y, lookAt.z), //Focus point
 	                      glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
+}
+
+void camera::SetWorld(Object *model)
+{
+	world = model;
 }
 
 void camera::SetParent(Object *model)

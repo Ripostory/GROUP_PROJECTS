@@ -58,6 +58,10 @@ void event::update()
 		{
 			pushEvent(m_event.type, 0, 0, m_event.motion.xrel, m_event.motion.yrel);
 		}
+		else if (m_event.type == SDL_MOUSEWHEEL)
+		{
+			pushEvent(m_event.type, 0, 0, m_event.wheel.x, m_event.wheel.y);
+		}
 	}
 }
 

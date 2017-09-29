@@ -66,4 +66,3 @@ void Planet::setSize(float siz)
 {
 	size = siz;
 }
-
