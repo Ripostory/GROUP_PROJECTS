@@ -23,8 +23,9 @@ Planet::Planet()
 
 Planet::Planet(float rotSpeed, float orbSpeed, float dist, float siz)
 {
+	  //seed starting angle
 	  angle = 0.0f;
-	  orbit = 0.0f;
+	  orbit = rotSpeed * siz * dist;
 
 	  //modify with multipliers
 	  rotationSpeed = rotSpeed * ROTATION_MULT;
@@ -42,13 +43,13 @@ Planet::~Planet()
 void Planet::Update(unsigned int dt)
 {
 	  //calculate orbit and convert to position matrix
-	  orbit -= orbitSpeed * multiplier * dt * M_PI/1000 ;
+	  orbit -= (multiplier * dt * M_PI/1000) /orbitSpeed;
 	  xPos = glm::sin(orbit);
 	  yPos = glm::cos(orbit);
 	  model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos*distance, 0.0, yPos*distance));
 
 	  //original rotate code modified to take initial translated matrix
-	  angle += rotationSpeed * multiplier *  dt * M_PI/1000 ;
+	  angle += (multiplier *  dt * M_PI/1000) /rotationSpeed;
 	  model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
 
 	  //scale model based on size;

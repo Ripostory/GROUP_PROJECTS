@@ -7,10 +7,11 @@ camera::camera()
     xPos = 0.0f;
     yPos = 0.0f;
     lookAt = glm::vec4(0.0f);
-    distance = -25.0f;
+    distance = -250.0f;
     height = 8.0f;
     parent = NULL;
     world = NULL;
+    index = -1;
 }
 
 camera::~camera()
@@ -64,15 +65,42 @@ void camera::Update(unsigned int dt)
 			  //get next or previous child
 			  if (type.key == SDLK_LEFT)
 			  {
+				  index--;
+				  if (index < -1)
+					  index = -1;
 
+
+				  //set parent
+				  if (index == -1)
+					  parent = world;
+				  else
+						parent = world->getChildren()[index];
+
+				  //get default distance
+				  distance = parent->getSize() * 5.0f;
+				  height = parent->getSize() / 2.0f;
 			  }
 
 			  if (type.key == SDLK_RIGHT)
 			  {
+				  index++;
+				  if (index == world->getChildren().size())
+					  index--;
 
+					//set parent
+					if (index == -1)
+						parent = world;
+					else
+						parent = world->getChildren()[index];
+
+					//get default distance
+					distance = parent->getSize() * 5.0f;
+					height = parent->getSize() / 2.0f;
 			  }
 		}
 	}
+
+
 
 	if (parent != NULL) {
 		//extract parent location

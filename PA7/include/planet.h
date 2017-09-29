@@ -11,11 +11,6 @@
 #include "object.h"
 #include "moon.h"
 
-#define ROTATION_MULT	1.0f
-#define ORBIT_MULT		0.002f
-#define DISTANCE_MULT	10.0f
-#define SIZE_MULT		0.2f
-
 class Planet : public Object
 {
 private:

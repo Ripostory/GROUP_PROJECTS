@@ -30,6 +30,7 @@ class Graphics
     camera *m_camera;
     Shader *m_shader;
     Shader *m_planetShader;
+    Shader *m_gasGiantShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;

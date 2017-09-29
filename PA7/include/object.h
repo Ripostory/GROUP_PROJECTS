@@ -7,7 +7,11 @@
 #include "obj.h"
 #include "event.h"
 
-#define SPEED_STEP 0.2f
+#define ROTATION_MULT	0.002f
+#define ORBIT_MULT		0.2f
+#define DISTANCE_MULT	10.0f
+#define SIZE_MULT		0.2f
+#define SPEED_STEP 0.02f
 
 class Object
 {
@@ -22,8 +26,10 @@ class Object
     void setMultiplier(float);
     GLuint bindTex(GLuint&, GLenum);
     void setTex(Texture);
+    void setGasGiant(bool);
     virtual void Render();
     bool isaPlanet();
+    bool isaGasGiant();
 
     glm::mat4 GetModel();
     float getSize();
@@ -37,6 +43,7 @@ class Object
     float multiplier;
     std::vector<Object*> children;
     bool isPlanet;
+    bool isGasGiant;
     string rootDir;
     float size;
 

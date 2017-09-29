@@ -5,6 +5,7 @@ Object::Object()
 	albedo = Texture(0,0,NULL);
 	normalMap = Texture(0,0,NULL);
 	isPlanet = false;
+	isGasGiant = false;
 	rootDir = "assets/";
 }
 
@@ -140,4 +141,19 @@ void Object::addChild(Object *child)
 bool Object::isaPlanet()
 {
 	return isPlanet;
+}
+
+bool Object::isaGasGiant()
+{
+	return isGasGiant;
+}
+
+void Object::setGasGiant(bool isGas)
+{
+	isGasGiant = isGas;
+}
+
+float Object::getSize()
+{
+	return size;
 }

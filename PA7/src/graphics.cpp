@@ -14,7 +14,6 @@ bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
 {
 	 // Set up the shaders
 	  shader = new Shader();
-	  m_planetShader = new Shader();
 	  if(!shader->Initialize())
 	  {
 	    printf("Shader Failed to Initialize\n");
@@ -87,6 +86,7 @@ bool Graphics::Initialize(int width, int height)
   //create shader
   InitShader(m_shader, "assets/shaders/vertexShader.s", "assets/shaders/fragmentShader.s");
   InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh");
+  InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh");
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -129,7 +129,7 @@ void Graphics::Update(unsigned int dt)
 void Graphics::Render()
 {
   //clear the screen
-  glClearColor(0.0, 0.2, 0.4, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Render all objects
@@ -157,7 +157,9 @@ void Graphics::RenderList(vector<Object*> list)
 void Graphics::TreeRender(Object* object)
 {
 	  //enable correct shader
-	if (object->isaPlanet())
+	if (object->isaGasGiant())
+		m_gasGiantShader->Enable();
+	else if (object->isaPlanet())
 		m_planetShader->Enable();
 	else
 		m_shader->Enable();
