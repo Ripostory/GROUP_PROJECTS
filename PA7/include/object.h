@@ -18,6 +18,7 @@ class Object
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
     void loadNewNormal(string filename);
+    void setVisual(string, string, string);
     void setMultiplier(float);
     GLuint bindTex(GLuint&, GLenum);
     void setTex(Texture);
@@ -35,6 +36,7 @@ class Object
     float multiplier;
     std::vector<Object*> children;
     bool isPlanet;
+    string rootDir;
 
   private:
     std::vector<Vertex> Vertices;

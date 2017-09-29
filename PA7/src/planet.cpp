@@ -10,12 +10,9 @@
 Planet::Planet()
 {
 	  //updated file loading, default to cube object
-	  loadNewModel("assets/planet.obj");
-	  loadNewTexture("assets/a_earth.jpg");
-	  loadNewNormal("assets/n_earth.jpg");
-	  //add moon
-	  addChild(new Moon(-0.2f, -0.3f, 8.0f, this));
-	  addChild(new Moon(-0.2f, -0.8f, 12.0f, this));
+	  loadNewModel("planet.obj");
+	  loadNewTexture("a_earth.jpg");
+	  loadNewNormal("n_earth.jpg");
 	  setSize(5.0f);
 	  angle = 0.0f;
 	  orbit = 0.0f;
@@ -46,10 +43,6 @@ Planet::~Planet()
 
 void Planet::Update(unsigned int dt)
 {
-	  //listen for event
-	  for (int i = 0 ; i < listener.getSize(); i++) {
-		  keyboard(listener.getEvent(i));
-	  }
 	  //calculate orbit and convert to position matrix
 	  orbit -= orbitSpeed * multiplier * dt * M_PI/1000 ;
 	  xPos = glm::sin(orbit);
@@ -75,100 +68,4 @@ void Planet::setSize(float siz)
 {
 	size = siz;
 }
-
-void Planet::keyboard(eventType event)
-{
-	if (event.eventVer == SDL_KEYDOWN)
-	{
-	  // increase orbit speed
-	  if (event.key == SDLK_a)
-	  {
-	   	orbitSpeed += SPEED_STEP;
-	  }
-
-	  // decrease orbit speed
-	  if (event.key == SDLK_d)
-	  {
-	  	orbitSpeed -= SPEED_STEP;
-	  }
-
-	  // increase rotation speed
-	  if (event.key == SDLK_w)
-	  {
-	  	rotationSpeed += SPEED_STEP;
-	  }
-
-	  // decrease rotation speed
-	  if (event.key == SDLK_s)
-	  {
-	   	rotationSpeed -= SPEED_STEP;
-	  }
-
-	  // toggle orbit direction
-	  if (event.key == SDLK_q)
-	  {
-	   	multiplier += SPEED_STEP;
-	  }
-
-	  // toggle rotation direction
-	  if (event.key == SDLK_e)
-	  {
-	   	multiplier -=SPEED_STEP;
-	  }
-
-	  //choose model
-	  if (event.key == SDLK_t)
-	  {
-		  loadNewTexture("assets/a_earth.jpg");
-		  loadNewNormal("assets/n_earth.jpg");
-	  }
-
-	  if (event.key == SDLK_y)
-	  {
-		  loadNewTexture("assets/a_pluto.jpg");
-		  loadNewNormal("assets/n_earth.jpg");
-	  }
-
-	  if (event.key == SDLK_u)
-	  {
-		  loadNewTexture("assets/a_mars.jpg");
-		  loadNewNormal("assets/n_mars.jpg");
-	  }
-
-	  // orbit clockwise
-	  if (event.key == SDLK_LEFT)
-	  {
-	   	if (orbitSpeed > 0)
-	   		orbitSpeed = 0 - orbitSpeed;
-	  }
-
-	  // orbit counterclockwise
-	  if (event.key == SDLK_RIGHT)
-	  {
-	   	if (orbitSpeed < 0)
-	   		orbitSpeed = 0 - orbitSpeed;
-	  }
-	}
-	else if (event.eventVer == SDL_MOUSEBUTTONDOWN)
-	{
-		//toggle orbit
-		if (event.mButton == SDL_BUTTON_LEFT)
-		{
-			if (orbitSpeed != 0)
-				orbitSpeed = 0.0f;
-			else
-				orbitSpeed = 0.5f;
-		}
-
-		//toggle rotation
-		if (event.mButton == SDL_BUTTON_RIGHT)
-		{
-			if (rotationSpeed != 0)
-				rotationSpeed = 0.0f;
-			else
-				rotationSpeed = 0.5f;
-		}
-	}
-}
-
 

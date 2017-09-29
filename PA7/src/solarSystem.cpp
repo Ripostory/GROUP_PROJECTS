@@ -7,9 +7,9 @@ SolarSystem::SolarSystem()
 	size = 1.0f;
 	rotationSpeed = 0.0f;
 	multiplier = 10.0f;
-	loadNewModel("assets/planet.obj");
-	loadNewTexture("assets/a_pluto.jpg");
-	loadNewNormal("assets/n_earth.jpg");
+	loadNewModel("planet.obj");
+	loadNewTexture("a_pluto.jpg");
+	loadNewNormal("n_earth.jpg");
 }
 
 SolarSystem::SolarSystem(string filename, float rotation, float siz)
@@ -21,9 +21,7 @@ SolarSystem::SolarSystem(string filename, float rotation, float siz)
 	loadNewModel(filename);
 
 	//TODO remove temp files
-	loadNewModel("assets/planet.obj");
-	loadNewTexture("assets/a_pluto.jpg");
-	loadNewNormal("assets/n_earth.jpg");
+	setVisual("planet.obj", "a_mars.jpg", "n_earth.jpg");
 	addChild(new Planet());
 }
 

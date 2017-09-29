@@ -79,7 +79,7 @@ bool Graphics::Initialize(int width, int height)
   }
 
   // Create the object
-  m_cube = new SolarSystem("assets/planet.obj", 1.0f, 5.0f);
+  m_cube = new SolarSystem("planet.obj", 1.0f, 5.0f);
   renderTarget = m_cube;
 
   //create shader
@@ -134,7 +134,6 @@ void Graphics::Render()
   TreeRender(m_cube);
 
   //TODO REMOVE CAMERA TEST
-  //->getChildren()[0]->getChildren()[0]
     m_camera->SetParent(m_cube);
 
 

@@ -5,6 +5,7 @@ Object::Object()
 	albedo = Texture(0,0,NULL);
 	normalMap = Texture(0,0,NULL);
 	isPlanet = false;
+	rootDir = "assets/";
 }
 
 Object::~Object()
@@ -13,11 +14,18 @@ Object::~Object()
   Indices.clear();
 }
 
+void Object::setVisual(string model, string albedo, string normal)
+{
+	loadNewModel(model);
+	loadNewTexture(albedo);
+	loadNewNormal(normal);
+}
+
 void Object::loadNewModel(string filename)
 {
 	  loader fileLoader;
 	  obj object;
-	  if (fileLoader.loadObject(filename, object))
+	  if (fileLoader.loadObject(rootDir + filename, object))
 	  {
 		  Vertices = object.getVerts();
 		  Indices = object.getIndices();
@@ -40,7 +48,7 @@ void Object::loadNewTexture(string filename)
 	  loader fileLoader;
 
 	  Texture texture(0,0,NULL);
-	  if (fileLoader.loadTexture(filename, texture))
+	  if (fileLoader.loadTexture(rootDir + filename, texture))
 	  {
 		  //texture loaded
 		  albedo = texture;
@@ -55,7 +63,7 @@ void Object::loadNewNormal(string filename)
 	  loader fileLoader;
 
 	  Texture texture(0,0,NULL);
-	  if (fileLoader.loadTexture(filename, texture))
+	  if (fileLoader.loadTexture(rootDir + filename, texture))
 	  {
 		  //texture loaded
 		  normalMap = texture;

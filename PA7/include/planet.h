@@ -15,7 +15,6 @@ class Planet : public Object
 {
 private:
 protected:
-	virtual void keyboard(eventType);
     float angle;
     float orbit;
     float xPos;

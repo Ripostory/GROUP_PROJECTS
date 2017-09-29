@@ -15,19 +15,18 @@ Moon::Moon()
 	parent = NULL;
 	size = 1.0f;
 	multiplier = 1.0f;
+	isPlanet = true;
 }
 
-Moon::Moon(float rotSpeed, float orbSpeed, float dist, Object *parentModel)
+Moon::Moon(float rotSpeed, float orbSpeed, float dist, float siz, Object *parentModel)
 {
-	loadNewModel("assets/planet.obj");
-	loadNewTexture("assets/a_mercury.jpg");
-	loadNewNormal("assets/n_earth.jpg");
 	rotationSpeed = rotSpeed;
 	orbitSpeed = orbSpeed;
 	distance  = dist;
 	parent = parentModel;
-	size = 1.0f;
+	size = siz;
 	multiplier = 1.0f;
+	isPlanet = true;
 }
 
 Moon::~Moon()

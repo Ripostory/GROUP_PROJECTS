@@ -25,7 +25,7 @@ private:
 	Object *parent;
 public:
 	Moon();
-	Moon(float, float, float, Object*);
+	Moon(float, float, float, float, Object*);
 	~Moon();
 
 	void setParent(Object*);
