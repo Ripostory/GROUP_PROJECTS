@@ -22,6 +22,7 @@ class Object
     GLuint bindTex(GLuint&, GLenum);
     void setTex(Texture);
     virtual void Render();
+    bool isaPlanet();
 
     glm::mat4 GetModel();
 
@@ -33,6 +34,7 @@ class Object
     virtual void keyboard(eventType);
     float multiplier;
     std::vector<Object*> children;
+    bool isPlanet;
 
   private:
     std::vector<Vertex> Vertices;
@@ -43,8 +45,6 @@ class Object
     GLuint normal;
     Texture albedo;
     Texture normalMap;
-
-
 };
 
 #endif /* OBJECT_H */

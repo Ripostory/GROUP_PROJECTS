@@ -24,6 +24,7 @@ Planet::Planet()
 	  orbitSpeed = 0.2f;
 	  distance = 20.0f;
 	  multiplier = 1.0f;
+	  isPlanet = true;
 }
 
 Planet::Planet(string filename, float rotSpeed, float orbSpeed, float dist, float siz)

@@ -4,6 +4,7 @@ Object::Object()
 {  
 	albedo = Texture(0,0,NULL);
 	normalMap = Texture(0,0,NULL);
+	isPlanet = false;
 }
 
 Object::~Object()
@@ -126,4 +127,9 @@ std::vector<Object*> Object::getChildren()
 void Object::addChild(Object *child)
 {
 	children.push_back(child);
+}
+
+bool Object::isaPlanet()
+{
+	return isPlanet;
 }

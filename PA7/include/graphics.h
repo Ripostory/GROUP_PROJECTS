@@ -22,12 +22,14 @@ class Graphics
     void Render();
     void RenderList(vector<Object*>);
     void TreeRender(Object*);
+    bool InitShader(Shader*&, string, string);
 
   private:
     std::string ErrorString(GLenum error);
 
     camera *m_camera;
     Shader *m_shader;
+    Shader *m_planetShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;

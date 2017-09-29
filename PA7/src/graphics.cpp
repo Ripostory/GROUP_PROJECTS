@@ -10,6 +10,40 @@ Graphics::~Graphics()
 
 }
 
+bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
+{
+	 // Set up the shaders
+	  shader = new Shader();
+	  m_planetShader = new Shader();
+	  if(!shader->Initialize())
+	  {
+	    printf("Shader Failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Add the vertex shader
+	  if(!shader->AddShader(GL_VERTEX_SHADER, vertex))
+	  {
+	    printf("Vertex Shader failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Add the fragment shader
+	  if(!shader->AddShader(GL_FRAGMENT_SHADER, fragment))
+	  {
+	    printf("Fragment Shader failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Connect the program
+	  if(!shader->Finalize())
+	  {
+	    printf("Program to Finalize\n");
+	    return false;
+	  }
+	  return true;
+}
+
 bool Graphics::Initialize(int width, int height)
 {
   // Used for the linux OS
@@ -48,34 +82,9 @@ bool Graphics::Initialize(int width, int height)
   m_cube = new SolarSystem("assets/planet.obj", 1.0f, 5.0f);
   renderTarget = m_cube;
 
-  // Set up the shaders
-  m_shader = new Shader();
-  if(!m_shader->Initialize())
-  {
-    printf("Shader Failed to Initialize\n");
-    return false;
-  }
-
-  // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER))
-  {
-    printf("Vertex Shader failed to Initialize\n");
-    return false;
-  }
-
-  // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER))
-  {
-    printf("Fragment Shader failed to Initialize\n");
-    return false;
-  }
-
-  // Connect the program
-  if(!m_shader->Finalize())
-  {
-    printf("Program to Finalize\n");
-    return false;
-  }
+  //create shader
+  InitShader(m_shader, "assets/vertexShader.s", "assets/fragmentShader.s");
+  InitShader(m_planetShader, "assets/vertexShader.vsh", "assets/fragmentShader.fsh");
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -121,20 +130,14 @@ void Graphics::Render()
   glClearColor(0.0, 0.2, 0.4, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // Start the correct program
-  m_shader->Enable();
-
-  // Send in the projection and view to the shader
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
-
-
   // Render all objects
   TreeRender(m_cube);
-  //TODO remove test
 
+  //TODO REMOVE CAMERA TEST
   //->getChildren()[0]->getChildren()[0]
     m_camera->SetParent(m_cube);
+
+
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
@@ -155,6 +158,16 @@ void Graphics::RenderList(vector<Object*> list)
 
 void Graphics::TreeRender(Object* object)
 {
+	  //enable correct shader
+	if (object->isaPlanet())
+		m_planetShader->Enable();
+	else
+		m_shader->Enable();
+
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+
 	  //render this model
 	  renderTarget = object;
 	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(renderTarget->GetModel()));
