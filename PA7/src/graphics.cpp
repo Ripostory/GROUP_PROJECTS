@@ -7,7 +7,6 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-
 }
 
 bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
@@ -84,9 +83,12 @@ bool Graphics::Initialize(int width, int height)
   renderTarget = m_cube;
 
   //create shader
-  InitShader(m_shader, "assets/shaders/vertexShader.s", "assets/shaders/fragmentShader.s");
-  InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh");
-  InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh");
+  if (!InitShader(m_shader, "assets/shaders/sunShader.vsh", "assets/shaders/sunShader.fsh"))
+	  return false;
+  if (!InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh"))
+	  return false;
+  if (!InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh"))
+	  return false;
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");

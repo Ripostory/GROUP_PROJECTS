@@ -23,7 +23,7 @@ Moon::Moon()
 Moon::Moon(float rotSpeed, float orbSpeed, float dist, float siz, Object *parentModel)
 {
 	angle = 0.0f;
-	orbit = 0.0f;
+	orbit = rotSpeed * siz * dist;
 	rotationSpeed = rotSpeed * ROTATION_MULT;
 	orbitSpeed = orbSpeed * ORBIT_MULT;
 	distance  = dist * DISTANCE_MULT;

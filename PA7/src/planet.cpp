@@ -25,7 +25,7 @@ Planet::Planet(float rotSpeed, float orbSpeed, float dist, float siz)
 {
 	  //seed starting angle
 	  angle = 0.0f;
-	  orbit = rotSpeed * siz * dist;
+	  orbit = siz * dist;
 
 	  //modify with multipliers
 	  rotationSpeed = rotSpeed * ROTATION_MULT;

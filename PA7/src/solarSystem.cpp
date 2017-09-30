@@ -50,12 +50,12 @@ void SolarSystem::LoadSolSystem(string filename)
 	setVisual("models/planet.obj", "planets/a_venus.jpg", "planets/n_venus.jpg");
 
 	//Mercury
-	loader = new Planet(590.0f, 2.4f, 30.0f, 3.8f);
+	loader = new Planet(-590.0f, 2.4f, 30.0f, 3.8f);
 	loader->setVisual("models/planet.obj", "planets/a_mercury.jpg", "planets/n_mercury.jpg");
 	addChild(loader);
 
 	//Venus
-	loader = new Planet(2430.0f, 6.1f, 33.0f, 9.5f);
+	loader = new Planet(-2430.0f, 6.1f, 33.0f, 9.5f);
 	loader->setVisual("models/planet.obj", "planets/a_venus.jpg", "planets/n_venus.jpg");
 	addChild(loader);
 
@@ -86,12 +86,24 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//io
+		moon = new Moon(7.0f, 0.43f, 3.5f, 2.7f, loader);
+		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
+		loader->addChild(moon);
 
 		//castillo
+		moon = new Moon(5.0f, 0.73f, 4.5f, 8.7f, loader);
+		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
+		loader->addChild(moon);
 
 		//ganymede
+		moon = new Moon(10.0f, 0.83f, 6.2f, 4.4f, loader);
+		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
+		loader->addChild(moon);
 
 		//europa
+		moon = new Moon(4.0f, 1.0f, 7.5f, 9.7f, loader);
+		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
+		loader->addChild(moon);
 
 
 	//Saturn
@@ -118,7 +130,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//that one giant moon about the size of pluto
-		moon = new Moon(10.0f, 300.0f, 0.12f, 1.2f, loader);
+		moon = new Moon(10.0f, 1.0f, 0.12f, 1.2f, loader);
 		moon->setVisual("models/planet.obj", "planets/a_mercury.jpg", "moons/n_moon.jpg");
 		loader->addChild(moon);
 }

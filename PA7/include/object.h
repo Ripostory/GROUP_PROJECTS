@@ -11,7 +11,7 @@
 #define ORBIT_MULT		0.2f
 #define DISTANCE_MULT	10.0f
 #define SIZE_MULT		0.2f
-#define SPEED_STEP 0.02f
+#define SPEED_STEP 		0.02f
 
 class Object
 {
