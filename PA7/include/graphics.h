@@ -31,10 +31,23 @@ class Graphics
     Shader *m_shader;
     Shader *m_planetShader;
     Shader *m_gasGiantShader;
+    Shader *m_screenShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
+    GLuint fbo;
+    GLuint fbTex;
+    GLuint screen;
+    float vertices[24] = {
+    	    -1.0f,  1.0f, 0.0f, 1.0f, // Top-left
+    	     1.0f,  1.0f, 1.0f, 1.0f, // Top-right
+    	     1.0f, -1.0f, 1.0f, 0.0f, // Bottom-right
+
+    	     1.0f, -1.0f, 1.0f, 0.0f, // Bottom-right
+    	    -1.0f, -1.0f, 0.0f, 0.0f, // Bottom-left
+    	    -1.0f,  1.0f, 0.0f, 1.0f, // Top-left
+        };
 
     SolarSystem *m_cube;
     Object *renderTarget;

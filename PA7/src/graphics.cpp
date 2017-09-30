@@ -2,7 +2,6 @@
 
 Graphics::Graphics()
 {
-
 }
 
 Graphics::~Graphics()
@@ -68,6 +67,51 @@ bool Graphics::Initialize(int width, int height)
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
+  //initialize fbo
+  glGenFramebuffers(1, &fbo);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+  //allocate texture
+  glGenTextures(1, &fbTex);
+  glBindTexture(GL_TEXTURE_2D, fbTex);
+
+  glTexImage2D(
+      GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL
+  );
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  glFramebufferTexture2D(
+      GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbTex, 0
+  );
+
+  //allocate depth and stencil buffers
+  GLuint rboDepthStencil;
+  glGenRenderbuffers(1, &rboDepthStencil);
+  glBindRenderbuffer(GL_RENDERBUFFER, rboDepthStencil);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+
+  glFramebufferRenderbuffer(
+      GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboDepthStencil
+  );
+
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+  {
+	  auto error = glGetError();
+	  string val = ErrorString( error );
+	  std::cerr << "Framebuffer creation was not successful:"
+			  << endl << error << " "<< val << endl;
+  }
+
+  //reset to default buffer
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+  //initialize quad
+  glGenBuffers(1, &screen);
+  glBindBuffer(GL_ARRAY_BUFFER, screen);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
   // Init Camera
   m_camera = new camera();
   if(!m_camera->Initialize(width, height))
@@ -88,6 +132,8 @@ bool Graphics::Initialize(int width, int height)
   if (!InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh"))
 	  return false;
   if (!InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh"))
+	  return false;
+  if (!InitShader(m_screenShader, "assets/shaders/screenShader.vsh", "assets/shaders/screenShader.fsh"))
 	  return false;
 
   // Locate the projection matrix in the shader
@@ -130,6 +176,13 @@ void Graphics::Update(unsigned int dt)
 
 void Graphics::Render()
 {
+
+  //enable depth testing
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+  //set renderTarget
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
   //clear the screen
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -137,6 +190,39 @@ void Graphics::Render()
   // Render all objects
   TreeRender(m_cube);
 
+
+
+  //render frameBuffer to defaultBuffer
+  glDisable(GL_DEPTH_TEST);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+  //clear the screen
+  glClearColor(0.0, 0.5, 0.5, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  //enable passthrough screen shader
+  m_screenShader->Enable();
+
+
+  glBindVertexArray(screen);
+  GLint posAttrib = glGetAttribLocation(m_screenShader->getShader(), "position");
+  GLint colAttrib = glGetAttribLocation(m_screenShader->getShader(), "texcoord");
+
+  glEnableVertexAttribArray(posAttrib);
+  glEnableVertexAttribArray(colAttrib);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+                         4*sizeof(float), 0);
+  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
+                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+  //pass in texture
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, fbTex);
+  glDrawArrays(GL_TRIANGLES, 0 ,6);
+  glDisableVertexAttribArray(posAttrib);
+  glDisableVertexAttribArray(colAttrib);
 
   // Get any errors from OpenGL
   auto error = glGetError();
