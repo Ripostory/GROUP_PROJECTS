@@ -32,6 +32,7 @@ class Graphics
     camera *m_camera;
     Shader *m_shader;
     Shader *m_planetShader;
+    Shader *m_earthShader;
     Shader *m_gasGiantShader;
     Shader *m_screenShader;
     Shader *m_bloomShader;

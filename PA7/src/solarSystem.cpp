@@ -62,6 +62,9 @@ void SolarSystem::LoadSolSystem(string filename)
 	//Earth [REFERENCE]
 	loader = new Planet(10.0f, 10.0f, 35.0f, 10.0f);
 	loader->setVisual("models/planet.obj", "planets/a_earth.jpg", "planets/n_earth.jpg");
+	loader->loadNewTexture("planets/m_earth.jpg", 2);
+	loader->loadNewTexture("planets/s_earth.jpg", 3);
+	loader->setEarth(true);
 	addChild(loader);
 
 		//moon

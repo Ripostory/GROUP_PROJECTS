@@ -6,6 +6,7 @@ Object::Object()
 	normalMap = Texture(0,0,NULL);
 	isPlanet = false;
 	isGasGiant = false;
+	earth = false;
 	rootDir = "assets/";
 }
 
@@ -56,6 +57,24 @@ void Object::loadNewTexture(string filename)
 		  glGenTextures(1, &tex);
 		  bindTex(tex, GL_TEXTURE0);
 		  setTex(albedo);
+	  }
+}
+
+void Object::loadNewTexture(string filename, int index)
+{
+	  loader fileLoader;
+
+	  Texture tex(0,0,NULL);
+	  if (fileLoader.loadTexture(rootDir + filename, tex))
+	  {
+		  GLuint GLpointer;
+		  //texture loaded
+		  glGenTextures(1, &GLpointer);
+		  bindTex(GLpointer, GL_TEXTURE0 + index);
+		  texIndex.push_back(index);
+		  texPointer.push_back(GLpointer);
+		  texture.push_back(tex);
+		  setTex(texture[texture.size()-1]);
 	  }
 }
 
@@ -120,6 +139,12 @@ void Object::Render()
 
   bindTex(tex, GL_TEXTURE0);
   bindTex(normal, GL_TEXTURE1);
+
+  for (int i = 0; i < texPointer.size(); i++)
+  {
+	  bindTex(texPointer[i], GL_TEXTURE0 + texIndex[i]);
+  }
+
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
@@ -156,4 +181,14 @@ void Object::setGasGiant(bool isGas)
 float Object::getSize()
 {
 	return size;
+}
+
+bool Object::isEarth()
+{
+	return earth;
+}
+
+void Object::setEarth(bool isEarth)
+{
+	earth = isEarth;
 }

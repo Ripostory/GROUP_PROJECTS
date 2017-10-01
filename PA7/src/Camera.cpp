@@ -7,7 +7,7 @@ camera::camera()
     xPos = 0.0f;
     yPos = 0.0f;
     lookAt = glm::vec4(0.0f);
-    distance = -250.0f;
+    distance = -1000.0f;
     height = 8.0f;
     parent = NULL;
     world = NULL;
@@ -55,6 +55,8 @@ void camera::Update(unsigned int dt)
 		if (type.eventVer == SDL_MOUSEMOTION)
 		{
 			orbit -= type.x * 0.01f;
+			if (parent != NULL)
+				height -= type.y * 0.01f * parent->getSize();
 		}
 		else if (type.eventVer == SDL_MOUSEWHEEL)
 		{

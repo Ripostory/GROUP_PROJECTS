@@ -122,6 +122,8 @@ bool Graphics::Initialize(int width, int height)
 	  return false;
   if (!InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh"))
 	  return false;
+  if (!InitShader(m_earthShader, "assets/shaders/earthShader.vsh", "assets/shaders/earthShader.fsh"))
+	  return false;
   if (!InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh"))
 	  return false;
   if (!InitShader(m_screenShader, "assets/shaders/screenShader.vsh", "assets/shaders/screenShader.fsh"))
@@ -302,7 +304,9 @@ void Graphics::RenderList(vector<Object*> list)
 void Graphics::TreeRender(Object* object)
 {
 	  //enable correct shader
-	if (object->isaGasGiant())
+	if (object->isEarth())
+		m_earthShader->Enable();
+	else if (object->isaGasGiant())
 		m_gasGiantShader->Enable();
 	else if (object->isaPlanet())
 		m_planetShader->Enable();

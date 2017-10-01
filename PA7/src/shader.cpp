@@ -132,6 +132,8 @@ void Shader::Enable()
     //bind texture locations
     glUniform1i(GetUniformLocation("texture"), 0);
     glUniform1i(GetUniformLocation("normalMap"), 1);
+    glUniform1i(GetUniformLocation("nightMap"), 2);
+    glUniform1i(GetUniformLocation("specularMap"), 3);
 }
 
 

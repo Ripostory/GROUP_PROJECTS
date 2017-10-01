@@ -21,6 +21,7 @@ class Object
     virtual void Update(unsigned int dt);
     void loadNewModel(string filename);
     void loadNewTexture(string filename);
+    void loadNewTexture(string filename, int index);
     void loadNewNormal(string filename);
     void setVisual(string, string, string);
     void setMultiplier(float);
@@ -30,6 +31,8 @@ class Object
     virtual void Render();
     bool isaPlanet();
     bool isaGasGiant();
+    bool isEarth();
+    void setEarth(bool earth);
 
     glm::mat4 GetModel();
     float getSize();
@@ -44,12 +47,16 @@ class Object
     std::vector<Object*> children;
     bool isPlanet;
     bool isGasGiant;
+    bool earth;
     string rootDir;
     float size;
 
   private:
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
+    std::vector<unsigned int> texIndex;
+    std::vector<GLuint> texPointer;
+    std::vector<Texture> texture;
     GLuint VB;
     GLuint IB;
     GLuint tex;
