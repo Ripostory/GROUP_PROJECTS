@@ -43,6 +43,8 @@ bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
 
 bool Graphics::Initialize(int width, int height)
 {
+	this->width = width;
+	this->height = height;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -68,25 +70,9 @@ bool Graphics::Initialize(int width, int height)
   glBindVertexArray(vao);
 
   //initialize fbo
-  glGenFramebuffers(1, &fbo);
-  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+  generateFrameBuffer(fbo, fbTex, width, height);
 
-  //allocate texture
-  glGenTextures(1, &fbTex);
-  glBindTexture(GL_TEXTURE_2D, fbTex);
-
-  glTexImage2D(
-      GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL
-  );
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  glFramebufferTexture2D(
-      GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbTex, 0
-  );
-
-  //allocate depth and stencil buffers
+  //allocate depth and stencil buffers for base target
   GLuint rboDepthStencil;
   glGenRenderbuffers(1, &rboDepthStencil);
   glBindRenderbuffer(GL_RENDERBUFFER, rboDepthStencil);
@@ -103,6 +89,11 @@ bool Graphics::Initialize(int width, int height)
 	  std::cerr << "Framebuffer creation was not successful:"
 			  << endl << error << " "<< val << endl;
   }
+
+  //create lower resolution framebuffer for bloom
+  generateFrameBuffer(fboBloom, fbTexBloom, width>>5, height>>5);
+  generateFrameBuffer(fboBloom2, fbTexBloom2, width>>6, height>>6);
+  generateFrameBuffer(fboBloom3, fbTexBloom3, width>>7, height>>7);
 
   //reset to default buffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -134,6 +125,10 @@ bool Graphics::Initialize(int width, int height)
   if (!InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh"))
 	  return false;
   if (!InitShader(m_screenShader, "assets/shaders/screenShader.vsh", "assets/shaders/screenShader.fsh"))
+	  return false;
+  if (!InitShader(m_bloomShader, "assets/shaders/bloomShader.vsh", "assets/shaders/bloomShader.fsh"))
+	  return false;
+  if (!InitShader(m_bloomPreShader, "assets/shaders/bloomPreShader.vsh", "assets/shaders/bloomPreShader.fsh"))
 	  return false;
 
   // Locate the projection matrix in the shader
@@ -167,6 +162,29 @@ bool Graphics::Initialize(int width, int height)
   return true;
 }
 
+void Graphics::generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int height)
+{
+	  glGenFramebuffers(1, &fbo);
+	  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+	  //allocate texture
+	  glGenTextures(1, &fbTarget);
+	  glBindTexture(GL_TEXTURE_2D, fbTarget);
+
+	  glTexImage2D(
+	      GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL
+	  );
+
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	  glFramebufferTexture2D(
+	      GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbTarget, 0
+	  );
+}
+
 void Graphics::Update(unsigned int dt)
 {
   // Update the object
@@ -180,7 +198,7 @@ void Graphics::Render()
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
-
+  glViewport(0,0, width, height);
   //set renderTarget
   glBindFramebuffer(GL_FRAMEBUFFER, fbo);
   //clear the screen
@@ -190,36 +208,51 @@ void Graphics::Render()
   // Render all objects
   TreeRender(m_cube);
 
-
-
-  //render frameBuffer to defaultBuffer
   glDisable(GL_DEPTH_TEST);
+  //render to low resolution buffer
+  glViewport(0,0, width>>5, height>>5);
+  glBindFramebuffer(GL_FRAMEBUFFER, fboBloom);
+  addRenderTarget(m_bloomPreShader, fbTex);
+  glViewport(0,0, width>>6, height>>6);
+  glBindFramebuffer(GL_FRAMEBUFFER, fboBloom2);
+  addRenderTarget(m_bloomPreShader, fbTex);
+  glViewport(0,0, width>>7, height>>7);
+  glBindFramebuffer(GL_FRAMEBUFFER, fboBloom3);
+  addRenderTarget(m_bloomPreShader, fbTex);
+
+
+  glViewport(0,0, width, height);
+  //render frameBuffer to defaultBuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-  //clear the screen
-  glClearColor(0.0, 0.5, 0.5, 1.0);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   //enable passthrough screen shader
-  m_screenShader->Enable();
-
-
+  m_bloomShader->Enable();
   glBindVertexArray(screen);
-  GLint posAttrib = glGetAttribLocation(m_screenShader->getShader(), "position");
-  GLint colAttrib = glGetAttribLocation(m_screenShader->getShader(), "texcoord");
+  GLint posAttrib = glGetAttribLocation(m_bloomShader->getShader(), "position");
+  GLint colAttrib = glGetAttribLocation(m_bloomShader->getShader(), "texcoord");
 
+  //draw quad onto the screen
   glEnableVertexAttribArray(posAttrib);
   glEnableVertexAttribArray(colAttrib);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
   glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
                          4*sizeof(float), 0);
   glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
                          4*sizeof(float), (void*)(2*sizeof(float)));
 
-  //pass in texture
+  glUniform1i(m_bloomShader->GetUniformLocation("texFramebuffer"), 0);
+  glUniform1i(m_bloomShader->GetUniformLocation("bloom1"), 1);
+  glUniform1i(m_bloomShader->GetUniformLocation("bloom2"), 2);
+  glUniform1i(m_bloomShader->GetUniformLocation("bloom3"), 3);
+  //pass in output texture
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, fbTex);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, fbTexBloom);
+  glActiveTexture(GL_TEXTURE2);
+  glBindTexture(GL_TEXTURE_2D, fbTexBloom2);
+  glActiveTexture(GL_TEXTURE3);
+  glBindTexture(GL_TEXTURE_2D, fbTexBloom3);
   glDrawArrays(GL_TRIANGLES, 0 ,6);
   glDisableVertexAttribArray(posAttrib);
   glDisableVertexAttribArray(colAttrib);
@@ -231,6 +264,30 @@ void Graphics::Render()
     string val = ErrorString( error );
     std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
+}
+
+void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
+{
+	  shader->Enable();
+	  glBindVertexArray(screen);
+	  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
+	  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
+
+	  //draw quad onto the screen
+	  glEnableVertexAttribArray(posAttrib);
+	  glEnableVertexAttribArray(colAttrib);
+	  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), 0);
+	  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+	  //pass in output texture
+	  glActiveTexture(GL_TEXTURE0);
+	  glBindTexture(GL_TEXTURE_2D, texTarget);
+	  glDrawArrays(GL_TRIANGLES, 0 ,6);
+	  glDisableVertexAttribArray(posAttrib);
+	  glDisableVertexAttribArray(colAttrib);
 }
 
 void Graphics::RenderList(vector<Object*> list)

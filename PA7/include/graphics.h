@@ -23,6 +23,8 @@ class Graphics
     void RenderList(vector<Object*>);
     void TreeRender(Object*);
     bool InitShader(Shader*&, string, string);
+    void addRenderTarget(Shader *shader, GLuint texTarget);
+    void generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int height);
 
   private:
     std::string ErrorString(GLenum error);
@@ -32,13 +34,24 @@ class Graphics
     Shader *m_planetShader;
     Shader *m_gasGiantShader;
     Shader *m_screenShader;
+    Shader *m_bloomShader;
+    Shader *m_bloomPreShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
+    GLuint screen;
+
     GLuint fbo;
     GLuint fbTex;
-    GLuint screen;
+
+    GLuint fboBloom;
+    GLuint fbTexBloom;
+    GLuint fboBloom2;
+    GLuint fbTexBloom2;
+    GLuint fboBloom3;
+    GLuint fbTexBloom3;
+
     float vertices[24] = {
     	    -1.0f,  1.0f, 0.0f, 1.0f, // Top-left
     	     1.0f,  1.0f, 1.0f, 1.0f, // Top-right
@@ -51,6 +64,9 @@ class Graphics
 
     SolarSystem *m_cube;
     Object *renderTarget;
+
+    int width;
+    int height;
 };
 
 #endif /* GRAPHICS_H */
