@@ -30,7 +30,10 @@ class camera
     float yPos;
     float distance;
     float height;
+    float fov;
     int index;
+    int w;
+    int h;
 };
 
 #endif /* CAMERALOC_H */

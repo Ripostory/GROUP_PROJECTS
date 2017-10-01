@@ -132,6 +132,8 @@ bool Graphics::Initialize(int width, int height)
 	  return false;
   if (!InitShader(m_bloomPreShader, "assets/shaders/bloomPreShader.vsh", "assets/shaders/bloomPreShader.fsh"))
 	  return false;
+  if (!InitShader(m_ringShader, "assets/shaders/ringShader.vsh", "assets/shaders/ringShader.fsh"))
+	  return false;
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -199,6 +201,9 @@ void Graphics::Render()
 
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   glDepthFunc(GL_LESS);
   glViewport(0,0, width, height);
   //set renderTarget
@@ -304,7 +309,9 @@ void Graphics::RenderList(vector<Object*> list)
 void Graphics::TreeRender(Object* object)
 {
 	  //enable correct shader
-	if (object->isEarth())
+	if (object->isRing())
+		m_ringShader->Enable();
+	else if (object->isEarth())
 		m_earthShader->Enable();
 	else if (object->isaGasGiant())
 		m_gasGiantShader->Enable();

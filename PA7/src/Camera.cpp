@@ -12,6 +12,7 @@ camera::camera()
     parent = NULL;
     world = NULL;
     index = -1;
+    fov = 45;
 }
 
 camera::~camera()
@@ -25,6 +26,8 @@ bool camera::Initialize(int w, int h)
   //  if you will be having a moving camera the view matrix will need to more dynamic
   //  ...Like you should update it before you render more dynamic 
   //  for this project having them static will be fine
+  this->w = w;
+  this->h = h;
   view = glm::lookAt( glm::vec3(0.0, 8.0, -16.0), //Eye Position
                       glm::vec3(0.0, 0.0, 0.0), //Focus point
                       glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
@@ -60,7 +63,13 @@ void camera::Update(unsigned int dt)
 		}
 		else if (type.eventVer == SDL_MOUSEWHEEL)
 		{
-			distance += type.y;
+			if (distance > parent->getSize() * 3.0f || type.y > 0) {
+				if (type.y > 0)
+					distance += type.y  * (parent->getSize()/50.0);
+				else
+					distance += type.y * ((distance - parent->getSize() * 3.0)/50.0);
+			}
+
 		}
 		else if (type.eventVer == SDL_KEYDOWN)
 		{
@@ -81,6 +90,16 @@ void camera::Update(unsigned int dt)
 				  //get default distance
 				  distance = parent->getSize() * 5.0f;
 				  height = parent->getSize() / 2.0f;
+			  }
+
+			  if (type.key == SDLK_o && fov > 44)
+			  {
+				  fov -= 0.01f;
+			  }
+
+			  if (type.key == SDLK_p && fov < 45)
+			  {
+				  fov += 0.01f;
 			  }
 
 			  if (type.key == SDLK_RIGHT)
@@ -124,6 +143,11 @@ void camera::Update(unsigned int dt)
 	view = glm::lookAt( glm::vec3(position), //Eye Position
 	                      glm::vec3(lookAt.x, lookAt.y, lookAt.z), //Focus point
 	                      glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
+
+	  projection = glm::perspective( fov, //the FoV typically 90 degrees is good which is what this is set to
+	                                 float(w)/float(h), //Aspect Ratio, so Circles stay Circular
+	                                 0.01f, //Distance to the near plane, normally a small value like this
+	                                 10000.0f); //Distance to the far plane,
 }
 
 void camera::SetWorld(Object *model)

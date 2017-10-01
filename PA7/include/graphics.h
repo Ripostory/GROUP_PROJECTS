@@ -37,6 +37,7 @@ class Graphics
     Shader *m_screenShader;
     Shader *m_bloomShader;
     Shader *m_bloomPreShader;
+    Shader *m_ringShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;

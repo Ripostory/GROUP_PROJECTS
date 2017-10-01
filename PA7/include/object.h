@@ -28,11 +28,13 @@ class Object
     GLuint bindTex(GLuint&, GLenum);
     void setTex(Texture);
     void setGasGiant(bool);
+    void setEarth(bool earth);
+    void setRing(bool ring);
     virtual void Render();
     bool isaPlanet();
     bool isaGasGiant();
     bool isEarth();
-    void setEarth(bool earth);
+    bool isRing();
 
     glm::mat4 GetModel();
     float getSize();
@@ -48,6 +50,7 @@ class Object
     bool isPlanet;
     bool isGasGiant;
     bool earth;
+    bool isaRing;
     string rootDir;
     float size;
 

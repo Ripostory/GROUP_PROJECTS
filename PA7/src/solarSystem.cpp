@@ -115,11 +115,24 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader->setVisual("models/planet.obj", "planets/a_saturn.jpg", "planets/n_mars.jpg");
 	addChild(loader);
 
+		//saturns ring
+		moon = new Moon(4.1f, 0.1f, 0.0f, 94.5f, loader);
+		moon->setVisual("models/ring_saturn.obj", "rings/ring_saturn.png", "moons/n_moon.jpg");
+		moon->setRing(true);
+		loader->addChild(moon);
+
 	//Uranus
 	loader = new Planet(5.4f, 840.6f, 48.0f, 40.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_uranus.jpg", "planets/n_mars.jpg");
 	addChild(loader);
+
+		//uranus ring
+		moon = new Moon(5.4f, 0.1f, 0.0f, 40.0f, loader);
+		moon->setVisual("models/ring_uranus.obj", "rings/ring_uranus.png", "moons/n_moon.jpg");
+		moon->setRing(true);
+		loader->addChild(moon);
+
 
 	//Neptune
 	loader = new Planet(6.2f, 1648.1f, 50.0f, 38.8f);

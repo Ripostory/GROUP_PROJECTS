@@ -7,6 +7,7 @@ Object::Object()
 	isPlanet = false;
 	isGasGiant = false;
 	earth = false;
+	isaRing = false;
 	rootDir = "assets/";
 }
 
@@ -191,4 +192,14 @@ bool Object::isEarth()
 void Object::setEarth(bool isEarth)
 {
 	earth = isEarth;
+}
+
+bool Object::isRing()
+{
+	return isaRing;
+}
+
+void Object::setRing(bool ring)
+{
+	isaRing= ring;
 }
