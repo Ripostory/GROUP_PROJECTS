@@ -68,7 +68,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//moon
-		moon = new Moon(-10.0f, 0.83f, 0.5f, 2.7f, loader);
+		moon = new Moon(-10.0f, 0.83f, 0.5f, 2.7f, 0.0f, 0.1f, loader);
 		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
 		loader->addChild(moon);
 
@@ -116,7 +116,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//saturns ring
-		moon = new Moon(4.1f, 0.1f, 0.0f, 94.5f, loader);
+		moon = new Moon(4.1f, 0.1f, 0.0f, 94.5f, 0.0f, -0.3f, loader);
 		moon->setVisual("models/ring_saturn.obj", "rings/ring_saturn.png", "moons/n_moon.jpg");
 		moon->setRing(true);
 		loader->addChild(moon);
@@ -128,7 +128,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//uranus ring
-		moon = new Moon(5.4f, 0.1f, 0.0f, 40.0f, loader);
+		moon = new Moon(5.4f, 0.1f, 0.0f, 40.0f, 0.0f, 5.0f, loader);
 		moon->setVisual("models/ring_uranus.obj", "rings/ring_uranus.png", "moons/n_moon.jpg");
 		moon->setRing(true);
 		loader->addChild(moon);

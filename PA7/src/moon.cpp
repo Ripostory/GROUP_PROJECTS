@@ -17,6 +17,8 @@ Moon::Moon()
 	parent = NULL;
 	size = 1.0f;
 	multiplier = 1.0f;
+	offset = 0.0f;
+	tilt = 0.0f;
 	isPlanet = true;
 }
 
@@ -30,6 +32,23 @@ Moon::Moon(float rotSpeed, float orbSpeed, float dist, float siz, Object *parent
 	parent = parentModel;
 	size = siz * SIZE_MULT;
 	multiplier = 1.0f;
+	offset = 0.0f;
+	tilt = 0.0f;
+	isPlanet = true;
+}
+
+Moon::Moon(float rotSpeed, float orbSpeed, float dist, float siz, float off, float til, Object *parentModel)
+{
+	angle = 0.0f;
+	orbit = rotSpeed * siz * dist;
+	rotationSpeed = rotSpeed * ROTATION_MULT;
+	orbitSpeed = orbSpeed * ORBIT_MULT;
+	distance  = dist * DISTANCE_MULT;
+	parent = parentModel;
+	size = siz * SIZE_MULT;
+	multiplier = 1.0f;
+	offset = off;
+	tilt = til;
 	isPlanet = true;
 }
 
@@ -46,6 +65,7 @@ void Moon::Update(unsigned int dt)
 	//translate it based on the parent position
 	model = glm::translate(glm::mat4(1.0f), (glm::vec3) parentPos);
 
+	model = glm::rotate(model, (tilt), glm::vec3(0.0, 0.0, 1.0));
 	//calculate orbit and convert to position vector
 	orbit -= (multiplier * dt * M_PI/1000) /orbitSpeed;
 	xPos = glm::sin(orbit);
@@ -58,6 +78,7 @@ void Moon::Update(unsigned int dt)
 
 	//make moon smaller
 	model = glm::scale(model, glm::vec3(size));
+	model = glm::rotate(model, (offset), glm::vec3(1.0, 0.0, 0.0));
 }
 
 void Moon::setParent(Object *par)

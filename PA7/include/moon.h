@@ -17,14 +17,18 @@ private:
     float orbit;
     float xPos;
     float yPos;
+    float zPos;
 
     float distance;
     float orbitSpeed;
     float rotationSpeed;
+    float tilt;
+    float offset;
 	Object *parent;
 public:
 	Moon();
 	Moon(float, float, float, float, Object*);
+	Moon(float, float, float, float, float, float, Object*);
 	~Moon();
 
 	void setParent(Object*);

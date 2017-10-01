@@ -50,5 +50,5 @@ void main(void)
 	vec4 base = (texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)) * vec4((ambientColor.rgb + diffuse.rgb), 1.0));
 
 	//screen output mix	
-	frag_color =  vec4((1- (1-base) * (1-atmOut)).rgb, texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)).a);
+	frag_color =  vec4(base.rgb, texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)).a);
 }
