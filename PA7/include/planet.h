@@ -19,14 +19,18 @@ protected:
     float orbit;
     float xPos;
     float yPos;
+    float zPos;
 
     float distance;
     float orbitSpeed;
     float rotationSpeed;
+    float tilt;
+    float offset;
 
 public:
 	Planet();
 	Planet(float rotSpeed, float orbSpeed, float dist, float siz);
+	Planet(float rotSpeed, float orbSpeed, float dist, float siz, float tilt, float offset);
 	void Update(unsigned int);
 	~Planet();
 

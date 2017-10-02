@@ -60,7 +60,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 	//Earth [REFERENCE]
-	loader = new Planet(10.0f, 10.0f, 35.0f, 10.0f);
+	loader = new Planet(10.0f, 10.0f, 35.0f, 10.0f, -0.3f, 0.0f);
 	loader->setVisual("models/planet.obj", "planets/a_earth.jpg", "planets/n_earth.jpg");
 	loader->loadNewTexture("planets/m_earth.jpg", 2);
 	loader->loadNewTexture("planets/s_earth.jpg", 3);
@@ -68,7 +68,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	addChild(loader);
 
 		//moon
-		moon = new Moon(-10.0f, 0.83f, 0.5f, 2.7f, 0.0f, 0.1f, loader);
+		moon = new Moon(-10.0f, 0.83f, 0.5f, 2.7f, 0.0f, -0.3f, loader);
 		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
 		loader->addChild(moon);
 
@@ -110,7 +110,7 @@ void SolarSystem::LoadSolSystem(string filename)
 
 
 	//Saturn
-	loader = new Planet(4.1f, 294.6f, 45.0f, 94.5f);
+	loader = new Planet(4.1f, 294.6f, 45.0f, 94.5f, -0.3f, 0.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_saturn.jpg", "planets/n_mars.jpg");
 	addChild(loader);
@@ -122,7 +122,7 @@ void SolarSystem::LoadSolSystem(string filename)
 		loader->addChild(moon);
 
 	//Uranus
-	loader = new Planet(5.4f, 840.6f, 48.0f, 40.0f);
+	loader = new Planet(5.4f, 840.6f, 48.0f, 40.0f, 5.0f, 0.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_uranus.jpg", "planets/n_mars.jpg");
 	addChild(loader);

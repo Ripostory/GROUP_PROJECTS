@@ -15,5 +15,4 @@ void main()
 	bloomColor = clamp(bloomColor, 0, 1) * 1.8;
 
 	outColor = 1 - (1- bloomColor) * (1 - clamp(texture(texFramebuffer, Texcoord),0 ,1));
-	//outColor = bloomColor;
 }

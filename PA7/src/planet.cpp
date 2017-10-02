@@ -18,6 +18,8 @@ Planet::Planet()
 	  orbitSpeed = 0.2f;
 	  distance = 20.0f;
 	  multiplier = 1.0f;
+	  tilt = 0.0f;
+	  offset = 0.0f;
 	  isPlanet = true;
 }
 
@@ -33,6 +35,25 @@ Planet::Planet(float rotSpeed, float orbSpeed, float dist, float siz)
 	  distance = dist * DISTANCE_MULT;
 	  size = siz * SIZE_MULT;
 	  multiplier = 1.0f;
+	  tilt = 0.0f;
+	  offset = 0.0f;
+	  isPlanet = true;
+}
+
+Planet::Planet(float rotSpeed, float orbSpeed, float dist, float siz, float til, float offs)
+{
+	  //seed starting angle
+	  angle = 0.0f;
+	  orbit = siz * dist;
+
+	  //modify with multipliers
+	  rotationSpeed = rotSpeed * ROTATION_MULT;
+	  orbitSpeed = orbSpeed * ORBIT_MULT;
+	  distance = dist * DISTANCE_MULT;
+	  size = siz * SIZE_MULT;
+	  multiplier = 1.0f;
+	  tilt = til;
+	  offset = offs;
 	  isPlanet = true;
 }
 
@@ -46,8 +67,11 @@ void Planet::Update(unsigned int dt)
 	  orbit -= (multiplier * dt * M_PI/1000) /orbitSpeed;
 	  xPos = glm::sin(orbit);
 	  yPos = glm::cos(orbit);
-	  model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos*distance, 0.0, yPos*distance));
+	  zPos = xPos;
+	  model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos*distance, zPos*offset, yPos*distance));
 
+	  //add planet tilt
+	  model = glm::rotate(model, (tilt), glm::vec3(0.0, 0.0, 1.0));
 	  //original rotate code modified to take initial translated matrix
 	  angle += (multiplier *  dt * M_PI/1000) /rotationSpeed;
 	  model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
