@@ -1,7 +1,7 @@
 # GROUP_PROJECTS
 cs480-Quijada-Stevens
 
-##Partners##
+## Partners
 
 Ronn Quijada
 Sean Stevens
