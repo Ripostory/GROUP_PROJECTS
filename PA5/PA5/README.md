@@ -15,7 +15,8 @@ W - rotate faster
 S - rotate slower
 
 T, Y, and U keys will change object to other sample models
-I (the key) will revert back to original model
+
+i will revert back to original model
 
 ### additional notes
 
