@@ -1,0 +1,170 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Camera.h
+graphics_headers.h
+../include/graphics_headers.h
+
+../include/engine.h
+sys/time.h
+-
+assert.h
+-
+window.h
+../include/window.h
+graphics.h
+../include/graphics.h
+event.h
+../include/event.h
+
+../include/event.h
+vector
+-
+window.h
+../include/window.h
+
+../include/graphics.h
+iostream
+-
+graphics_headers.h
+../include/graphics_headers.h
+Camera.h
+../include/Camera.h
+shader.h
+../include/shader.h
+object.h
+../include/object.h
+planet.h
+../include/planet.h
+moon.h
+../include/moon.h
+
+../include/graphics_headers.h
+iostream
+-
+OpenGL/gl3.h
+-
+OpenGL/GLU.h
+-
+GL/glew.h
+-
+glm/glm.hpp
+-
+glm/gtc/matrix_transform.hpp
+-
+glm/gtc/type_ptr.hpp
+-
+glm/gtx/rotate_vector.hpp
+-
+
+../include/loader.h
+iostream
+-
+fstream
+-
+obj.h
+-
+assimp/Importer.hpp
+-
+assimp/scene.h
+-
+assimp/postprocess.h
+-
+assimp/color4.h
+-
+
+../include/moon.h
+planet.h
+../include/planet.h
+
+../include/obj.h
+vector
+-
+graphics_headers.h
+../include/graphics_headers.h
+
+../include/object.h
+vector
+-
+graphics_headers.h
+../include/graphics_headers.h
+loader.h
+../include/loader.h
+obj.h
+../include/obj.h
+event.h
+../include/event.h
+
+../include/planet.h
+object.h
+../include/object.h
+
+../include/shader.h
+vector
+-
+loader.h
+../include/loader.h
+graphics_headers.h
+../include/graphics_headers.h
+
+../include/window.h
+SDL2/SDL.h
+-
+string
+-
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/Camera.cpp
+Camera.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/Camera.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/engine.cpp
+engine.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/engine.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/event.cpp
+event.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/event.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/graphics.cpp
+graphics.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/graphics.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/loader.cpp
+loader.h
+-
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/main.cpp
+iostream
+-
+engine.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/engine.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/moon.cpp
+moon.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/moon.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/obj.cpp
+obj.h
+-
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/object.cpp
+object.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/object.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/planet.cpp
+planet.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/planet.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/shader.cpp
+shader.h
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/shader.h
+
+/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/window.cpp
+window.h
+-
+
