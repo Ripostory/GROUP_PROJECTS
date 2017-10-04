@@ -1,5 +1,7 @@
 #include "object.h"
 
+string Object::defaultPath;
+
 Object::Object()
 {  
 

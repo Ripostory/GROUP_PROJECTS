@@ -18,6 +18,8 @@ class Object
     void loadNewModel(string filename);
     void Render();
 
+    static string defaultPath;
+
     glm::mat4 GetModel();
 
   protected:
