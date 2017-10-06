@@ -19,8 +19,8 @@ class Object
     Object();
     virtual ~Object();
     virtual void Update(unsigned int dt);
-    void loadNewModel(string filename);
-    void loadNewTexture(string filename);
+    bool loadNewModel(string filename);
+    bool loadNewTexture(string filename);
     void loadNewTexture(string filename, int index);
     void loadNewNormal(string filename);
     void setVisual(string, string, string);
@@ -39,6 +39,7 @@ class Object
     glm::vec3 getAtmosphere();
     void setHorizon(glm::vec3);
     void setAtmosphere(glm::vec3);
+    static void init();
 
     glm::mat4 GetModel();
     float getSize();
@@ -55,12 +56,13 @@ class Object
     bool isGasGiant;
     bool earth;
     bool isaRing;
-    string rootDir;
     float size;
     glm::vec3 horizonColor;
     glm::vec3 atmosphereColor;
 
   private:
+    static string rootDir;
+
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     std::vector<unsigned int> texIndex;

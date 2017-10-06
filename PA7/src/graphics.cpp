@@ -111,6 +111,10 @@ bool Graphics::Initialize(int width, int height)
     return false;
   }
 
+  //initialize object default directory
+  Object::init();
+  Shader::init();
+
   // Create the object
   m_cube = new SolarSystem(1.0f, 5.0f);
   m_cube->LoadSolSystem("solarSystem.JSON");
@@ -118,21 +122,21 @@ bool Graphics::Initialize(int width, int height)
   renderTarget = m_cube;
 
   //create shader
-  if (!InitShader(m_shader, "assets/shaders/sunShader.vsh", "assets/shaders/sunShader.fsh"))
+  if (!InitShader(m_shader, "shaders/sunShader.vsh", "shaders/sunShader.fsh"))
 	  return false;
-  if (!InitShader(m_planetShader, "assets/shaders/vertexShader.vsh", "assets/shaders/fragmentShader.fsh"))
+  if (!InitShader(m_planetShader, "shaders/vertexShader.vsh", "shaders/fragmentShader.fsh"))
 	  return false;
-  if (!InitShader(m_earthShader, "assets/shaders/earthShader.vsh", "assets/shaders/earthShader.fsh"))
+  if (!InitShader(m_earthShader, "shaders/earthShader.vsh", "shaders/earthShader.fsh"))
 	  return false;
-  if (!InitShader(m_gasGiantShader, "assets/shaders/gasGiantShader.vsh", "assets/shaders/gasGiantShader.fsh"))
+  if (!InitShader(m_gasGiantShader, "shaders/gasGiantShader.vsh", "shaders/gasGiantShader.fsh"))
 	  return false;
-  if (!InitShader(m_screenShader, "assets/shaders/screenShader.vsh", "assets/shaders/screenShader.fsh"))
+  if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
-  if (!InitShader(m_bloomShader, "assets/shaders/bloomShader.vsh", "assets/shaders/bloomShader.fsh"))
+  if (!InitShader(m_bloomShader, "shaders/bloomShader.vsh", "shaders/bloomShader.fsh"))
 	  return false;
-  if (!InitShader(m_bloomPreShader, "assets/shaders/bloomPreShader.vsh", "assets/shaders/bloomPreShader.fsh"))
+  if (!InitShader(m_bloomPreShader, "shaders/bloomPreShader.vsh", "shaders/bloomPreShader.fsh"))
 	  return false;
-  if (!InitShader(m_ringShader, "assets/shaders/ringShader.vsh", "assets/shaders/ringShader.fsh"))
+  if (!InitShader(m_ringShader, "shaders/ringShader.vsh", "shaders/ringShader.fsh"))
 	  return false;
 
   // Locate the projection matrix in the shader
@@ -162,7 +166,6 @@ bool Graphics::Initialize(int width, int height)
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
-
   return true;
 }
 

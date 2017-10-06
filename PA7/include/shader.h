@@ -10,6 +10,7 @@ class Shader
   public:
     Shader();
     ~Shader();
+    static void init();
     bool Initialize();
     void Enable();
     bool AddShader(GLenum ShaderType);
@@ -19,6 +20,7 @@ class Shader
     GLint getShader();
 
   private:
+    static string rootDir;
     GLuint m_shaderProg;    
     std::vector<GLuint> m_shaderObjList;
 };

@@ -1,5 +1,7 @@
 #include "object.h"
 
+string Object::rootDir = "assets/";
+
 Object::Object()
 {  
 	albedo = Texture(0,0,NULL);
@@ -8,7 +10,6 @@ Object::Object()
 	isGasGiant = false;
 	earth = false;
 	isaRing = false;
-	rootDir = "assets/";
 	horizonColor = glm::vec3(0.0f);
 	atmosphereColor = glm::vec3(0.0f);
 }
@@ -19,6 +20,17 @@ Object::~Object()
   Indices.clear();
 }
 
+void Object::init()
+{
+	//initialize root directory
+	Object test;
+	if (!test.loadNewModel("models/cube.obj"))
+	{
+		rootDir = "../assets/";
+		cout << "ROOT CHANGED" << endl;
+	}
+}
+
 void Object::setVisual(string model, string albedo, string normal)
 {
 	loadNewModel(model);
@@ -26,14 +38,16 @@ void Object::setVisual(string model, string albedo, string normal)
 	loadNewNormal(normal);
 }
 
-void Object::loadNewModel(string filename)
+bool Object::loadNewModel(string filename)
 {
+	  bool success = false;
 	  loader fileLoader;
 	  obj object;
 	  if (fileLoader.loadObject(rootDir + filename, object))
 	  {
 		  Vertices = object.getVerts();
 		  Indices = object.getIndices();
+		  success = true;
 	  }
 
 	  //model loading
@@ -45,10 +59,10 @@ void Object::loadNewModel(string filename)
 	  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 	  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
 
-
+	  return success;
 }
 
-void Object::loadNewTexture(string filename)
+bool Object::loadNewTexture(string filename)
 {
 	  loader fileLoader;
 
@@ -60,7 +74,9 @@ void Object::loadNewTexture(string filename)
 		  glGenTextures(1, &tex);
 		  bindTex(tex, GL_TEXTURE0);
 		  setTex(albedo);
+		  return true;
 	  }
+	  return false;
 }
 
 void Object::loadNewTexture(string filename, int index)
