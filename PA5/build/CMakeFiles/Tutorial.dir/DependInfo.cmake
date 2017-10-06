@@ -4,18 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/Camera.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/engine.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/event.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/event.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/graphics.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/loader.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/loader.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/main.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/main.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/moon.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/moon.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/obj.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/obj.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/object.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/object.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/planet.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/planet.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/shader.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/shader.cpp.o"
-  "/home/nog/GitRepository/GROUP_PROJECTS/PA5/src/window.cpp" "/home/nog/GitRepository/GROUP_PROJECTS/PA5/build/CMakeFiles/Tutorial.dir/src/window.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/Camera.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/engine.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/event.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/event.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/graphics.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/loader.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/loader.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/main.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/main.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/moon.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/moon.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/obj.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/obj.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/object.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/object.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/planet.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/planet.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/shader.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/shader.cpp.o"
+  "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/src/window.cpp" "/home/seanstevens/Desktop/cs480Stevens/Group Projects/PA5/build/CMakeFiles/Tutorial.dir/src/window.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

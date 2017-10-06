@@ -10,7 +10,7 @@
 Planet::Planet()
 {
 	  //updated file loading, default to cube object
-	  loadNewModel("assets/cube.obj");
+	  loadNewModel(Object::defaultPath);
 
 	  angle = 0.0f;
 	  orbit = 0.0f;
@@ -118,6 +118,9 @@ void Planet::keyboard(eventType event)
 	  if (event.key == SDLK_u)
 	  {
 		  loadNewModel("assets/planet.obj");
+	  }
+	  if (event.key == SDLK_i) {
+		  loadNewModel (Object::defaultPath);
 	  }
 
 	  // orbit clockwise
