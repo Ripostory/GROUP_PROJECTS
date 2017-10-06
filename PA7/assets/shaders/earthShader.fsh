@@ -64,7 +64,7 @@ void main(void)
 	//raw output for atmosphere effect and planet lighting
 	vec4 atmOut = vec4(atmFinal * atmBrightness * horizonBrightness, 1.0f);
 	vec4 base = (texture2D(texture, vec2(texCoordMod.x, -texCoordMod.y)) * vec4((ambientColor.rgb + diffuse.rgb), 1.0));
-	vec4 night = (texture2D(nightMap, vec2(texCoordMod.x, -texCoordMod.y))-0.1f)*(1.0 - vec4(diffuse, 1.0f));
+	vec4 night = (texture2D(nightMap, vec2(texCoordMod.x, -texCoordMod.y))-0.1f)*(1.0 - vec4(pow(diffuse, vec3(0.2f)), 1.0f));
 	vec4 specularOut = vec4(specular * texture2D(specularMap, vec2(texCoordMod.x, -texCoordMod.y)).r * specColor, 1.0f);
 	//screen output mix	
 	frag_color =  (1- (1-base) * (1-atmOut)) + specularOut + night;

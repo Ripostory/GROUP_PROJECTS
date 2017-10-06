@@ -9,6 +9,8 @@ Object::Object()
 	earth = false;
 	isaRing = false;
 	rootDir = "assets/";
+	horizonColor = glm::vec3(0.0f);
+	atmosphereColor = glm::vec3(0.0f);
 }
 
 Object::~Object()
@@ -202,4 +204,24 @@ bool Object::isRing()
 void Object::setRing(bool ring)
 {
 	isaRing= ring;
+}
+
+glm::vec3 Object::getHorizon()
+{
+	return horizonColor;
+}
+
+glm::vec3 Object::getAtmosphere()
+{
+	return atmosphereColor;
+}
+
+void Object::setHorizon(glm::vec3 horizon)
+{
+	horizonColor = horizon;
+}
+
+void Object::setAtmosphere(glm::vec3 atmosphere)
+{
+	atmosphereColor = atmosphere;
 }

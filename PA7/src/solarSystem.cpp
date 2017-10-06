@@ -14,7 +14,7 @@ SolarSystem::SolarSystem(float rotation, float siz)
 	angle = 0.0f;
 	size = siz;
 	rotationSpeed = rotation;
-	multiplier = 0.01f;
+	multiplier = 0.001f;
 }
 
 SolarSystem::~SolarSystem()
@@ -52,11 +52,14 @@ void SolarSystem::LoadSolSystem(string filename)
 	//Mercury
 	loader = new Planet(-590.0f, 2.4f, 30.0f, 3.8f);
 	loader->setVisual("models/planet.obj", "planets/a_mercury.jpg", "planets/n_mercury.jpg");
+	loader->setAtmosphere(glm::vec3(0.5f, 0.5f, 0.5f));
 	addChild(loader);
 
 	//Venus
 	loader = new Planet(-2430.0f, 6.1f, 33.0f, 9.5f);
 	loader->setVisual("models/planet.obj", "planets/a_venus.jpg", "planets/n_venus.jpg");
+	loader->setAtmosphere(glm::vec3(0.7f, 0.7f, 0.3f));
+	loader->setHorizon(glm::vec3(0.7f, 0.2f, 0.1f));
 	addChild(loader);
 
 	//Earth [REFERENCE]
@@ -75,6 +78,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	//Mars
 	loader = new Planet(10.1f, 18.8f, 37.0f, 5.3f);
 	loader->setVisual("models/planet.obj", "planets/a_mars.jpg", "planets/n_mars.jpg");
+	loader->setAtmosphere(glm::vec3(1.0f, 0.5f, 0.5f));
 	addChild(loader);
 
 		//pheobes
@@ -86,6 +90,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader = new Planet(3.7f, 118.6f, 40.0f, 112.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_jupiter.jpg", "planets/n_mars.jpg");
+	loader->setHorizon(glm::vec3(0.7f, 0.4f, 0.2f));
 	addChild(loader);
 
 		//io
@@ -113,6 +118,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader = new Planet(4.1f, 294.6f, 45.0f, 94.5f, -0.3f, 0.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_saturn.jpg", "planets/n_mars.jpg");
+	loader->setHorizon(glm::vec3(0.7f, 0.5f, 0.3f));
 	addChild(loader);
 
 		//saturns ring
@@ -125,6 +131,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader = new Planet(5.4f, 840.6f, 48.0f, 40.0f, 5.0f, 0.0f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_uranus.jpg", "planets/n_mars.jpg");
+	loader->setHorizon(glm::vec3(0.1f, 0.5f, 0.9f));
 	addChild(loader);
 
 		//uranus ring
@@ -138,6 +145,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader = new Planet(6.2f, 1648.1f, 50.0f, 38.8f);
 	loader->setGasGiant(true);
 	loader->setVisual("models/planet.obj", "planets/a_neptune.jpg", "planets/n_mars.jpg");
+	loader->setHorizon(glm::vec3(0.0f, 0.2f, 1.0f));
 	addChild(loader);
 
 	//Pluto

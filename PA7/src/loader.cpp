@@ -37,7 +37,6 @@ bool loader::loadObject(string filename, obj &inputObj)
 			aiProcess_GenNormals            |  \
 			aiProcess_JoinIdenticalVertices |  \
 			aiProcess_Triangulate           |  \
-			aiProcess_GenUVCoords           |  \
 			0
 			);
 
@@ -69,13 +68,13 @@ bool loader::loadObject(string filename, obj &inputObj)
 		tempColor.b = vert.z;
 
 		//get texture coordinates
-		if (mesh->mTextureCoords[0] != NULL)
+		if (mesh->HasTextureCoords(0))
 		{
 			texture = mesh->mTextureCoords[0][i];
 			tempTex.x = texture.x;
 			tempTex.y = texture.y;
 			//if fails, default to 0,0 coords
-		}
+ 		}
 		else
 		{
 			tempTex = glm::vec2(0,0);

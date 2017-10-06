@@ -35,6 +35,10 @@ class Object
     bool isaGasGiant();
     bool isEarth();
     bool isRing();
+    glm::vec3 getHorizon();
+    glm::vec3 getAtmosphere();
+    void setHorizon(glm::vec3);
+    void setAtmosphere(glm::vec3);
 
     glm::mat4 GetModel();
     float getSize();
@@ -53,6 +57,8 @@ class Object
     bool isaRing;
     string rootDir;
     float size;
+    glm::vec3 horizonColor;
+    glm::vec3 atmosphereColor;
 
   private:
     std::vector<Vertex> Vertices;

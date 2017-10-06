@@ -10,6 +10,8 @@ in vec2 texCoordMod;
 
 uniform sampler2D texture;
 uniform sampler2D normalMap;
+uniform vec3 horizonColor;
+uniform vec3 atmosphereColor;
 
 out vec4 frag_color;
 
@@ -38,8 +40,8 @@ void main(void)
 	
 	//atmosphere effects
 
-	vec3 atmColor = vec3(0.3f, 0.5f, 0.7f);
-	vec3 atmHorizon = vec3(0.8f, 0.2f, 0.1f);
+	vec3 atmColor = atmosphereColor;
+	vec3 atmHorizon = horizonColor;
 	
 	//get brightness based on sun direction
 	float horizonBrightness = max(dot(normal, lightDir), 0);

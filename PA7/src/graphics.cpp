@@ -215,6 +215,7 @@ void Graphics::Render()
   // Render all objects
   TreeRender(m_cube);
 
+
   glDisable(GL_DEPTH_TEST);
   //render to low resolution buffer
   glViewport(0,0, width>>5, height>>5);
@@ -314,9 +315,25 @@ void Graphics::TreeRender(Object* object)
 	else if (object->isEarth())
 		m_earthShader->Enable();
 	else if (object->isaGasGiant())
+	{
 		m_gasGiantShader->Enable();
+		glUniform3fv(
+				m_gasGiantShader->GetUniformLocation("horizonColor"),
+				1,
+				glm::value_ptr(object->getHorizon()));
+	}
 	else if (object->isaPlanet())
+	{
 		m_planetShader->Enable();
+		glUniform3fv(
+				m_planetShader->GetUniformLocation("horizonColor"),
+				1,
+				glm::value_ptr(object->getHorizon()));
+		glUniform3fv(
+				m_planetShader->GetUniformLocation("atmosphereColor"),
+				1,
+				glm::value_ptr(object->getAtmosphere()));
+	}
 	else
 		m_shader->Enable();
 
