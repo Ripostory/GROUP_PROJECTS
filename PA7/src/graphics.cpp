@@ -238,14 +238,13 @@ void Graphics::Render()
 
   //enable passthrough screen shader
   m_bloomShader->Enable();
-  glBindVertexArray(screen);
+  glBindBuffer(GL_ARRAY_BUFFER, screen);
   GLint posAttrib = glGetAttribLocation(m_bloomShader->getShader(), "position");
   GLint colAttrib = glGetAttribLocation(m_bloomShader->getShader(), "texcoord");
 
   //draw quad onto the screen
   glEnableVertexAttribArray(posAttrib);
   glEnableVertexAttribArray(colAttrib);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
   glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
                          4*sizeof(float), 0);
   glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
@@ -280,14 +279,13 @@ void Graphics::Render()
 void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
 {
 	  shader->Enable();
-	  glBindVertexArray(screen);
+	  glBindBuffer(GL_ARRAY_BUFFER, screen);
 	  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
 	  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
 
 	  //draw quad onto the screen
 	  glEnableVertexAttribArray(posAttrib);
 	  glEnableVertexAttribArray(colAttrib);
-	  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
 	                         4*sizeof(float), 0);
 	  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,

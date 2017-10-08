@@ -136,57 +136,57 @@ SDL2/SDL.h
 string
 -
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/Camera.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/Camera.cpp
 Camera.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/Camera.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/Camera.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/engine.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/engine.cpp
 engine.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/engine.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/engine.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/event.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/event.cpp
 event.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/event.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/event.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/graphics.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/graphics.cpp
 graphics.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/graphics.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/graphics.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/loader.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/loader.cpp
 loader.h
 -
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/main.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/main.cpp
 iostream
 -
 engine.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/engine.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/engine.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/moon.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/moon.cpp
 moon.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/moon.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/moon.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/obj.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/obj.cpp
 obj.h
 -
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/object.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/object.cpp
 object.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/object.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/object.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/planet.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/planet.cpp
 planet.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/planet.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/planet.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/shader.cpp
 shader.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/shader.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/solarSystem.cpp
 solarSystem.h
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/solarSystem.h
 
-/home/nog/GitRepository/GROUP_PROJECTS/PA7/src/window.cpp
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/window.cpp
 window.h
 -
 

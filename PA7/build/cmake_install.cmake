@@ -1,4 +1,4 @@
-# Install script for directory: /home/nog/GitRepository/GROUP_PROJECTS/PA7
+# Install script for directory: /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/nog/GitRepository/GROUP_PROJECTS/PA7/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

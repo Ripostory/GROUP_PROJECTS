@@ -53,7 +53,7 @@ bool Object::loadNewModel(string filename)
 	  //model loading
 	  glGenBuffers(1, &VB);
 	  glBindBuffer(GL_ARRAY_BUFFER, VB);
-	  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+	  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * (Vertices.size()+1), &Vertices[0], GL_STATIC_DRAW);
 
 	  glGenBuffers(1, &IB);
 	  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);

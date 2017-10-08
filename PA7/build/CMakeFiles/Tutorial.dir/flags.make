@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=gnu++11
 
 CXX_DEFINES = -DUNIX
 
-CXX_INCLUDES = -I/usr/include/assimp -I/home/nog/GitRepository/GROUP_PROJECTS/PA7/include -I/usr/include/SDL2 -I/usr/include/ImageMagick-6 -I/usr/include/x86_64-linux-gnu/ImageMagick-6 
+CXX_INCLUDES = -I/usr/include/assimp -I/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/include -I/usr/include/SDL2 -I/usr/include/ImageMagick-6 -I/usr/include/x86_64-linux-gnu/ImageMagick-6 
 

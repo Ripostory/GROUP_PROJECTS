@@ -9,7 +9,7 @@ CMakeFiles/Tutorial.dir/src/Camera.cpp.o
  ../include/obj.h
  ../include/object.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/Camera.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/Camera.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -154,7 +154,7 @@ CMakeFiles/Tutorial.dir/src/engine.cpp.o
  ../include/shader.h
  ../include/solarSystem.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/engine.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/engine.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -288,7 +288,7 @@ CMakeFiles/Tutorial.dir/src/engine.cpp.o
 CMakeFiles/Tutorial.dir/src/event.cpp.o
  ../include/event.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/event.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/event.cpp
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o
  ../include/Camera.h
  ../include/event.h
@@ -302,7 +302,7 @@ CMakeFiles/Tutorial.dir/src/graphics.cpp.o
  ../include/shader.h
  ../include/solarSystem.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/graphics.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/graphics.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -437,7 +437,7 @@ CMakeFiles/Tutorial.dir/src/loader.cpp.o
  ../include/graphics_headers.h
  ../include/loader.h
  ../include/obj.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/loader.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/loader.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -582,7 +582,7 @@ CMakeFiles/Tutorial.dir/src/main.cpp.o
  ../include/shader.h
  ../include/solarSystem.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/main.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/main.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -722,7 +722,7 @@ CMakeFiles/Tutorial.dir/src/moon.cpp.o
  ../include/object.h
  ../include/planet.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/moon.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/moon.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -856,7 +856,7 @@ CMakeFiles/Tutorial.dir/src/moon.cpp.o
 CMakeFiles/Tutorial.dir/src/obj.cpp.o
  ../include/graphics_headers.h
  ../include/obj.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/obj.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/obj.cpp
 CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/event.h
  ../include/graphics_headers.h
@@ -864,7 +864,7 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/obj.h
  ../include/object.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/object.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/object.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -1004,7 +1004,7 @@ CMakeFiles/Tutorial.dir/src/planet.cpp.o
  ../include/object.h
  ../include/planet.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/planet.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/planet.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -1140,7 +1140,7 @@ CMakeFiles/Tutorial.dir/src/shader.cpp.o
  ../include/loader.h
  ../include/obj.h
  ../include/shader.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/shader.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/shader.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -1281,7 +1281,7 @@ CMakeFiles/Tutorial.dir/src/solarSystem.cpp.o
  ../include/planet.h
  ../include/solarSystem.h
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/solarSystem.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/solarSystem.cpp
  /usr/include/ImageMagick-6/Magick++.h
  /usr/include/ImageMagick-6/Magick++/Blob.h
  /usr/include/ImageMagick-6/Magick++/ChannelMoments.h
@@ -1414,4 +1414,4 @@ CMakeFiles/Tutorial.dir/src/solarSystem.cpp.o
  /usr/include/x86_64-linux-gnu/ImageMagick-6/magick/magick-baseconfig.h
 CMakeFiles/Tutorial.dir/src/window.cpp.o
  ../include/window.h
- /home/nog/GitRepository/GROUP_PROJECTS/PA7/src/window.cpp
+ /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA7/src/window.cpp
