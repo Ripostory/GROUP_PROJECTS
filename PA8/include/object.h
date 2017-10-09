@@ -6,6 +6,8 @@
 #include "loader.h"
 #include "obj.h"
 #include "event.h"
+#include <bullet/btBulletDynamicsCommon.h>
+
 
 #define SPEED_STEP 		0.02f
 
