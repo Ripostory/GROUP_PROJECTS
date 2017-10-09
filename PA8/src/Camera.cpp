@@ -7,8 +7,8 @@ camera::camera()
     xPos = 0.0f;
     yPos = 0.0f;
     lookAt = glm::vec4(0.0f);
-    distance = 12.0f;
-    height = 0.0f;
+    distance = 50.0f;
+    height = 5.0f;
     parent = NULL;
     world = NULL;
     index = -1;
@@ -63,11 +63,25 @@ void camera::Update(unsigned int dt)
 		}
 		else if (type.eventVer == SDL_MOUSEWHEEL)
 		{
-			if (distance > parent->getSize() * 3.0f || type.y > 0) {
-				if (type.y > 0)
-					distance += type.y  * (parent->getSize()/50.0);
-				else
-					distance += type.y * ((distance - parent->getSize() * 3.0)/50.0);
+			if (parent != NULL)
+			{
+				if (distance > parent->getSize() * 3.0f || type.y > 0)
+				{
+					if (type.y > 0)
+						distance += type.y  * (parent->getSize()/50.0);
+					else
+						distance += type.y * ((distance - parent->getSize() * 3.0)/50.0);
+				}
+			}
+			else
+			{
+				if (distance > 0.5f * 3.0f || type.y > 0)
+				{
+					if (type.y > 0)
+						distance += type.y  * (5.0f/50.0);
+					else
+						distance += type.y * ((distance - 5.0f * 3.0)/50.0);
+				}
 			}
 
 		}

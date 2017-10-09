@@ -21,12 +21,33 @@ Engine::~Engine()
 {
   delete m_window;
   delete m_graphics;
+
+  delete physWorld;
+  delete solver;
+  delete overlapPairCache;
+  delete physDispatcher;
+  delete collConfig;
   m_window = NULL;
   m_graphics = NULL;
 }
 
 bool Engine::Initialize()
 {
+
+  //initialize physics engine
+  overlapPairCache = new btDbvtBroadphase();
+
+  collConfig = new btDefaultCollisionConfiguration();
+  physDispatcher = new btCollisionDispatcher(collConfig);
+  solver = new btSequentialImpulseConstraintSolver;
+
+  physWorld = new btDiscreteDynamicsWorld(physDispatcher,
+		  overlapPairCache, solver, collConfig);
+  physWorld->setGravity(btVector3(0, -10, 0));
+
+  //initialize event handler
+  m_event.init(physWorld);
+
   // Start a window
   m_window = new Window();
   if(!m_window->Initialize(m_WINDOW_NAME, &m_WINDOW_WIDTH, &m_WINDOW_HEIGHT))
@@ -58,6 +79,9 @@ void Engine::Run()
   {
     // Update the DT
     m_DT = getDT();
+
+    //Update the physics
+    physWorld->stepSimulation((float) m_DT/1000.0f, 10);
 
     // Check the keyboard input
     m_event.update();

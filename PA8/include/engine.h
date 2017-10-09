@@ -3,6 +3,7 @@
 
 #include <sys/time.h>
 #include <assert.h>
+#include <bullet/btBulletDynamicsCommon.h>
 
 #include "window.h"
 #include "graphics.h"
@@ -28,6 +29,13 @@ class Engine
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
     event m_event;
+
+    //physics engine
+    btDefaultCollisionConfiguration *collConfig;
+    btCollisionDispatcher *physDispatcher;
+    btBroadphaseInterface *overlapPairCache;
+    btSequentialImpulseConstraintSolver *solver;
+    btDiscreteDynamicsWorld *physWorld;
 
     Graphics *m_graphics;
     unsigned int m_DT;

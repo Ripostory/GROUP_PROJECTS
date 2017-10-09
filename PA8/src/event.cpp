@@ -7,9 +7,8 @@
 
 #include "event.h"
 
-
-
 vector<eventType> event::eventQueue;
+btDiscreteDynamicsWorld *event::physWorld = NULL;
 
 event::event()
 {
@@ -73,4 +72,14 @@ eventType event::getEvent(int index)
 int event::getSize()
 {
 	return eventQueue.size();
+}
+
+void event::init(btDiscreteDynamicsWorld* world)
+{
+	physWorld = world;
+}
+
+btDiscreteDynamicsWorld* event::getWorld()
+{
+	return physWorld;
 }

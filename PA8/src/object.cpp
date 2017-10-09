@@ -4,7 +4,9 @@ string Object::rootDir = "assets/";
 
 Object::Object()
 {  
+	physics = NULL;
 	model = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
+	initPhyiscs();
 	loadNewModel("models/planet.obj");
 	loadNewTexture("textures/a_earth.jpg");
 	loadNewNormal("textures/n_earth.jpg");
@@ -14,6 +16,8 @@ Object::~Object()
 {
   Vertices.clear();
   Indices.clear();
+  listener.getWorld()->removeCollisionObject(physics);
+  delete physics;
   glDeleteBuffers(1, &IB);
   glDeleteBuffers(1, &VB);
 
@@ -135,6 +139,11 @@ void Object::setTex(Texture texture)
 
 void Object::Update(unsigned int dt)
 {
+	  //update physics object
+	  if (physics != NULL)
+		  physics->getMotionState()->getWorldTransform(transform);
+	  model = glm::translate(glm::mat4(1.0f), glm::vec3(transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()));
+
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {
@@ -202,4 +211,34 @@ float Object::getSize()
 void Object::translate(glm::vec3 translation)
 {
 	model = glm::translate(model, translation);
+}
+
+void Object::initPhyiscs()
+{
+	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+	btDefaultMotionState* groundMotionState =
+	                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+	btRigidBody::btRigidBodyConstructionInfo
+	                groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+	groundRigidBodyCI.m_restitution = 0.1f;
+	btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
+	listener.getWorld()->addRigidBody(groundRigidBody);
+
+
+	transform.setIdentity();
+	transform.setOrigin(btVector3(0, 25, 0));
+	mass = 0.2f;
+	btVector3 inertia(0,0,0);
+	btCollisionShape* shape = new btSphereShape(1);
+	shape->calculateLocalInertia(mass, inertia);
+
+	btDefaultMotionState* objMotionState =
+	                new btDefaultMotionState(transform);
+	btRigidBody::btRigidBodyConstructionInfo
+	                objCI(mass, objMotionState, shape, inertia);
+	objCI.m_restitution = 0.1f;
+
+	physics = new btRigidBody(objCI);
+	listener.getWorld()->addRigidBody(physics);
+
 }

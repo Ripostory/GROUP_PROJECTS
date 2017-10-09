@@ -116,16 +116,15 @@ bool Graphics::Initialize(int width, int height)
   Object *child = new Object();
   child->translate(glm::vec3(0,0,5));
   world->addChild(child);
-  child = new Object();
-  child->loadNewModel("models/cube.obj");
-  child->translate(glm::vec3(3,0,0));
-  world->addChild(child);
-  child = new Object();
-  child->translate(glm::vec3(0,3,0));
-  world->addChild(child);
+  //child = new Object();
+  //child->loadNewModel("models/cube.obj");
+  //child->translate(glm::vec3(3,0,0));
+  //world->addChild(child);
+  //child = new Object();
+  //child->translate(glm::vec3(0,3,0));
+  //world->addChild(child);
   //set world for camera
-  m_camera->SetWorld(world);
-  child = NULL;
+  //m_camera->SetWorld(world);
 
   //create shader
   if (!InitShader(m_shader, "shaders/vertexShader.s", "shaders/fragmentShader.s"))

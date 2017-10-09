@@ -11,6 +11,7 @@
 #define EVENT_H_
 
 #include <vector>
+#include <bullet/btBulletDynamicsCommon.h>
 #include "window.h"
 using namespace std;
 
@@ -25,15 +26,18 @@ struct eventType {
 class event {
 private:
 	static vector<eventType> eventQueue;
+	static btDiscreteDynamicsWorld *physWorld;
 	SDL_Event m_event;
 
 	void pushEvent(Uint32, Uint8, SDL_Keycode, Sint32, Sint32);
 public:
-	void update();
 	event();
 	~event();
 	eventType getEvent(int);
 	int getSize();
+	void update();
+	void init(btDiscreteDynamicsWorld*);
+	btDiscreteDynamicsWorld* getWorld();
 };
 
 
