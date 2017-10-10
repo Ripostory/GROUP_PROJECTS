@@ -154,6 +154,7 @@ bool loader::loadTexture(string filename, Texture &output)
 
 	//extract data
 	output = Texture(tex->rows(), tex->columns(), blob.data());
+
 	return true;
 }
 

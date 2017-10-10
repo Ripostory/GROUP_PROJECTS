@@ -46,6 +46,10 @@ class Object
 
     std::vector<Object*> getChildren();
     void addChild(Object*);
+
+		friend std::ostream& operator<< (std::ostream& os, const Object& object);
+		friend std::ostream& operator>> (std::istream& os, Object& object);
+
   protected:
     glm::mat4 model;
     event listener;
@@ -59,6 +63,11 @@ class Object
     float size;
     glm::vec3 horizonColor;
     glm::vec3 atmosphereColor;
+
+		string model_path;
+		std::vector<string> texture_paths;
+
+		void AppendSaveFile (ofstream& save);
 
   private:
     static string rootDir;
@@ -74,6 +83,7 @@ class Object
     GLuint normal;
     Texture albedo;
     Texture normalMap;
+
 };
 
 #endif /* OBJECT_H */

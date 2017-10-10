@@ -27,6 +27,7 @@ private:
 	Object *parent;
 public:
 	Moon();
+	Moon (std::istream& is, Object* parent);
 	Moon(float, float, float, float, Object*);
 	Moon(float, float, float, float, float, float, Object*);
 	~Moon();
@@ -34,6 +35,10 @@ public:
 	void setParent(Object*);
 	void setSize(float);
 	void Update(unsigned int dt);
+
+	friend std::ostream& operator<< (std::ostream& os, const Moon& moon);
+	friend std::istream& operator>> (std::istream& is, Moon& moon);
+
 };
 
 

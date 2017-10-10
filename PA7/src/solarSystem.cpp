@@ -22,8 +22,18 @@ SolarSystem::~SolarSystem()
 
 }
 
+void SolarSystem::SaveSolSystem (string path) {
+
+	ofstream save_data (path);
+
+	save_data << *this;
+
+	save_data.close ();
+}
+
 void SolarSystem::LoadSolSystem(string filename)
 {
+
 	//TODO load from a file using filename
 
 	/*===============
@@ -36,6 +46,21 @@ void SolarSystem::LoadSolSystem(string filename)
 	 * note: all values have been scaled to be in relation to earth
 	 * the default size is 10.0f
 	 * =============*/
+
+	ifstream ifs (filename);
+
+	if (ifs) {
+
+		//Load values
+		ifs >> *this;
+
+		ifs.close ();
+		return;
+	}
+
+	ifs.close ();
+
+	ofstream ofs (filename);
 
 	Object *loader;
 	Object *moon;
@@ -62,6 +87,7 @@ void SolarSystem::LoadSolSystem(string filename)
 	loader->setHorizon(glm::vec3(0.7f, 0.2f, 0.1f));
 	addChild(loader);
 
+
 	//Earth [REFERENCE]
 	loader = new Planet(10.0f, 10.0f, 35.0f, 10.0f, -0.3f, 0.0f);
 	loader->setVisual("models/planet.obj", "planets/a_earth.jpg", "planets/n_earth.jpg");
@@ -74,6 +100,7 @@ void SolarSystem::LoadSolSystem(string filename)
 		moon = new Moon(-10.0f, 0.83f, 0.5f, 2.7f, 0.0f, -0.3f, loader);
 		moon->setVisual("models/planet.obj", "moons/a_moon.jpg", "moons/n_moon.jpg");
 		loader->addChild(moon);
+
 
 	//Mars
 	loader = new Planet(10.1f, 18.8f, 37.0f, 5.3f);
@@ -157,6 +184,43 @@ void SolarSystem::LoadSolSystem(string filename)
 		moon = new Moon(10.0f, 1.0f, 0.12f, 1.2f, loader);
 		moon->setVisual("models/planet.obj", "planets/a_mercury.jpg", "moons/n_moon.jpg");
 		loader->addChild(moon);
+
+
+	ofs << *this;
+	ofs.close ();
+}
+
+void SolarSystem::LoadSolSystem (istream& is) {
+
+	float mul, siz, speed;
+	is >> mul >> siz >> speed;
+
+	multiplier = mul;
+	size = siz;
+	rotationSpeed = speed;
+
+	string mod, al, norm;
+	is >> mod >> al >> norm;
+
+	setVisual (mod, al, norm);
+
+	int num_children = 0;
+	is >> num_children;
+
+	if (num_children == 0)
+		return;
+
+	if (num_children > 0) {
+
+		Object* loader;
+		Object* moon;
+
+		for (int i = 0; i < num_children; i++) {
+
+			loader = new Planet (is);
+			addChild (loader);
+		}
+	}
 }
 
 void SolarSystem::Update(unsigned int dt)
@@ -208,6 +272,9 @@ void SolarSystem::keyboard(eventType event)
 	  {
 	  	multiplier = 0;
 	  }
+		if (event.key == SDLK_ESCAPE) {
+			SaveSolSystem ("mySolarSystem.dat");
+		}
 	}
 	else if (event.eventVer == SDL_MOUSEBUTTONDOWN)
 	{
@@ -220,4 +287,34 @@ void SolarSystem::keyboard(eventType event)
 				rotationSpeed = 0.5f;
 		}
 	}
+}
+
+
+std::ostream& operator<< (std::ostream& os, const SolarSystem& sol) {
+
+	os << sol.multiplier << endl;
+	os << sol.size << " " << sol.rotationSpeed << endl;
+	os << sol.model_path << endl;
+
+	for (int i = 0; i < sol.texture_paths.size(); i++) {
+		os << sol.texture_paths [i] << endl;
+	}
+
+	os << sol.children.size () << endl << endl;
+	
+	for (int i = 0; i < sol.children.size (); i++) {
+
+		Planet* p = (Planet*)(sol.children[i]);
+
+		os << *p << endl;
+	}
+
+	return os;
+}
+
+std::istream& operator>> (std::istream& is, SolarSystem& sol) {
+
+	sol.LoadSolSystem (is);
+
+	return is;
 }

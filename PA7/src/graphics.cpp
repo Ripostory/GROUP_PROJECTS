@@ -117,7 +117,7 @@ bool Graphics::Initialize(int width, int height)
 
   // Create the object
   m_cube = new SolarSystem(1.0f, 5.0f);
-  m_cube->LoadSolSystem("solarSystem.JSON");
+  m_cube->LoadSolSystem("mySolarSystem.dat");
   m_camera->SetWorld(m_cube);
   renderTarget = m_cube;
 

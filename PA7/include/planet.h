@@ -15,29 +15,37 @@ class Planet : public Object
 {
 private:
 protected:
-    float angle;
-    float orbit;
-    float xPos;
-    float yPos;
-    float zPos;
-
-    float distance;
-    float orbitSpeed;
-    float rotationSpeed;
-    float tilt;
-    float offset;
+    
 
 public:
 	Planet();
+	Planet (istream& is);
 	Planet(float rotSpeed, float orbSpeed, float dist, float siz);
 	Planet(float rotSpeed, float orbSpeed, float dist, float siz, float tilt, float offset);
 	void Update(unsigned int);
+	void LoadFromFile (ifstream& file);
 	~Planet();
 
 	void addMoon(Object*);
 	void clearMoons();
 	float getRadius();
 	void setSize(float);
+
+	float angle;
+  float orbit;
+  float xPos;
+  float yPos;
+  float zPos;
+
+  float distance;
+  float orbitSpeed;
+  float rotationSpeed;
+  float tilt;
+  float offset;
+
+	friend std::ostream& operator<< (std::ostream& os, const Planet& planet);
+	friend std::istream& operator>> (std::istream& is, Planet& planet);
+
 };
 
 
