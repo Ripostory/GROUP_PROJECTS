@@ -8,7 +8,6 @@
 #include "event.h"
 #include <bullet/btBulletDynamicsCommon.h>
 
-
 #define SPEED_STEP 		0.02f
 
 class Object
@@ -30,7 +29,6 @@ class Object
     void setMultiplier(float);
     void setTex(Texture);
     void addChild(Object*);
-    void initPhyiscs();
     void translate(glm::vec3);
 
     float getSize();
@@ -60,9 +58,6 @@ class Object
     GLuint normal;
     Texture albedo;
     Texture normalMap;
-    btRigidBody *physics;
-    btTransform transform;
-    float mass;
 };
 
 #endif /* OBJECT_H */

@@ -112,17 +112,7 @@ bool Graphics::Initialize(int width, int height)
 
   // Create the object
   //TODO init world, set render target
-  world = new Object();
-  Object *child = new Object();
-  child->translate(glm::vec3(0,0,5));
-  world->addChild(child);
-  //child = new Object();
-  //child->loadNewModel("models/cube.obj");
-  //child->translate(glm::vec3(3,0,0));
-  //world->addChild(child);
-  //child = new Object();
-  //child->translate(glm::vec3(0,3,0));
-  //world->addChild(child);
+  world = new World();
   //set world for camera
   //m_camera->SetWorld(world);
 
@@ -209,7 +199,7 @@ void Graphics::Render()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Render all objects
-  TreeRender(world);
+  RenderList(world->getChildren());
 
   //render frameBuffer to defaultBuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);

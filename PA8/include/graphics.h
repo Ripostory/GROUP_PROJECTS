@@ -8,6 +8,7 @@ using namespace std;
 #include "Camera.h"
 #include "shader.h"
 #include "object.h"
+#include "world.h"
 
 class Graphics
 {
@@ -38,7 +39,7 @@ class Graphics
     GLuint fbo;
     GLuint fbTex;
 
-    Object *world;
+    World *world;
     Object *renderTarget;
 
     int width;
