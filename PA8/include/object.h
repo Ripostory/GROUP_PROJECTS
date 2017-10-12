@@ -10,6 +10,23 @@
 
 #define SPEED_STEP 		0.02f
 
+//support for instanced textures and models
+struct ModelInstance {
+	GLuint VB;
+	GLuint IB;
+	unsigned int size;
+	string name;
+	ModelInstance(GLuint v, GLuint i, unsigned int s, string n): VB(v), IB(i), size(s), name(n){}
+	ModelInstance(): VB(0), IB(0), size(0), name("NULL"){}
+};
+
+struct TexInstance {
+	GLuint texture;
+	string name;
+	TexInstance(GLuint m, string n): texture(m), name(n){}
+	TexInstance(): texture(0), name("NULL"){};
+};
+
 class Object
 {
   public:
@@ -17,14 +34,15 @@ class Object
     virtual ~Object();
 
     static void init();
+    static void end();
 
-    bool loadNewModel(string filename);
-    bool loadNewTexture(string filename);
+    bool loadModel(string filename);
+    bool loadTexture(string filename);
+    void loadTexture(string filename, int index);
+    void loadNormal(string filename);
 
     virtual void Update(unsigned int dt);
     virtual void Render();
-    void loadNewTexture(string filename, int index);
-    void loadNewNormal(string filename);
     void setVisual(string, string, string);
     void setMultiplier(float);
     void setTex(Texture);
@@ -40,24 +58,26 @@ class Object
     glm::mat4 model;
     std::vector<Object*> children;
     event listener;
-    virtual void keyboard(eventType);
+
     float multiplier;
     float size;
 
+    virtual void keyboard(eventType);
+
   private:
     static string rootDir;
+    static vector<ModelInstance> modelBank;
+    static vector<TexInstance> textureBank;
 
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
+    TexInstance pushTexture(string, GLenum);
+    ModelInstance pushModel(string);
+
     std::vector<unsigned int> texIndex;
     std::vector<GLuint> texPointer;
-    std::vector<Texture> texture;
-    GLuint VB;
-    GLuint IB;
-    GLuint tex;
+
+    ModelInstance modelData;
+    TexInstance textureData;
     GLuint normal;
-    Texture albedo;
-    Texture normalMap;
 };
 
 #endif /* OBJECT_H */
