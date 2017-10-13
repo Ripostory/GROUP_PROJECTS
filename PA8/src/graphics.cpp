@@ -6,6 +6,7 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
+	Object::end();
 }
 
 bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
@@ -111,10 +112,10 @@ bool Graphics::Initialize(int width, int height)
   Shader::init();
 
   // Create the object
-  //TODO init world, set render target
   world = new World();
+  world->Begin();
   //set world for camera
-  //m_camera->SetWorld(world);
+  m_camera->SetWorld(world);
 
   //create shader
   if (!InitShader(m_shader, "shaders/vertexShader.s", "shaders/fragmentShader.s"))
@@ -199,8 +200,10 @@ void Graphics::Render()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Render all objects
+  //TODO set flags
+  //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
   RenderList(world->getChildren());
-
+  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
   //render frameBuffer to defaultBuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glDisable(GL_DEPTH_TEST);
@@ -212,6 +215,7 @@ void Graphics::Render()
   //enable passthrough screen shader
   m_screenShader->Enable();
 
+  //TODO move to function
   //draw quad onto the screen
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);

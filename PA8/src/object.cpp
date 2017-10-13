@@ -50,6 +50,15 @@ void Object::end()
 	textureBank.clear();
 }
 
+void Object::Begin()
+{
+	//start children
+	for (int i = 0; i < children.size(); i++)
+	{
+		children[i]->Begin();
+	}
+}
+
 void Object::setVisual(string model, string albedo, string normal)
 {
 	loadModel(model);

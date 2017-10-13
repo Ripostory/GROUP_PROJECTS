@@ -6,7 +6,6 @@
 #include "loader.h"
 #include "obj.h"
 #include "event.h"
-#include <bullet/btBulletDynamicsCommon.h>
 
 #define SPEED_STEP 		0.02f
 
@@ -42,6 +41,7 @@ class Object
     void loadNormal(string filename);
 
     virtual void Update(unsigned int dt);
+    virtual void Begin();
     virtual void Render();
     void setVisual(string, string, string);
     void setMultiplier(float);
@@ -55,6 +55,7 @@ class Object
     GLuint bindTex(GLuint&, GLenum);
 
   protected:
+    static string rootDir;
     glm::mat4 model;
     std::vector<Object*> children;
     event listener;
@@ -65,7 +66,6 @@ class Object
     virtual void keyboard(eventType);
 
   private:
-    static string rootDir;
     static vector<ModelInstance> modelBank;
     static vector<TexInstance> textureBank;
 

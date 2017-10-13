@@ -10,6 +10,9 @@ public:
 	World();
 	virtual ~World();
 private:
+	btRigidBody *planeCollider;
+
+	void initPhys();
 };
 
 
