@@ -12,21 +12,26 @@
 #include "object.h"
 
 #define PHYS_BOX 		0
-#define PHYS_SHPERE 	1
-#define PHSY_CASPSULE 	2
+#define PHYS_SPHERE 	1
+#define PHYS_CAPSULE 	2
 #define PHYS_CYLINDER	3
 #define PHYS_CONE		4
+#define PHYS_HULL		5
+#define PHYS_MESH		6
 
 
 class PhysObject : public Object {
 public:
 	PhysObject();
 	virtual ~PhysObject();
-	virtual void Update(unsigned int dt);
 	virtual void Begin();
+	virtual void Update(unsigned int dt);
     void initPhyiscs();
-    void setCollisionMesh(int);
-    void setCollisionMesh(string filename);
+    void setCollisionMesh(int base);
+    void setCollisionMesh(int box, glm::vec3 size);
+    void setCollisionMesh(int sphere, float radius);
+    void setCollisionMesh(int capCylCone, float, float);
+    void setCollisionMesh(int mesh, string filename);
 protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);

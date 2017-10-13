@@ -49,7 +49,58 @@ void setCollisionMesh(int)
 	//TODO implement
 }
 
-void PhysObject::setCollisionMesh(string filename)
+void PhysObject::setCollisionMesh(int box, glm::vec3 size)
+{
+	delete shape;
+	if (box == PHYS_BOX)
+	{
+		shape = new btBoxShape(glmToBt(size));
+	}
+	else if (box == PHYS_CYLINDER)
+	{
+		shape = new btCylinderShape(glmToBt(size));
+	}
+	else
+	{
+		cout << "INCORRECT PHYS INITIALIZATION" << endl;
+		cout << "Defaulting to sphere" << endl;
+		shape = new btSphereShape(1.0f);
+	}
+}
+
+void PhysObject::setCollisionMesh(int sphere, float radius)
+{
+	delete shape;
+	if (sphere == PHYS_SPHERE)
+		shape = new btSphereShape(radius);
+	else
+	{
+		cout << "INCORRECT PHYS INITIALIZATION" << endl;
+		cout << "Defaulting to sphere" << endl;
+		shape = new btSphereShape(1.0f);
+	}
+}
+
+void PhysObject::setCollisionMesh(int capCylCone, float radius, float height)
+{
+	delete shape;
+	if (capCylCone == PHYS_CAPSULE)
+	{
+		shape = new btCapsuleShape(radius, height);
+	}
+	else if (capCylCone == PHYS_CONE)
+	{
+		shape = new btConeShape(radius, height);
+	}
+	else
+	{
+		cout << "INCORRECT PHYS INITIALIZATION" << endl;
+		cout << "Defaulting to sphere" << endl;
+		shape = new btSphereShape(1.0f);
+	}
+}
+
+void PhysObject::setCollisionMesh(int mesh, string filename)
 {
 	loader readIn;
 	obj final;

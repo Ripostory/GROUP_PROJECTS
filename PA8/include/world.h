@@ -9,6 +9,9 @@ class World : public Object{
 public:
 	World();
 	virtual ~World();
+protected:
+	virtual void keyboard(eventType);
+
 private:
 	btRigidBody *planeCollider;
 

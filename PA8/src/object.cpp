@@ -9,6 +9,11 @@ Object::Object()
 	multiplier = 1.0f;
 	size = 1.0f;
 	model = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
+
+	//load default textures
+	loadTexture("textures/ERROR_TEXTURE.jpg");
+	loadNormal("textures/ERROR_TEXTURE.jpg");
+	loadModel("models/cube.obj");
 }
 
 Object::~Object()
@@ -187,6 +192,13 @@ void Object::setTex(Texture texture)
 
 void Object::Update(unsigned int dt)
 {
+
+	  //update keyboard
+	  for (int i = 0; i < listener.getSize(); i++)
+	  {
+		  keyboard(listener.getEvent(i));
+	  }
+
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {
