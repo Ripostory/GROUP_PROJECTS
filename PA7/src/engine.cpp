@@ -28,7 +28,7 @@ Engine::~Engine()
 bool Engine::Initialize()
 {
   // Start a window
-  m_window = new Window();
+  m_window = new ::Window();
   if(!m_window->Initialize(m_WINDOW_NAME, &m_WINDOW_WIDTH, &m_WINDOW_HEIGHT))
   {
     printf("The window failed to initialize.\n");

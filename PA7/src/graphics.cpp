@@ -117,7 +117,7 @@ bool Graphics::Initialize(int width, int height)
 
   // Create the object
   m_cube = new SolarSystem(1.0f, 5.0f);
-  m_cube->LoadSolSystem("solarSystem.JSON");
+  m_cube->LoadSolSystem("mySolarSystem.dat");
   m_camera->SetWorld(m_cube);
   renderTarget = m_cube;
 
@@ -315,7 +315,7 @@ void Graphics::TreeRender(Object* object)
 		m_ringShader->Enable();
 	else if (object->isEarth())
 		m_earthShader->Enable();
-	else if (object->isaGasGiant())
+	else if (object->isaGasGiant() )
 	{
 		m_gasGiantShader->Enable();
 		glUniform3fv(
@@ -325,6 +325,8 @@ void Graphics::TreeRender(Object* object)
 	}
 	else if (object->isaPlanet())
 	{
+
+
 		m_planetShader->Enable();
 		glUniform3fv(
 				m_planetShader->GetUniformLocation("horizonColor"),
@@ -334,9 +336,14 @@ void Graphics::TreeRender(Object* object)
 				m_planetShader->GetUniformLocation("atmosphereColor"),
 				1,
 				glm::value_ptr(object->getAtmosphere()));
+
 	}
+	
 	else
 		m_shader->Enable();
+
+
+
 
 	  // Send in the projection and view to the shader
 	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));

@@ -40,6 +40,10 @@ void Object::setVisual(string model, string albedo, string normal)
 
 bool Object::loadNewModel(string filename)
 {
+
+		model_path = filename;
+
+
 	  bool success = false;
 	  loader fileLoader;
 	  obj object;
@@ -64,6 +68,9 @@ bool Object::loadNewModel(string filename)
 
 bool Object::loadNewTexture(string filename)
 {
+
+		texture_paths.push_back (filename);
+
 	  loader fileLoader;
 
 	  Texture texture(0,0,NULL);
@@ -83,6 +90,8 @@ void Object::loadNewTexture(string filename, int index)
 {
 	  loader fileLoader;
 
+		texture_paths.push_back (filename);
+
 	  Texture tex(0,0,NULL);
 	  if (fileLoader.loadTexture(rootDir + filename, tex))
 	  {
@@ -100,6 +109,8 @@ void Object::loadNewTexture(string filename, int index)
 void Object::loadNewNormal(string filename)
 {
 	  loader fileLoader;
+
+		texture_paths.push_back (filename);
 
 	  Texture texture(0,0,NULL);
 	  if (fileLoader.loadTexture(rootDir + filename, texture))
@@ -217,9 +228,20 @@ bool Object::isRing()
 	return isaRing;
 }
 
+bool Object::isaSkyBox () {
+
+	return isSkyBox;
+}
+
 void Object::setRing(bool ring)
 {
-	isaRing= ring;
+	isaRing = ring;
+}
+
+void Object::setSkyBox (bool value) {
+
+	isaRing = true;
+	isSkyBox = value;
 }
 
 glm::vec3 Object::getHorizon()
@@ -241,3 +263,5 @@ void Object::setAtmosphere(glm::vec3 atmosphere)
 {
 	atmosphereColor = atmosphere;
 }
+
+

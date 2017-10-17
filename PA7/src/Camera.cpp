@@ -105,7 +105,7 @@ void camera::Update(unsigned int dt)
 			  if (type.key == SDLK_RIGHT)
 			  {
 				  index++;
-				  if (index == world->getChildren().size())
+				  if (index == world->getChildren().size() - 1)
 					  index--;
 
 					//set parent
