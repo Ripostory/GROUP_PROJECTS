@@ -3,6 +3,8 @@
 
 ### Information
 
+See User Manual and Documentation for additional details
+
 About config file "mySolarSystem.dat"
 - If this is not in the directory, a new solar system will be created and saved
 - Otherwise, this will be used to load all the planets into the solar system
