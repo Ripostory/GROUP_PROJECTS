@@ -118,7 +118,7 @@ bool Graphics::Initialize(int width, int height)
   m_camera->SetWorld(world);
 
   //create shader
-  if (!InitShader(m_shader, "shaders/vertexShader.s", "shaders/fragmentShader.s"))
+  if (!InitShader(m_shader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
 	  return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
@@ -202,7 +202,7 @@ void Graphics::Render()
   // Render all objects
   //TODO set flags
   //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-  RenderList(world->getChildren());
+  TreeRender(world);
   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
   //render frameBuffer to defaultBuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);

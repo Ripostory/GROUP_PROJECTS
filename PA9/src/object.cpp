@@ -100,7 +100,7 @@ void Object::loadTexture(string filename, int index)
 
 void Object::loadNormal(string filename)
 {
-	normal = pushTexture(filename, GL_TEXTURE1).texture;
+	normal = pushTexture(filename, GL_TEXTURE1);
 }
 
 TexInstance Object::pushTexture(string filename,GLenum position)
@@ -235,7 +235,7 @@ void Object::Render()
   glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
 
   bindTex(textureData.texture, GL_TEXTURE0);
-  bindTex(normal, GL_TEXTURE1);
+  bindTex(normal.texture, GL_TEXTURE1);
 
   for (int i = 0; i < texPointer.size(); i++)
   {

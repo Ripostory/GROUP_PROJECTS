@@ -82,7 +82,7 @@ class Object
 
     ModelInstance modelData;
     TexInstance textureData;
-    GLuint normal;
+    TexInstance normal;
 };
 
 #endif /* OBJECT_H */

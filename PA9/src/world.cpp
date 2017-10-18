@@ -7,18 +7,6 @@ World::World()
 	  initPhys();
 
 	  PhysObject *child = new PhysObject();
-	  child->loadModel("models/planet.obj");
-	  child->translate(glm::vec3(0,17,1));
-	  this->addChild(child);
-	  child = new PhysObject();
-	  child->loadModel("models/cube.obj");
-	  child->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
-	  child->translate(glm::vec3(3,15,0));
-	  this->addChild(child);
-	  child = new PhysObject();
-	  child->loadModel("models/planet.obj");
-	  child->translate(glm::vec3(0,12,0));
-	  this->addChild(child);
 	  child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
 	  child->translate(glm::vec3(0,-12,0));
@@ -26,14 +14,6 @@ World::World()
 	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
 	  this->addChild(child);
 	  child  = new PhysObject();
-	  child->setCollisionMesh(PHYS_CYLINDER, glm::vec3(3,3,3));
-	  child->loadModel("models/cylinder.obj");
-	  child->setProperties(0,1,1);
-	  child->rotate(360, glm::vec3(1,0,0));
-	  child->rotate(360,glm::vec3(0,0,1));
-	  child->translate(glm::vec3(0,9,0));
-	  child->scale(3);
-	  this->addChild(child);
 }
 
 World::~World()
@@ -66,6 +46,44 @@ void World::keyboard(eventType event)
 			this->addChild(newItem);
 		}
 	}
+}
+
+void World::Update(unsigned int dt)
+{
+	  model = mtranslate * mscale * mrotate;
+	  //update keyboard
+	  for (int i = 0; i < listener.getSize(); i++)
+	  {
+		  keyboard(listener.getEvent(i));
+	  }
+
+	  //update lights
+	  for (int i = 0; i < lights.size(); i++)
+	  {
+		  lights[i].Update(dt);
+	  }
+
+	  //update children
+	  for (int i = 0; i < children.size(); i++)
+	  {
+		  children[i]->setMultiplier(multiplier);
+		  children[i]->Update(dt);
+	  }
+}
+
+void World::Render()
+{
+	//ignore rendering self, but pass in light array
+	for (int i = 0; i  < lights.size(); i++)
+	{
+		//TODO implement
+	}
+}
+
+void World::addLight(Light light)
+{
+	//TODO push to buffer
+	lights.push_back(light);
 }
 
 void World::initPhys()
