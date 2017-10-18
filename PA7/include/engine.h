@@ -22,7 +22,8 @@ class Engine
   
   private:
     // Window related variables
-    Window *m_window;    
+		//nanogui has its own Window class, so we must indicate global namespace
+    ::Window *m_window;    
     string m_WINDOW_NAME;
     int m_WINDOW_WIDTH;
     int m_WINDOW_HEIGHT;
