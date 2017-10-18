@@ -81,7 +81,7 @@ void Engine::Run()
     m_DT = getDT();
 
     //Update the physics
-    physWorld->stepSimulation((float) m_DT/1000.0f, 10);
+    physWorld->stepSimulation((float) m_DT/1000.0f, 30);
 
     // Check the keyboard input
     m_event.update();

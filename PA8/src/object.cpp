@@ -267,3 +267,8 @@ void Object::translate(glm::vec3 translation)
 {
 	model = glm::translate(model, translation);
 }
+
+void Object::rotate(float angle, glm::vec3 axis)
+{
+	model = glm::rotate(angle, axis);
+}

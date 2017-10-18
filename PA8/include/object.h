@@ -48,6 +48,7 @@ class Object
     void setTex(Texture);
     void addChild(Object*);
     void translate(glm::vec3);
+    void rotate(float angle, glm::vec3 axis);
 
     float getSize();
     glm::mat4 GetModel();

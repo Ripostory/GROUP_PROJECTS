@@ -17,8 +17,7 @@
 #define PHYS_CYLINDER	3
 #define PHYS_CONE		4
 #define PHYS_HULL		5
-#define PHYS_MESH		6
-
+#define PHYS_S_MESH		6
 
 class PhysObject : public Object {
 public:
@@ -41,8 +40,9 @@ private:
     btRigidBody *physics;
     btCollisionShape *shape;
     btTransform transform;
-
+    vector<btVector3> physMesh;
     float mass;
+    bool isStatic;
 };
 
 

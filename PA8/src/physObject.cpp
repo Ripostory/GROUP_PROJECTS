@@ -2,6 +2,7 @@
 
 PhysObject::PhysObject()
 {
+	isStatic = false;
 	physics = NULL;
 	shape = new btSphereShape(1);
 	mass = 0.0f;
@@ -104,31 +105,59 @@ void PhysObject::setCollisionMesh(int mesh, string filename)
 {
 	loader readIn;
 	obj final;
-	btConvexHullShape *meshShape = new btConvexHullShape();
+
+
 	if (readIn.loadObject(rootDir+filename,final))
 	{
-		glm::vec3 *vert = NULL;
-		//load in collision mesh
-		for (int i = 1; i < final.getVerts().size(); i++)
+		if (mesh == PHYS_HULL)
 		{
-			vert = &final.getVerts()[i].vertex;
-			cout <<  final.getIndices()[i] << ": "
-					<< vert->x << ", "
-					<< vert->y << ", "
-					<< vert->z  << endl;
-			btVector3 v1(vert->x, vert->y, vert->z);
-			meshShape->addPoint(v1, true);
+			//load in collision mesh
+			glm::vec3 *vert = NULL;
+			btConvexHullShape *meshShape = new btConvexHullShape();
+			for (int i = 1; i < final.getVerts().size(); i++)
+			{
+				vert = &final.getVerts()[i].vertex;
+				cout <<  final.getIndices()[i] << ": "
+						<< vert->x << ", "
+						<< vert->y << ", "
+						<< vert->z  << endl;
+				btVector3 v1(vert->x, vert->y, vert->z);
+				meshShape->addPoint(v1, true);
+			}
+			delete shape;
+			shape = meshShape;
 		}
-
-		for (int i = 0; i < final.getIndices().size(); i++)
+		else if (mesh == PHYS_S_MESH)
 		{
-			cout << final.getIndices()[i] << endl;
+			glm::vec3 vert;
+			btTriangleMesh *mesh = new btTriangleMesh();
+			btVector3 *vertex;
+			physMesh.clear();
+			for (int i = 0; i < final.getIndices().size(); i++)
+			{
+				//load in points
+				vert = final.getVerts()[final.getIndices()[i]].vertex;
+				vertex = new btVector3(vert.x, vert.y, vert.z);
+				physMesh.push_back(*vertex);
+				delete vertex;
+			}
+
+			for (int i = 0; i < physMesh.size(); i += 3)
+			{
+				//send in triangle
+				mesh->addTriangle(physMesh[i],physMesh[i+1],physMesh[i+2]);
+			}
+
+			delete shape;
+			shape = new btBvhTriangleMeshShape(mesh, true);
+			isStatic = true;
 		}
-
-		cout << final.getVerts().size() << endl;
-
-		delete shape;
-		shape = meshShape;
+		else
+		{
+			cout << "INCORRECT PHYS INITIALIZATION" << endl;
+			cout << "Defaulting to sphere" << endl;
+			shape = new btSphereShape(1.0f);
+		}
 	}
 }
 
@@ -136,8 +165,17 @@ void PhysObject::initPhyiscs()
 {
 	//base initial position on model matrix
 	transform.setIdentity();
+
+	//apply glm world position to simulated world
 	transform.setOrigin(glmToBt(glm::vec3(glm::vec4(0, 0, 0, 1) * glm::transpose(model))));
-	mass = 0.1f;
+	glm::quat qt = glm::quat_cast(model);
+	transform.setRotation(btQuaternion(qt.x,qt.y,qt.z,qt.w));
+
+	//determine if static
+	if (isStatic)
+		mass = 0.0f;
+	else
+		mass = 1.0f;
 
 	btVector3 inertia(0,0,0);
 	shape->calculateLocalInertia(mass, inertia);
@@ -148,7 +186,8 @@ void PhysObject::initPhyiscs()
 	objCI.m_collisionShape = shape;
 	objCI.m_motionState = objMotionState;
 	objCI.m_mass = mass;
-	objCI.m_restitution = 0.8f;
+	objCI.m_restitution = 0.2f;
+	objCI.m_friction = 0.5f;
 
 	physics = new btRigidBody(objCI);
 	listener.getWorld()->addRigidBody(physics);

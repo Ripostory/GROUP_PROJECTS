@@ -3,6 +3,7 @@
 World::World()
 {
 	  //initialize ground plane
+	  size = 1.0f;
 	  initPhys();
 
 	  PhysObject *child = new PhysObject();
@@ -20,9 +21,10 @@ World::World()
 	  child->translate(glm::vec3(0,9,0));
 	  this->addChild(child);
 	  child = new PhysObject();
-	  child->loadModel("models/board.obj");
-	  child->translate(glm::vec3(0,5,0));
-	  child->setCollisionMesh(PHYS_HULL, "models/board.obj");
+	  child->loadModel("models/newBoard.obj");
+	  child->translate(glm::vec3(0,-12,0));
+	  child->rotate(-0.4, glm::vec3(1,0,0));
+	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
 	  this->addChild(child);
 }
 
@@ -61,7 +63,7 @@ void World::keyboard(eventType event)
 void World::initPhys()
 {
 	btCollisionShape* groundShape =
-			new btStaticPlaneShape(btVector3(0, 1, 0), -3);
+			new btStaticPlaneShape(btVector3(0, 1, 0), -20);
 	btDefaultMotionState* groundMotionState =
 	        new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo
