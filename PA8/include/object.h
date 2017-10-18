@@ -49,6 +49,7 @@ class Object
     void addChild(Object*);
     void translate(glm::vec3);
     void rotate(float angle, glm::vec3 axis);
+    void scale(float amount);
 
     float getSize();
     glm::mat4 GetModel();
@@ -58,6 +59,9 @@ class Object
   protected:
     static string rootDir;
     glm::mat4 model;
+    glm::mat4 mtranslate;
+    glm::mat4 mscale;
+    glm::mat4 mrotate;
     std::vector<Object*> children;
     event listener;
 

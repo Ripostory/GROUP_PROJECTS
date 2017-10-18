@@ -7,7 +7,7 @@ camera::camera()
     xPos = 0.0f;
     yPos = 0.0f;
     lookAt = glm::vec4(0.0f);
-    distance = 50.0f;
+    distance = 70.0f;
     height = 15.0f;
     parent = NULL;
     world = NULL;

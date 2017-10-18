@@ -25,12 +25,13 @@ public:
 	virtual ~PhysObject();
 	virtual void Begin();
 	virtual void Update(unsigned int dt);
-    void initPhyiscs();
+    void initPhysics();
     void setCollisionMesh(int base);
     void setCollisionMesh(int box, glm::vec3 size);
     void setCollisionMesh(int sphere, float radius);
     void setCollisionMesh(int capCylCone, float, float);
     void setCollisionMesh(int mesh, string filename);
+    void setProperties(float mass, float friction, float restitution);
 protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);
@@ -42,6 +43,8 @@ private:
     btTransform transform;
     vector<btVector3> physMesh;
     float mass;
+    float friction;
+    float restitution;
     bool isStatic;
 };
 

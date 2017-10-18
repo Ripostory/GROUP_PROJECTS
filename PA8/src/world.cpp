@@ -8,23 +8,31 @@ World::World()
 
 	  PhysObject *child = new PhysObject();
 	  child->loadModel("models/planet.obj");
-	  child->translate(glm::vec3(0,15,1));
+	  child->translate(glm::vec3(0,17,1));
 	  this->addChild(child);
 	  child = new PhysObject();
 	  child->loadModel("models/cube.obj");
 	  child->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
-	  child->translate(glm::vec3(1,13,0));
+	  child->translate(glm::vec3(3,15,0));
 	  this->addChild(child);
 	  child = new PhysObject();
 	  child->loadModel("models/planet.obj");
-	  //child->setCollisionMesh(PHYS_CAPSULE, 1, 4);
-	  child->translate(glm::vec3(0,9,0));
+	  child->translate(glm::vec3(0,12,0));
 	  this->addChild(child);
 	  child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
 	  child->translate(glm::vec3(0,-12,0));
 	  child->rotate(-0.4, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
+	  this->addChild(child);
+	  child  = new PhysObject();
+	  child->setCollisionMesh(PHYS_CYLINDER, glm::vec3(3,3,3));
+	  child->loadModel("models/cylinder.obj");
+	  child->setProperties(0,1,1);
+	  child->rotate(360, glm::vec3(1,0,0));
+	  child->rotate(360,glm::vec3(0,0,1));
+	  child->translate(glm::vec3(0,9,0));
+	  child->scale(3);
 	  this->addChild(child);
 }
 
@@ -43,8 +51,8 @@ void World::keyboard(eventType event)
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("models/planet.obj");
 			newItem->setCollisionMesh(PHYS_SPHERE, 1);
-			newItem->translate(glm::vec3(0,6,0));
-			newItem->initPhyiscs();
+			newItem->translate(glm::vec3(0,40,0));
+			newItem->initPhysics();
 			this->addChild(newItem);
 		}
 		if (event.key == SDLK_l)
@@ -53,8 +61,8 @@ void World::keyboard(eventType event)
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("models/cube.obj");
 			newItem->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
-			newItem->translate(glm::vec3(0,6,0));
-			newItem->initPhyiscs();
+			newItem->translate(glm::vec3(1,40,0));
+			newItem->initPhysics();
 			this->addChild(newItem);
 		}
 	}

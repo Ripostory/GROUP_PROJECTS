@@ -6,6 +6,8 @@ PhysObject::PhysObject()
 	physics = NULL;
 	shape = new btSphereShape(1);
 	mass = 0.0f;
+	friction = 0.3f;
+	restitution = 0.2;
 }
 
 PhysObject::~PhysObject()
@@ -25,6 +27,8 @@ void PhysObject::Update(unsigned int dt)
 	  {
 		  physics->getMotionState()->getWorldTransform(transform);
 		  model = btToGlm(transform);
+		  //update scale
+		  model *= mscale;
 	  }
 
 	  //update children
@@ -37,7 +41,7 @@ void PhysObject::Update(unsigned int dt)
 
 void PhysObject::Begin()
 {
-	initPhyiscs();
+	initPhysics();
 	//start children
 	for (int i = 0; i < children.size(); i++)
 	{
@@ -101,6 +105,15 @@ void PhysObject::setCollisionMesh(int capCylCone, float radius, float height)
 	}
 }
 
+void PhysObject::setProperties(float m, float f, float r)
+{
+	mass = m;
+	if (mass == 0)
+		isStatic = true;
+	friction = f;
+	restitution = r;
+}
+
 void PhysObject::setCollisionMesh(int mesh, string filename)
 {
 	loader readIn;
@@ -161,7 +174,7 @@ void PhysObject::setCollisionMesh(int mesh, string filename)
 	}
 }
 
-void PhysObject::initPhyiscs()
+void PhysObject::initPhysics()
 {
 	//base initial position on model matrix
 	transform.setIdentity();
@@ -186,8 +199,8 @@ void PhysObject::initPhyiscs()
 	objCI.m_collisionShape = shape;
 	objCI.m_motionState = objMotionState;
 	objCI.m_mass = mass;
-	objCI.m_restitution = 0.2f;
-	objCI.m_friction = 0.5f;
+	objCI.m_restitution = restitution;
+	objCI.m_friction = friction;
 
 	physics = new btRigidBody(objCI);
 	listener.getWorld()->addRigidBody(physics);

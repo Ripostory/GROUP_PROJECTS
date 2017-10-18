@@ -192,7 +192,8 @@ void Object::setTex(Texture texture)
 
 void Object::Update(unsigned int dt)
 {
-
+	  //render
+	  model = mtranslate * mscale * mrotate;
 	  //update keyboard
 	  for (int i = 0; i < listener.getSize(); i++)
 	  {
@@ -265,10 +266,22 @@ float Object::getSize()
 
 void Object::translate(glm::vec3 translation)
 {
-	model = glm::translate(model, translation);
+	mtranslate = glm::translate(translation);
+	//reset model matrix
+	model = mtranslate * mscale * mrotate;
 }
 
 void Object::rotate(float angle, glm::vec3 axis)
 {
-	model = glm::rotate(angle, axis);
+	mrotate = glm::rotate(angle, axis);
+	//reset model matrix
+	model = mtranslate * mscale * mrotate;
+}
+
+void Object::scale(float amount)
+{
+	size  = amount;
+	mscale = glm::scale(glm::vec3(size));
+	//reset model matrix
+	model = mtranslate * mscale * mrotate;
 }
