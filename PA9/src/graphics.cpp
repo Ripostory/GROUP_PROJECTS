@@ -107,6 +107,12 @@ bool Graphics::Initialize(int width, int height)
     return false;
   }
 
+  //create shader
+  if (!InitShader(m_shader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
+	  return false;
+  if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
+	  return false;
+
   //initialize object default directory
   Object::init();
   Shader::init();
@@ -114,15 +120,12 @@ bool Graphics::Initialize(int width, int height)
   // Create the object
   world = new World();
   world->Begin();
+  world->setLightPointer(
+		  m_shader->GetUniformLocation("lPos"),
+		  m_shader->GetUniformLocation("lRad"),
+		  m_shader->GetUniformLocation("lSize"));
   //set world for camera
   m_camera->SetWorld(world);
-
-  //create shader
-  if (!InitShader(m_shader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
-	  return false;
-  if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
-	  return false;
-
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -191,8 +194,10 @@ void Graphics::Render()
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
+  glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glDepthFunc(GL_LESS);
+  glCullFace(GL_BACK);
   glViewport(0,0, width, height);
 
   //clear the screen
@@ -207,6 +212,7 @@ void Graphics::Render()
   //render frameBuffer to defaultBuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glDisable(GL_DEPTH_TEST);
+  glDisable(GL_CULL_FACE);
   glViewport(0,0, width, height);
 
   glClearColor(1.0, 0.0, 1.0, 1.0);

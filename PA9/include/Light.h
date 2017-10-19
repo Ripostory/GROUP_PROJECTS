@@ -21,6 +21,7 @@ public:
 	~Light();
 	void Render();
 	void Update(unsigned int dt);
+	LightData* getLight();
 protected:
 private:
 	glm::vec3 color;

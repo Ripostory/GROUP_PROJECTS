@@ -78,9 +78,9 @@ void camera::Update(unsigned int dt)
 				if (distance > 0.5f * 3.0f || type.y > 0)
 				{
 					if (type.y > 0)
-						distance += type.y  * (5.0f/50.0);
+						distance += type.y  * (50.0f/50.0);
 					else
-						distance += type.y * ((distance - 5.0f * 3.0)/50.0);
+						distance += type.y * ((5.0f * 3.0)/50.0);
 				}
 			}
 

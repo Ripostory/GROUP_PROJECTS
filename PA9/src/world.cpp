@@ -1,24 +1,56 @@
 #include "world.h"
 
+GLuint World::lightPosArray = 0;
+GLuint World::lightRadArray = 0;
+GLuint World::lightSize = 0;
+
 World::World()
 {
 	  //initialize ground plane
 	  size = 1.0f;
+	  pos = NULL;
 	  initPhys();
 
+	  //TODO load world here
 	  PhysObject *child = new PhysObject();
-	  child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
-	  child->translate(glm::vec3(0,-12,0));
+	  child->translate(glm::vec3(0,-10,0));
 	  child->rotate(-0.4, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
 	  this->addChild(child);
-	  child  = new PhysObject();
+
+	  Light *light = new Light();
+	  light->translate(glm::vec3(10,-5, 0));
+	  addLight(light);
+	  light = new Light();
+	  light->translate(glm::vec3(-10,-5,0));
+	  addLight(light);
+	  light = new Light();
+	  light->translate(glm::vec3(0,-5,-20));
+	  addLight(light);
 }
 
 World::~World()
 {
 	listener.getWorld()->removeCollisionObject(planeCollider);
+
+	//clear lights
+	for(int i = 0; i < lights.size(); i++)
+	{
+		delete lights[i];
+	}
+
+	lights.clear();
+
+	if (pos != NULL)
+		delete[] pos;
+}
+
+void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz)
+{
+	lightPosArray = pos;
+	lightRadArray = rad;
+	lightSize = siz;
 }
 
 void World::keyboard(eventType event)
@@ -60,7 +92,8 @@ void World::Update(unsigned int dt)
 	  //update lights
 	  for (int i = 0; i < lights.size(); i++)
 	  {
-		  lights[i].Update(dt);
+		  lights[i]->Update(dt);
+		  pos[i] = lights[i]->getLight()->pos;
 	  }
 
 	  //update children
@@ -74,16 +107,33 @@ void World::Update(unsigned int dt)
 void World::Render()
 {
 	//ignore rendering self, but pass in light array
-	for (int i = 0; i  < lights.size(); i++)
-	{
-		//TODO implement
-	}
+
+	glUniform1i(lightSize, lights.size());
+	glUniform3fv(lightPosArray,16,(const float*) pos);
 }
 
-void World::addLight(Light light)
+void World::addLight(Light *light)
 {
-	//TODO push to buffer
 	lights.push_back(light);
+
+	//update list
+	rebuildDataArray();
+}
+
+void World::rebuildDataArray()
+{
+	if (pos != NULL)
+		delete[] pos;
+
+	if (lights.size() < 16)
+		pos = new glm::vec3[16]();
+	else
+		pos = new glm::vec3[lights.size()]();
+
+	for (int i = 0; i < lights.size(); i++)
+	{
+		pos[i] = lights[i]->getLight()->pos;
+	}
 }
 
 void World::initPhys()
