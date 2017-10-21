@@ -9,23 +9,27 @@ using namespace std;
 #include "shader.h"
 #include "object.h"
 #include "world.h"
+#include "gui.h"
 
 class Graphics
 {
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height);
+    bool Initialize(int width, int height, SDL_Window *window);
     void Update(unsigned int dt);
     void Render();
+
+  private:
+    std::string ErrorString(GLenum error);
     void RenderList(vector<Object*>);
     void TreeRender(Object*);
     bool InitShader(Shader*&, string, string);
     void addRenderTarget(Shader *shader, GLuint texTarget);
     void generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int height);
+    void updateFPS(unsigned int dt);
 
-  private:
-    std::string ErrorString(GLenum error);
+    GUI ui;
 
     camera *m_camera;
     Shader *m_shader;
@@ -44,6 +48,9 @@ class Graphics
 
     int width;
     int height;
+    int frameCount;
+    float fps;
+    unsigned int delay;
 
     float vertices[24] = {
     	    -1.0f,  1.0f, 0.0f, 1.0f, // Top-left

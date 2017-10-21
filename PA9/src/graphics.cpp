@@ -2,6 +2,9 @@
 
 Graphics::Graphics()
 {
+	delay = 1;
+	frameCount = 1;
+	fps = 1;
 }
 
 Graphics::~Graphics()
@@ -42,7 +45,7 @@ bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
 	  return true;
 }
 
-bool Graphics::Initialize(int width, int height)
+bool Graphics::Initialize(int width, int height, SDL_Window *window)
 {
 	this->width = width;
 	this->height = height;
@@ -64,6 +67,9 @@ bool Graphics::Initialize(int width, int height)
       return false;
     }
   #endif
+
+  //init UI
+  ui.initGUI(window);
 
   // For OpenGL 3
   GLuint vao;
@@ -182,9 +188,24 @@ void Graphics::generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
+  // Update everything
   world->Update(dt);
   m_camera->Update(dt);
+  updateFPS(dt);
+  ui.Update(dt);
+  ImGui::Text("FPS: %.2f", fps);
+}
+
+void Graphics::updateFPS(unsigned int dt)
+{
+	frameCount++;
+	delay += dt;
+	if (delay >= 1000)
+	{
+		fps = frameCount;
+		delay = 0;
+		frameCount = 0;
+	}
 }
 
 void Graphics::Render()
@@ -218,25 +239,11 @@ void Graphics::Render()
   glClearColor(1.0, 0.0, 1.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //enable passthrough screen shader
-  m_screenShader->Enable();
+  //render to default buffer
+  addRenderTarget(m_screenShader, fbTex);
 
-  //TODO move to function
-  //draw quad onto the screen
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-  glBindBuffer(GL_ARRAY_BUFFER, screen);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
-                         4*sizeof(float), 0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-                         4*sizeof(float), (void*)(2*sizeof(float)));
-
-  //pass in output texture
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, fbTex);
-  glDrawArrays(GL_TRIANGLES, 0 ,6);
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
+  //render UI
+  ui.Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -250,14 +257,13 @@ void Graphics::Render()
 void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
 {
 	  shader->Enable();
-	  glBindVertexArray(screen);
+	  glBindBuffer(GL_ARRAY_BUFFER, screen);
 	  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
 	  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
 
 	  //draw quad onto the screen
 	  glEnableVertexAttribArray(posAttrib);
 	  glEnableVertexAttribArray(colAttrib);
-	  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
 	                         4*sizeof(float), 0);
 	  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,

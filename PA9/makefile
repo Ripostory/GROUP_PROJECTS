@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -30,6 +30,15 @@ all: $(O_FILES)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INDLUDES)
+
+imgui.o: ../src/imgui.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui.cpp -o imgui.o $(INDLUDES)
+
+imgui_demo.o: ../src/imgui_demo.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_demo.cpp -o imgui_demo.o $(INDLUDES)
+
+imgui_draw.o: ../src/imgui_draw.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_draw.cpp -o imgui_draw.o $(INDLUDES)
 
 Camera.o: ../src/camera.cpp
 	$(CC) $(CXXFLAGS) -c ../src/Camera.cpp -o Camera.o $(INDLUDES)
@@ -66,6 +75,15 @@ world.o: ../src/world.cpp
 
 light.o: ../src/Light.cpp
 	$(CC) $(CXXFLAGS) -c ../src/Light.cpp -o light.o $(INDLUDES)
+
+gui.o: ../src/gui.cpp
+	$(CC) $(CXXFLAGS) -c ../src/gui.cpp -o gui.o $(INDLUDES)
+
+gui.o: ../src/gui.cpp
+	$(CC) $(CXXFLAGS) -c ../src/gui.cpp -o gui.o $(INDLUDES)
+
+imgui_impl_sdl_gl3.o: ../src/imgui_impl_sdl_gl3.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_impl_sdl_gl3.cpp -o imgui_impl_sdl_gl3.o $(INDLUDES)
 
 clean:
 	-@if rm *.o Tutorial 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
