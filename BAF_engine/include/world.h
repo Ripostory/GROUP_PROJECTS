@@ -15,6 +15,8 @@ public:
 	virtual void Render();
 	virtual void Update(unsigned int dt);
 	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz);
+	LightData* getLightData(int index);
+	int getLightCount();
 protected:
 	virtual void keyboard(eventType);
 
@@ -26,10 +28,7 @@ private:
 	btRigidBody *planeCollider;
 	vector<Light*> lights;
 
-	glm::vec3 *pos;
-
 	void initPhys();
-	void rebuildDataArray();
 };
 
 

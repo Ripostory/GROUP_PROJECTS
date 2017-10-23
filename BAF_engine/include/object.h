@@ -54,7 +54,7 @@ class Object
     float getSize();
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();
-    GLuint bindTex(GLuint&, GLenum);
+    void bindTex(GLuint&, GLenum);
 
   protected:
     static string rootDir;

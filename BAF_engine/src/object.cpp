@@ -126,6 +126,7 @@ TexInstance Object::pushTexture(string filename,GLenum position)
 		  glGenTextures(1, &final);
 		  bindTex(final, position);
 		  setTex(texture);
+		  glGenerateMipmap(GL_TEXTURE_2D);
 		  textureBank.push_back(TexInstance(final, filename));
 		  return TexInstance(final, filename);
 	  }
@@ -176,7 +177,7 @@ ModelInstance Object::pushModel(string filename)
 	return final;
 }
 
-GLuint Object::bindTex(GLuint &bind, GLenum unit)
+void Object::bindTex(GLuint &bind, GLenum unit)
 {
 	  glActiveTexture(unit);
 	  glBindTexture(GL_TEXTURE_2D, bind);

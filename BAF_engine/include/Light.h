@@ -21,6 +21,7 @@ public:
 	~Light();
 	void Render();
 	void Update(unsigned int dt);
+	void setSize(float);
 	LightData* getLight();
 protected:
 private:

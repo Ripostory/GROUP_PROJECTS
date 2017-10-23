@@ -26,13 +26,20 @@ class Graphics
     void TreeRender(Object*);
     bool InitShader(Shader*&, string, string);
     void addRenderTarget(Shader *shader, GLuint texTarget);
-    void generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int height);
+    void renderDeferred(Shader *shader, LightData *light);
+    void generateFBO(GLuint &fbo);
+    void generateFBOTex(GLuint &fbo, GLuint &fbTarget, int width, int height);
+    void generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height);
+    void generateRBOTex(GLuint &target, GLenum type, GLenum attach, int width, int height);
+    void beginFBODraw(GLuint fbo, int width, int height);
     void updateFPS(unsigned int dt);
 
     GUI ui;
 
     camera *m_camera;
     Shader *m_shader;
+    Shader *m_deferredShader;
+    Shader *m_pointShader;
     Shader *m_screenShader;
 
     GLint m_projectionMatrix;
@@ -40,8 +47,14 @@ class Graphics
     GLint m_modelMatrix;
     GLuint screen;
 
-    GLuint fbo;
-    GLuint fbTex;
+    GLuint FBO;
+    GLuint RB_depth;
+    GLuint RB_albedo;
+    GLuint RB_normal;
+    GLuint RB_worldPos;
+
+    GLuint FB_buffer;
+    GLuint T_buffer;
 
     World *world;
     Object *renderTarget;
