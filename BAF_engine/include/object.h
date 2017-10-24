@@ -64,6 +64,7 @@ class Object
     glm::mat4 mrotate;
     std::vector<Object*> children;
     event listener;
+    ModelInstance modelData;
 
     float multiplier;
     float size;
@@ -80,7 +81,6 @@ class Object
     std::vector<unsigned int> texIndex;
     std::vector<GLuint> texPointer;
 
-    ModelInstance modelData;
     TexInstance textureData;
     TexInstance normal;
 };

@@ -20,7 +20,7 @@ World::World()
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setSize(80.0f);
+	  light->setSize(20.0f);
 	  addLight(light);
 	  light = new Light();
 	  light->translate(glm::vec3(-20,-5,0));
@@ -30,6 +30,7 @@ World::World()
 	  light->translate(glm::vec3(0,-5,20));
 	  light->setSize(20.0f);
 	  addLight(light);
+	  cursor.y = -6;
 }
 
 World::~World()
@@ -81,9 +82,25 @@ void World::keyboard(eventType event)
 		{
 			//add light
 			  Light *light = new Light();
-			  light->translate(glm::vec3(0 ,0, 0));
-			  light->setSize(20.0f);
+			  light->translate(cursor);
+			  light->setSize(10.0f);
 			  addLight(light);
+		}
+		if (event.key == SDLK_UP)
+		{
+			  cursor.z--;
+		}
+		if (event.key == SDLK_DOWN)
+		{
+			  cursor.z++;
+		}
+		if (event.key == SDLK_LEFT)
+		{
+			  cursor.x--;
+		}
+		if (event.key == SDLK_RIGHT)
+		{
+			  cursor.x++;
 		}
 	}
 }
@@ -113,6 +130,7 @@ void World::Update(unsigned int dt)
 
 	  //output world amount
 	  ImGui::Text("Object Count: %lu", children.size());
+	  ImGui::Text("Cursor Pos: <%.1f, %.1f, %.1f>", cursor.x, cursor.y, cursor.z);
 }
 
 void World::Render()
@@ -125,9 +143,9 @@ void World::addLight(Light *light)
 	lights.push_back(light);
 }
 
-LightData* World::getLightData(int index)
+Light* World::getLightData(int index)
 {
-	return lights[index]->getLight();
+	return lights[index];
 }
 
 int World::getLightCount()

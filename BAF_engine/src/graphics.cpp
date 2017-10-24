@@ -106,11 +106,13 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   }
 
   //create shader
-  if (!InitShader(m_shader, "shaders/deferredPass.vsh", "shaders/deferredPass.fsh"))
+  if (!InitShader(m_shader, "shaders/shader.vsh", "shaders/shader.fsh"))
+	  return false;
+  if (!InitShader(m_deferredShader, "shaders/deferredPass.vsh", "shaders/deferredPass.fsh"))
 	  return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
-  if (!InitShader(m_pointShader, "shaders/screenShader.vsh", "shaders/screenDeferredPoint.fsh"))
+  if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
 	  return false;
 
   //initialize object default directory
@@ -263,7 +265,7 @@ void Graphics::Render()
   //set renderTarget
   beginFBODraw(FBO, width, height);
   //enable correct shader
-  m_shader->Enable();
+  m_deferredShader->Enable();
 
   //render world
   TreeRender(world);
@@ -276,7 +278,13 @@ void Graphics::Render()
 
   //render all lights
   glEnable(GL_BLEND);
+  glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_ONE, GL_ONE);
+  glEnable(GL_STENCIL_TEST);
+  glDisable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_FRONT);
+  glDepthFunc(GL_EQUAL);
   for (int i = 0; i < world->getLightCount(); i++)
   {
 	  renderDeferred(m_pointShader, world->getLightData(i));
@@ -284,22 +292,8 @@ void Graphics::Render()
 
   glDisable(GL_BLEND);
 
+  //render user interface
   ui.Render();
-
-  /*
-  glDrawBuffer(GL_BACK);
-
-  glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
-  glReadBuffer(GL_COLOR_ATTACHMENT0);
-
-  glBlitFramebuffer (0,0, width,height,
-                     0,0, width,height,
-                     GL_COLOR_BUFFER_BIT,
-                     GL_NEAREST);
-
-  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-  */
-
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -360,23 +354,11 @@ void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
 	  glDisableVertexAttribArray(colAttrib);
 }
 
-void Graphics::renderDeferred(Shader *shader, LightData *light)
+void Graphics::renderDeferred(Shader *shader, Light *light)
 {
-	  glDisable(GL_DEPTH_TEST);
-	  glDisable(GL_CULL_FACE);
 	  shader->Enable();
-	  glBindBuffer(GL_ARRAY_BUFFER, screen);
-	  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
-	  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
 
-	  //draw quad onto the screen
-	  glEnableVertexAttribArray(posAttrib);
-	  glEnableVertexAttribArray(colAttrib);
-	  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), 0);
-	  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), (void*)(2*sizeof(float)));
-
+	  //pass in buffers
 	  glUniform1i(shader->GetUniformLocation("albedo"), 0);
 	  glUniform1i(shader->GetUniformLocation("normal"), 1);
 	  glUniform1i(shader->GetUniformLocation("worldPos"), 2);
@@ -387,18 +369,43 @@ void Graphics::renderDeferred(Shader *shader, LightData *light)
 	  glBindTexture(GL_TEXTURE_2D, RB_normal);
 	  glActiveTexture(GL_TEXTURE2);
 	  glBindTexture(GL_TEXTURE_2D, RB_worldPos);
-	  glDrawArrays(GL_TRIANGLES, 0 ,6);
 
 	  //pass in light data
 	  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	  glUniform3fv(shader->GetUniformLocation("lightPos"), 1,
-			  glm::value_ptr(light->pos));
+			  glm::value_ptr(light->getLight()->pos));
 	  glUniform3fv(shader->GetUniformLocation("cameraPos"), 1,
 			  glm::value_ptr(glm::vec3(camPos)));
-	  glUniform1f(shader->GetUniformLocation("radius"), light->radius);
+	  glUniform1f(shader->GetUniformLocation("radius"), light->getLight()->radius);
 
-	  glDisableVertexAttribArray(posAttrib);
-	  glDisableVertexAttribArray(colAttrib);
+	  //glBindBuffer(GL_ARRAY_BUFFER, screen);
+	  //GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
+	  //GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
+
+	  //draw quad onto the screen
+	  //glEnableVertexAttribArray(posAttrib);
+	  //glEnableVertexAttribArray(colAttrib);
+	  //glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+	  //                       4*sizeof(float), 0);
+	  //glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
+	  //                       4*sizeof(float), (void*)(2*sizeof(float)));
+
+
+	  //glDrawArrays(GL_TRIANGLES, 0 ,6);
+
+	  //glDisableVertexAttribArray(posAttrib);
+	  //glDisableVertexAttribArray(colAttrib);
+
+	  // Send in the projection and view to the shader
+	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(light->GetModel()));
+
+	  //pass in screen size
+	  glm::vec2 screenSize = glm::vec2(width, height);
+	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
+
+	  light->Render();
 }
 
 void Graphics::RenderList(vector<Object*> list)

@@ -19,8 +19,8 @@ class Light : public Object {
 public:
 	Light();
 	~Light();
-	void Render();
 	void Update(unsigned int dt);
+	void Render();
 	void setSize(float);
 	LightData* getLight();
 protected:

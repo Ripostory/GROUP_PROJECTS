@@ -25,7 +25,7 @@ void Shader::init()
 {
 	Shader test;
 	test.Initialize();
-	if (!test.AddShader(GL_VERTEX_SHADER, "shaders/vertexShader.s"))
+	if (!test.AddShader(GL_VERTEX_SHADER, "shaders/shader.vsh"))
 	{
 		rootDir = "../assets/";
 		cout << "SHADER ROOT CHANGED" << endl;

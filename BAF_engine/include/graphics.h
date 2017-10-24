@@ -26,7 +26,7 @@ class Graphics
     void TreeRender(Object*);
     bool InitShader(Shader*&, string, string);
     void addRenderTarget(Shader *shader, GLuint texTarget);
-    void renderDeferred(Shader *shader, LightData *light);
+    void renderDeferred(Shader *shader, Light *light);
     void generateFBO(GLuint &fbo);
     void generateFBOTex(GLuint &fbo, GLuint &fbTarget, int width, int height);
     void generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height);
