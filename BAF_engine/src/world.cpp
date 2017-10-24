@@ -20,15 +20,18 @@ World::World()
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setSize(20.0f);
+	  light->setColor(glm::vec3(0,0.5,1));
+	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
 	  light->translate(glm::vec3(-20,-5,0));
-	  light->setSize(20.0f);
+	  light->setColor(glm::vec3(1,1,0));
+	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
 	  light->translate(glm::vec3(0,-5,20));
-	  light->setSize(20.0f);
+	  light->setSize(50.0f);
+	  light->setColor(glm::vec3(1,0,1));
 	  addLight(light);
 	  cursor.y = -6;
 }
@@ -57,13 +60,28 @@ void World::keyboard(eventType event)
 {
 	if (event.eventVer == SDL_KEYDOWN)
 	{
+		if (event.key == SDLK_j)
+		{
+			//spawn item
+			PhysObject *newItem = new PhysObject();
+			newItem->loadModel("models/planet.obj");
+			newItem->loadNormal("textures/n_earth.jpg");
+			newItem->loadTexture("textures/a_earth.jpg");
+			newItem->setCollisionMesh(PHYS_SPHERE, 1);
+			newItem->translate(glm::vec3(0,40,0));
+			newItem->scale(1);
+			newItem->initPhysics();
+			this->addChild(newItem);
+		}
 		if (event.key == SDLK_k)
 		{
 			//spawn item
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("models/planet.obj");
-			newItem->setCollisionMesh(PHYS_SPHERE, 1);
+			newItem->setCollisionMesh(PHYS_SPHERE, 3);
 			newItem->translate(glm::vec3(0,40,0));
+			newItem->scale(3);
+			newItem->setProperties(3,0.5,0.2);
 			newItem->initPhysics();
 			this->addChild(newItem);
 		}

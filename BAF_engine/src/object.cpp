@@ -12,7 +12,7 @@ Object::Object()
 
 	//load default textures
 	loadTexture("textures/ERROR_TEXTURE.jpg");
-	loadNormal("textures/ERROR_TEXTURE.jpg");
+	loadNormal("textures/ERROR_NORMAL.png");
 	loadModel("models/cube.obj");
 }
 

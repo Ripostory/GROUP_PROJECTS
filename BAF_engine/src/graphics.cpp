@@ -87,7 +87,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //setup render buffers
   generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width, height);
   generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width, height);
-  generateRBOTex(RB_worldPos, GL_RGBA32F, GL_COLOR_ATTACHMENT2, width, height);
+  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width, height);
   generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width, height);
 
   generateFBO(FB_buffer);
@@ -211,13 +211,17 @@ void Graphics::generateRBOTex(GLuint &target, GLenum type, GLenum attach, int wi
 	  glGenTextures(1, &target);
 	  glBindTexture(GL_TEXTURE_2D, target);
 
-	  if (type == GL_RGBA)
+	  if (type == GL_RGBA || type == GL_RGB8)
 		  glTexImage2D(GL_TEXTURE_2D, 0, type,
 				  width, height, 0, type,
 				  GL_UNSIGNED_BYTE, NULL);
-	  else if (type == GL_RGBA16F || type == GL_RGBA32F)
+	  else if (type == GL_RGBA16F || type == GL_RGBA32F || type == GL_RGB10_A2)
 		  glTexImage2D(GL_TEXTURE_2D, 0, type,
 				  width, height, 0, GL_RGBA,
+				  GL_FLOAT, NULL);
+	  else if (type == GL_RGB16F || type == GL_RGB32F || type == GL_RGB10_A2)
+		  glTexImage2D(GL_TEXTURE_2D, 0, type,
+				  width, height, 0, GL_RGB,
 				  GL_FLOAT, NULL);
 
 	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -316,9 +320,8 @@ void Graphics::beginFBODraw(GLuint fbo, int width, int height)
 	  //enable depth testing
 	  glEnable(GL_DEPTH_TEST);
 	  glEnable(GL_STENCIL_TEST);
-	  glEnable(GL_BLEND);
+	  glDisable(GL_BLEND);
 	  glEnable(GL_CULL_FACE);
-	  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	  glDepthFunc(GL_LESS);
 	  glCullFace(GL_BACK);
 	  glViewport(0,0, width, height);
@@ -377,35 +380,47 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  glUniform3fv(shader->GetUniformLocation("cameraPos"), 1,
 			  glm::value_ptr(glm::vec3(camPos)));
 	  glUniform1f(shader->GetUniformLocation("radius"), light->getLight()->radius);
-
-	  //glBindBuffer(GL_ARRAY_BUFFER, screen);
-	  //GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
-	  //GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
-
-	  //draw quad onto the screen
-	  //glEnableVertexAttribArray(posAttrib);
-	  //glEnableVertexAttribArray(colAttrib);
-	  //glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
-	  //                       4*sizeof(float), 0);
-	  //glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
-	  //                       4*sizeof(float), (void*)(2*sizeof(float)));
-
-
-	  //glDrawArrays(GL_TRIANGLES, 0 ,6);
-
-	  //glDisableVertexAttribArray(posAttrib);
-	  //glDisableVertexAttribArray(colAttrib);
-
-	  // Send in the projection and view to the shader
-	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(light->GetModel()));
+	  glUniform3fv(shader->GetUniformLocation("color"), 1,
+			  glm::value_ptr(light->getLight()->color));
 
 	  //pass in screen size
 	  glm::vec2 screenSize = glm::vec2(width, height);
 	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
 
-	  light->Render();
+	  //choose render type
+	  if (light->getLight()->type == LIGHT_POINT)
+	  {
+		  // Send in the projection and view to the shader
+		  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+		  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+		  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(light->GetModel()));
+		  light->Render();
+	  }
+	  else
+	  {
+		  // Send in the projection and view to the shader
+		  glm::mat4 identity = glm::mat4(1.0f);
+		  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+		  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+		  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+
+		  //draw quad for screen
+		  glBindBuffer(GL_ARRAY_BUFFER, screen);
+		  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
+		  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
+
+		  glEnableVertexAttribArray(posAttrib);
+		  glEnableVertexAttribArray(colAttrib);
+		  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+		                         4*sizeof(float), 0);
+		  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
+		                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+		  glDrawArrays(GL_TRIANGLES, 0 ,6);
+
+		  glDisableVertexAttribArray(posAttrib);
+		  glDisableVertexAttribArray(colAttrib);
+	  }
 }
 
 void Graphics::RenderList(vector<Object*> list)

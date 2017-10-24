@@ -30,6 +30,10 @@ void Light::setSize(float newSize)
 	scale(newSize);
 }
 
+void Light::setColor(glm::vec3 newColor)
+{
+	light.color = newColor;
+}
 void Light::Render()
 {
 	  //no textures, only render model

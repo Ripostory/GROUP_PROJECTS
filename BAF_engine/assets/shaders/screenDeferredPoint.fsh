@@ -7,6 +7,7 @@ uniform sampler2D worldPos;
 
 uniform vec3 cameraPos;
 uniform vec3 lightPos;
+uniform vec3 color;
 uniform float radius;
 uniform vec2 gScreenSize;
 
@@ -31,5 +32,6 @@ void main()
     
     float diffuse = max(dot(L, N), 0);
     float specular = pow(max(dot(V, R), 0), 15.0f);
-    frag_color = vec4(((vec3(1.0f) * diffuse) + specular)*attenuation, 1.0f);
+    frag_color = vec4(((color * diffuse) + specular)*attenuation, 1.0f);
+    //frag_color = vec4(normal, 1.0f);
 }
