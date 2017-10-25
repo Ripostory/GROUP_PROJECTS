@@ -110,9 +110,13 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 	  return false;
   if (!InitShader(m_deferredShader, "shaders/deferredPass.vsh", "shaders/deferredPass.fsh"))
 	  return false;
+  if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
+	  return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
   if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
+	  return false;
+  if (!InitShader(m_directionShader, "shaders/screenShader.vsh", "shaders/screenDeferredDir.fsh"))
 	  return false;
 
   //initialize object default directory
@@ -156,6 +160,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+  glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
   return true;
 }
 
@@ -272,23 +277,31 @@ void Graphics::Render()
   m_deferredShader->Enable();
 
   //render world
-  TreeRender(world);
+  RenderList(world->getChildren());
 
   //render result of FBO to default buffer
   glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
   glViewport(0,0, width, height);
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClearColor(0.0, 0.3, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glDisable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_FRONT);
+  glDepthFunc(GL_EQUAL);
+
+  //render cubemap
+  renderSkybox(m_skyboxShader);
+
+  //render lightless world
+  Light *tempLight = new Light(LIGHT_DIR);
+  renderDeferred(m_directionShader, tempLight);
+  delete tempLight;
 
   //render all lights
   glEnable(GL_BLEND);
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_ONE, GL_ONE);
   glEnable(GL_STENCIL_TEST);
-  glDisable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_FRONT);
-  glDepthFunc(GL_EQUAL);
   for (int i = 0; i < world->getLightCount(); i++)
   {
 	  renderDeferred(m_pointShader, world->getLightData(i));
@@ -296,16 +309,31 @@ void Graphics::Render()
 
   glDisable(GL_BLEND);
 
-  //render user interface
-  ui.Render();
-
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
   {
     string val = ErrorString( error );
-    std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
+    ImGui::TextColored(ImVec4(1,0,0,1), "OpenGL ERROR: %i, %s",error, val.c_str());
+    //std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
+
+  //render user interface
+  ui.Render();
+}
+
+void Graphics::renderSkybox(Shader *shader)
+{
+	shader->Enable();
+	// Send in the projection and view to the shader
+	glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	world->translate(glm::vec3(camPos));
+	glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+	glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+	glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(world->GetModel()));
+	ImGui::Text("camera Position: <%.1f,%.1f,%.1f>", camPos.x, camPos.y, camPos.z);
+	//render world
+	world->Render();
 }
 
 void Graphics::beginFBODraw(GLuint fbo, int width, int height)
@@ -396,9 +424,10 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 		  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(light->GetModel()));
 		  light->Render();
 	  }
-	  else
+	  else if (light->getLight()->type == LIGHT_DIR)
 	  {
 		  // Send in the projection and view to the shader
+		  //TODO fix directional light error
 		  glm::mat4 identity = glm::mat4(1.0f);
 		  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(identity));
 		  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(identity));

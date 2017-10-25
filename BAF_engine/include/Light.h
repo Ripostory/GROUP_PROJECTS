@@ -5,6 +5,7 @@
 #include "object.h"
 
 #define LIGHT_POINT	0
+#define LIGHT_DIR	1
 
 struct LightData {
 	int type;
@@ -19,6 +20,7 @@ struct LightData {
 class Light : public Object {
 public:
 	Light();
+	Light(int type);
 	~Light();
 	void Update(unsigned int dt);
 	void Render();

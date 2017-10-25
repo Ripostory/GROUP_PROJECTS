@@ -38,6 +38,7 @@ class Object
     bool loadModel(string filename);
     bool loadTexture(string filename);
     void loadTexture(string filename, int index);
+    void loadCubeMap(string filename, GLuint &target);
     void loadNormal(string filename);
 
     virtual void Update(unsigned int dt);
@@ -46,6 +47,8 @@ class Object
     void setVisual(string, string, string);
     void setMultiplier(float);
     void setTex(Texture);
+    void setTex(Texture texture, GLenum type);
+    void setCubeMap(Texture,Texture,Texture,Texture,Texture,Texture);
     void addChild(Object*);
     void translate(glm::vec3);
     void rotate(float angle, glm::vec3 axis);
@@ -55,6 +58,7 @@ class Object
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();
     void bindTex(GLuint&, GLenum);
+    void bindTex(GLuint&, GLenum, GLenum);
 
   protected:
     static string rootDir;
@@ -63,6 +67,8 @@ class Object
     glm::mat4 mscale;
     glm::mat4 mrotate;
     std::vector<Object*> children;
+    std::vector<unsigned int> texIndex;
+    std::vector<GLuint> texPointer;
     event listener;
     ModelInstance modelData;
 
@@ -76,10 +82,8 @@ class Object
     static vector<TexInstance> textureBank;
 
     TexInstance pushTexture(string, GLenum);
+    TexInstance pushTexture(string, GLenum, GLenum);
     ModelInstance pushModel(string);
-
-    std::vector<unsigned int> texIndex;
-    std::vector<GLuint> texPointer;
 
     TexInstance textureData;
     TexInstance normal;

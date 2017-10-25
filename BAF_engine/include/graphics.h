@@ -27,6 +27,7 @@ class Graphics
     bool InitShader(Shader*&, string, string);
     void addRenderTarget(Shader *shader, GLuint texTarget);
     void renderDeferred(Shader *shader, Light *light);
+    void renderSkybox(Shader *shader);
     void generateFBO(GLuint &fbo);
     void generateFBOTex(GLuint &fbo, GLuint &fbTarget, int width, int height);
     void generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height);
@@ -38,8 +39,10 @@ class Graphics
 
     camera *m_camera;
     Shader *m_shader;
+    Shader *m_skyboxShader;
     Shader *m_deferredShader;
     Shader *m_pointShader;
+    Shader *m_directionShader;
     Shader *m_screenShader;
 
     GLint m_projectionMatrix;

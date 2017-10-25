@@ -3,8 +3,15 @@
 
 Light::Light()
 {
-	light = LightData(5, 1, LIGHT_POINT);
-	light.pos = glm::vec3(3,3,3);
+	light = LightData(1, 1, LIGHT_POINT);
+	light.pos = glm::vec3(0,0,0);
+	loadModel("models/planet.obj");
+}
+
+Light::Light(int type)
+{
+	light = LightData(1, 1, type);
+	light.pos = glm::vec3(0,0,0);
 	loadModel("models/planet.obj");
 }
 

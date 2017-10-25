@@ -12,6 +12,7 @@ public:
 	World();
 	virtual ~World();
 	void addLight(Light*);
+	void loadWorld();
 	virtual void Render();
 	virtual void Update(unsigned int dt);
 	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz);
@@ -24,6 +25,7 @@ private:
 	static GLuint lightSize;
 	static GLuint lightPosArray;
 	static GLuint lightRadArray;
+	GLuint skybox;
 
 	btRigidBody *planeCollider;
 	vector<Light*> lights;

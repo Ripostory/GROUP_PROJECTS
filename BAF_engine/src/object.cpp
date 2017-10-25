@@ -98,12 +98,22 @@ void Object::loadTexture(string filename, int index)
 	texIndex.push_back(index);
 }
 
+void Object::loadCubeMap(string filename, GLuint &target)
+{
+	target = pushTexture(filename, GL_TEXTURE0, GL_TEXTURE_CUBE_MAP).texture;
+}
+
 void Object::loadNormal(string filename)
 {
 	normal = pushTexture(filename, GL_TEXTURE1);
 }
 
 TexInstance Object::pushTexture(string filename,GLenum position)
+{
+	return pushTexture(filename, position, GL_TEXTURE_2D);
+}
+
+TexInstance Object::pushTexture(string filename,GLenum position, GLenum type)
 {
 	//search if texture already exists
 	for (int i  = 0; i < textureBank.size(); i++)
@@ -115,21 +125,71 @@ TexInstance Object::pushTexture(string filename,GLenum position)
 		}
 	}
 
-	//texture doesn't exist yet, add in
-	  loader fileLoader;
-	  Texture texture;
+	//texture doesn't exist yet, check type and add in
+	if (type == GL_TEXTURE_2D)
+	{
+		  loader fileLoader;
+		  Texture texture;
 
-	  if (fileLoader.loadTexture(rootDir + filename, texture))
-	  {
-		  GLuint final;
-		  //texture loaded
-		  glGenTextures(1, &final);
-		  bindTex(final, position);
-		  setTex(texture);
-		  glGenerateMipmap(GL_TEXTURE_2D);
-		  textureBank.push_back(TexInstance(final, filename));
-		  return TexInstance(final, filename);
-	  }
+		  if (fileLoader.loadTexture(rootDir + filename, texture))
+		  {
+			  GLuint final;
+			  //texture loaded
+			  glGenTextures(1, &final);
+			  bindTex(final, position);
+			  setTex(texture);
+			  glGenerateMipmap(GL_TEXTURE_2D);
+			  textureBank.push_back(TexInstance(final, filename));
+			  return TexInstance(final, filename);
+		  }
+
+	}
+	else if (type == GL_TEXTURE_CUBE_MAP)
+	{
+		  loader fileLoader;
+		  Texture texture;
+
+		  //attempt to load all textures
+		  //extract base name
+		  string baseName = filename.substr(filename.find_last_of("\\/")+1, filename.length()-1);
+
+		  if (fileLoader.loadTexture(rootDir + filename + "/" + baseName + "0.jpg" , texture))
+		  {
+			  GLuint final;
+			  Texture finalTex[6];
+			  //load successful, load rest of the images
+			  glGenTextures(1, &final);
+			  glBindTexture(GL_TEXTURE_CUBE_MAP, final);
+
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "1.jpg" , texture);
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "2.jpg" , texture);
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "3.jpg" , texture);
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "4.jpg" , texture);
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "5.jpg" , texture);
+			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+			  //setCubeMap(finalTex[0],finalTex[1],finalTex[2],finalTex[3],finalTex[4],finalTex[5]);
+			  textureBank.push_back(TexInstance(final, filename));
+
+			  //check for completeness
+			  // Get any errors from OpenGL
+			  auto error = glGetError();
+			  if ( error != GL_NO_ERROR )
+			  {
+			    std::cerr<< "Error in CubeMap generation: " << error << endl;
+			  }
+
+			  return TexInstance(final, filename);
+		  }
+	}
+	else
+	{
+		cerr << "ERROR LOADING TEXTURE, INVALID TEXTURE TYPE" << endl;
+	}
 
 	  //error, return 0
 	  return TexInstance(0, "NULL");
@@ -179,15 +239,47 @@ ModelInstance Object::pushModel(string filename)
 
 void Object::bindTex(GLuint &bind, GLenum unit)
 {
+	  bindTex(bind, unit, GL_TEXTURE_2D);
+}
+
+void Object::bindTex(GLuint &bind, GLenum unit, GLenum type)
+{
 	  glActiveTexture(unit);
-	  glBindTexture(GL_TEXTURE_2D, bind);
+	  glBindTexture(type, bind);
 }
 
 void Object::setTex(Texture texture)
 {
-	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
-	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	  setTex(texture, GL_TEXTURE_2D);
+}
+
+void Object::setTex(Texture texture, GLenum type)
+{
+	  glTexImage2D(type, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
+	  if (type == GL_TEXTURE_2D)
+	  {
+		  glTexParameterf(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		  glTexParameterf(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	  }
+	  else
+	  {
+		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	  }
+
+}
+
+void Object::setCubeMap(Texture c1,Texture c2,Texture c3,Texture c4,Texture c5,Texture c6)
+{
+	  setTex(c1, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+	  setTex(c2, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+	  setTex(c3, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+	  setTex(c4, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+	  setTex(c5, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+	  setTex(c6, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
 }
 
 

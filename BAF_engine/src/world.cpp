@@ -4,12 +4,8 @@ GLuint World::lightPosArray = 0;
 GLuint World::lightRadArray = 0;
 GLuint World::lightSize = 0;
 
-World::World()
+void World::loadWorld()
 {
-	  //initialize ground plane
-	  size = 1.0f;
-	  initPhys();
-
 	  //TODO load world here
 	  PhysObject *child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
@@ -34,6 +30,16 @@ World::World()
 	  light->setColor(glm::vec3(1,0,1));
 	  addLight(light);
 	  cursor.y = -6;
+}
+
+World::World()
+{
+	  //initialize ground plane
+	  size = 1.0f;
+	  initPhys();
+	  loadModel("models/cube.obj");
+	  loadWorld();
+	  loadCubeMap("textures/yoko", skybox);
 }
 
 World::~World()
@@ -153,7 +159,23 @@ void World::Update(unsigned int dt)
 
 void World::Render()
 {
-	//ignore rendering self, but pass in light array
+	//render skybox
+	  glBindBuffer(GL_ARRAY_BUFFER, modelData.VB);
+	  glEnableVertexAttribArray(0);
+	  glEnableVertexAttribArray(1);
+	  glEnableVertexAttribArray(2);
+
+	  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+	  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
+
+	  bindTex(skybox, GL_TEXTURE0, GL_TEXTURE_CUBE_MAP);
+	  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelData.IB);
+	  glDrawElements(GL_TRIANGLES, modelData.size, GL_UNSIGNED_INT, 0);
+
+	  glDisableVertexAttribArray(0);
+	  glDisableVertexAttribArray(1);
+	  glDisableVertexAttribArray(2);
 }
 
 void World::addLight(Light *light)
