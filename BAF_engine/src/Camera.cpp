@@ -93,8 +93,7 @@ void camera::Update(unsigned int dt)
 		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	else if (world != NULL) {
-		parent = world->getChildren()[0];
-		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		lookAt = glm::vec4(0.0f);
 	}
 
 	//calculate orbit and convert to position vector

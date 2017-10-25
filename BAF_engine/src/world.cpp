@@ -9,25 +9,32 @@ void World::loadWorld()
 	  //TODO load world here
 	  PhysObject *child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
-	  child->translate(glm::vec3(0,-10,0));
+	  child->translate(glm::vec3(0,-20,0));
 	  child->rotate(0, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
 	  this->addChild(child);
 
+
+	  Object *test = new Object();
+	  test->loadModel("models/planet.obj");
+	  test->loadTexture("textures/a_earth.jpg");
+	  test->scale(9.0f);
+  	  this->addChild(test);
+
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setColor(glm::vec3(0,0.5,1));
+	  light->setColor(glm::vec3(1,1,1));
 	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(-20,-5,0));
-	  light->setColor(glm::vec3(1,1,0));
+	  light->translate(glm::vec3(-20,-20,0));
+	  light->setColor(glm::vec3(0,0.8,1));
 	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(0,-5,20));
-	  light->setSize(50.0f);
-	  light->setColor(glm::vec3(1,0,1));
+	  light->translate(glm::vec3(0,20,30));
+	  light->setSize(100.0f);
+	  light->setColor(glm::vec3(1,0.8,0.8));
 	  addLight(light);
 	  cursor.y = -6;
 }
@@ -169,7 +176,7 @@ void World::Render()
 	  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
 	  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
 
-	  bindTex(skybox, GL_TEXTURE0, GL_TEXTURE_CUBE_MAP);
+	  bindTex(skybox, GL_TEXTURE3, GL_TEXTURE_CUBE_MAP);
 	  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelData.IB);
 	  glDrawElements(GL_TRIANGLES, modelData.size, GL_UNSIGNED_INT, 0);
 
@@ -193,10 +200,15 @@ int World::getLightCount()
 	return lights.size();
 }
 
+GLuint World::getSkybox()
+{
+	return skybox;
+}
+
 void World::initPhys()
 {
 	btCollisionShape* groundShape =
-			new btStaticPlaneShape(btVector3(0, 1, 0), -20);
+			new btStaticPlaneShape(btVector3(0, 1, 0), -999);
 	btDefaultMotionState* groundMotionState =
 	        new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo

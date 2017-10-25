@@ -100,7 +100,7 @@ void Object::loadTexture(string filename, int index)
 
 void Object::loadCubeMap(string filename, GLuint &target)
 {
-	target = pushTexture(filename, GL_TEXTURE0, GL_TEXTURE_CUBE_MAP).texture;
+	target = pushTexture(filename, GL_TEXTURE3, GL_TEXTURE_CUBE_MAP).texture;
 }
 
 void Object::loadNormal(string filename)
@@ -159,7 +159,7 @@ TexInstance Object::pushTexture(string filename,GLenum position, GLenum type)
 			  Texture finalTex[6];
 			  //load successful, load rest of the images
 			  glGenTextures(1, &final);
-			  glBindTexture(GL_TEXTURE_CUBE_MAP, final);
+			  bindTex(final, position);
 
 			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
 			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "1.jpg" , texture);
@@ -174,7 +174,6 @@ TexInstance Object::pushTexture(string filename,GLenum position, GLenum type)
 			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
 			  //setCubeMap(finalTex[0],finalTex[1],finalTex[2],finalTex[3],finalTex[4],finalTex[5]);
 			  textureBank.push_back(TexInstance(final, filename));
-
 			  //check for completeness
 			  // Get any errors from OpenGL
 			  auto error = glGetError();
@@ -271,17 +270,6 @@ void Object::setTex(Texture texture, GLenum type)
 	  }
 
 }
-
-void Object::setCubeMap(Texture c1,Texture c2,Texture c3,Texture c4,Texture c5,Texture c6)
-{
-	  setTex(c1, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-	  setTex(c2, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-	  setTex(c3, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-	  setTex(c4, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-	  setTex(c5, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
-	  setTex(c6, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
-}
-
 
 void Object::Update(unsigned int dt)
 {

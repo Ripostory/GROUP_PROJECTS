@@ -48,7 +48,6 @@ class Object
     void setMultiplier(float);
     void setTex(Texture);
     void setTex(Texture texture, GLenum type);
-    void setCubeMap(Texture,Texture,Texture,Texture,Texture,Texture);
     void addChild(Object*);
     void translate(glm::vec3);
     void rotate(float angle, glm::vec3 axis);

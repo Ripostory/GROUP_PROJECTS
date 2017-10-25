@@ -18,6 +18,7 @@ public:
 	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz);
 	Light* getLightData(int index);
 	int getLightCount();
+	GLuint getSkybox();
 protected:
 	virtual void keyboard(eventType);
 

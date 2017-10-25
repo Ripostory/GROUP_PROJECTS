@@ -110,13 +110,13 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 	  return false;
   if (!InitShader(m_deferredShader, "shaders/deferredPass.vsh", "shaders/deferredPass.fsh"))
 	  return false;
-  if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
-	  return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
   if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
-	  return false;
+	  ; //Validation skipped for point shader
   if (!InitShader(m_directionShader, "shaders/screenShader.vsh", "shaders/screenDeferredDir.fsh"))
+	  return false;
+  if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
 	  return false;
 
   //initialize object default directory
@@ -294,7 +294,7 @@ void Graphics::Render()
 
   //render lightless world
   Light *tempLight = new Light(LIGHT_DIR);
-  renderDeferred(m_directionShader, tempLight);
+  renderDeferred(m_pointShader, tempLight);
   delete tempLight;
 
   //render all lights
@@ -387,19 +387,8 @@ void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
 
 void Graphics::renderDeferred(Shader *shader, Light *light)
 {
+	  glActiveTexture(0);
 	  shader->Enable();
-
-	  //pass in buffers
-	  glUniform1i(shader->GetUniformLocation("albedo"), 0);
-	  glUniform1i(shader->GetUniformLocation("normal"), 1);
-	  glUniform1i(shader->GetUniformLocation("worldPos"), 2);
-	  //pass in output texture
-	  glActiveTexture(GL_TEXTURE0);
-	  glBindTexture(GL_TEXTURE_2D, RB_albedo);
-	  glActiveTexture(GL_TEXTURE1);
-	  glBindTexture(GL_TEXTURE_2D, RB_normal);
-	  glActiveTexture(GL_TEXTURE2);
-	  glBindTexture(GL_TEXTURE_2D, RB_worldPos);
 
 	  //pass in light data
 	  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
@@ -414,6 +403,23 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  //pass in screen size
 	  glm::vec2 screenSize = glm::vec2(width, height);
 	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
+
+	  //pass in buffers
+	  glUniform1i(shader->GetUniformLocation("albedo"), 0);
+	  glUniform1i(shader->GetUniformLocation("normal"), 1);
+	  glUniform1i(shader->GetUniformLocation("worldPos"), 2);
+	  glUniform1i(shader->GetUniformLocation("skybox"), 3);
+
+	  //pass in output texture
+	  glActiveTexture(GL_TEXTURE0);
+	  glBindTexture(GL_TEXTURE_2D, RB_albedo);
+	  glActiveTexture(GL_TEXTURE1);
+	  glBindTexture(GL_TEXTURE_2D, RB_normal);
+	  glActiveTexture(GL_TEXTURE2);
+	  glBindTexture(GL_TEXTURE_2D, RB_worldPos);
+	  //pass in world cube map
+	  glActiveTexture(GL_TEXTURE3);
+	  glBindTexture(GL_TEXTURE_CUBE_MAP, world->getSkybox());
 
 	  //choose render type
 	  if (light->getLight()->type == LIGHT_POINT)
