@@ -18,12 +18,13 @@ void World::loadWorld()
 	  Object *test = new Object();
 	  test->loadModel("models/planet.obj");
 	  test->loadTexture("textures/a_earth.jpg");
+	  test->loadTexture("textures/s_earth.jpg", 2);
 	  test->scale(9.0f);
   	  this->addChild(test);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setColor(glm::vec3(1,1,1));
+	  light->setColor(glm::vec3(2,2,2));
 	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
@@ -34,7 +35,7 @@ void World::loadWorld()
 	  light = new Light();
 	  light->translate(glm::vec3(0,20,30));
 	  light->setSize(100.0f);
-	  light->setColor(glm::vec3(1,0.8,0.8));
+	  light->setColor(glm::vec3(10,8.2,8.2));
 	  addLight(light);
 	  cursor.y = -6;
 }

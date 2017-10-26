@@ -113,8 +113,10 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
   if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
-	  ; //Validation skipped for point shader
+	  return false; //Validation skipped for point shader
   if (!InitShader(m_directionShader, "shaders/screenShader.vsh", "shaders/screenDeferredDir.fsh"))
+	  return false;
+  if (!InitShader(m_ambientShader, "shaders/screenShader.vsh", "shaders/deferredAmbient.fsh"))
 	  return false;
   if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
 	  return false;
@@ -288,13 +290,12 @@ void Graphics::Render()
   glEnable(GL_CULL_FACE);
   glCullFace(GL_FRONT);
   glDepthFunc(GL_EQUAL);
-
   //render cubemap
   renderSkybox(m_skyboxShader);
 
   //render lightless world
   Light *tempLight = new Light(LIGHT_DIR);
-  renderDeferred(m_pointShader, tempLight);
+  renderDeferred(m_ambientShader, tempLight);
   delete tempLight;
 
   //render all lights
@@ -308,7 +309,6 @@ void Graphics::Render()
   }
 
   glDisable(GL_BLEND);
-
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
@@ -455,6 +455,7 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 
 		  glDisableVertexAttribArray(posAttrib);
 		  glDisableVertexAttribArray(colAttrib);
+
 	  }
 }
 

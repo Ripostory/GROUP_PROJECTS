@@ -41,6 +41,7 @@ class Graphics
     Shader *m_shader;
     Shader *m_skyboxShader;
     Shader *m_deferredShader;
+    Shader *m_ambientShader;
     Shader *m_pointShader;
     Shader *m_directionShader;
     Shader *m_screenShader;
