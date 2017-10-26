@@ -11,7 +11,7 @@ uniform sampler2D specMap;
 void main(void)
 {
    //temp material properties
-   float metallic = 1- texture2D(specMap, texCoordModel).r;
+   float metallic = 1 - texture2D(specMap, texCoordModel).r;
    float roughness = texture2D(specMap, texCoordModel).r;
 	
    //modify textures to fit range

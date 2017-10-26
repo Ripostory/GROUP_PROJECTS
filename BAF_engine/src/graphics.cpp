@@ -113,11 +113,11 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
   if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
-	  return false; //Validation skipped for point shader
+	  return false;
   if (!InitShader(m_directionShader, "shaders/screenShader.vsh", "shaders/screenDeferredDir.fsh"))
 	  return false;
-  if (!InitShader(m_ambientShader, "shaders/screenShader.vsh", "shaders/deferredAmbient.fsh"))
-	  return false;
+  if (!InitShader(m_ambientShader, "shaders/screenShader.vsh", "shaders/cheapAmbient.fsh"))
+	  ; //Validation skipped for ambient shader
   if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
 	  return false;
 

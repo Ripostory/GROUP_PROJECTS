@@ -47,7 +47,7 @@ World::World()
 	  initPhys();
 	  loadModel("models/cube.obj");
 	  loadWorld();
-	  loadCubeMap("textures/yoko", skybox);
+	  loadCubeMap("textures/beach", skybox);
 }
 
 World::~World()
