@@ -5,6 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
+	resScale = 2;
 }
 
 Graphics::~Graphics()
@@ -85,10 +86,10 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //Generate Frame buffer
   generateFBO(FBO);
   //setup render buffers
-  generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width, height);
-  generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width, height);
-  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width, height);
-  generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width, height);
+  generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width/resScale, height/resScale);
+  generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width/resScale, height/resScale);
+  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width/resScale, height/resScale);
+  generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width/resScale, height/resScale);
 
   generateFBO(FB_buffer);
   generateRBOTex(T_buffer, GL_RGBA, GL_COLOR_ATTACHMENT0, width, height);
@@ -274,7 +275,8 @@ void Graphics::updateFPS(unsigned int dt)
 void Graphics::Render()
 {
   //set renderTarget
-  beginFBODraw(FBO, width, height);
+  //glViewport(0,0, width/resScale, height/resScale);
+  beginFBODraw(FBO, width/resScale, height/resScale);
   //enable correct shader
   m_deferredShader->Enable();
 
@@ -299,6 +301,7 @@ void Graphics::Render()
   delete tempLight;
 
   //render all lights
+  glViewport(0,0, width, height);
   glEnable(GL_BLEND);
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_ONE, GL_ONE);
@@ -319,6 +322,7 @@ void Graphics::Render()
   }
 
   //render user interface
+  glViewport(0,0, width, height);
   ui.Render();
 }
 
