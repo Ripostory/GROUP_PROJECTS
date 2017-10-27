@@ -120,7 +120,7 @@ void PhysObject::setCollisionMesh(int mesh, string filename)
 	obj final;
 
 
-	if (readIn.loadObject(rootDir+filename,final))
+	if (readIn.loadObject(filename,final))
 	{
 		if (mesh == PHYS_HULL)
 		{

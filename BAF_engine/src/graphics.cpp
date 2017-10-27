@@ -69,6 +69,9 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
     }
   #endif
 
+  //initialize object default directory
+  Object::init();
+
   //init UI
   ui.initGUI(window);
 
@@ -107,24 +110,20 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   }
 
   //create shader
-  if (!InitShader(m_shader, "shaders/shader.vsh", "shaders/shader.fsh"))
+  if (!InitShader(m_shader, "shader.vsh", "shader.fsh"))
 	  return false;
-  if (!InitShader(m_deferredShader, "shaders/deferredPass.vsh", "shaders/deferredPass.fsh"))
+  if (!InitShader(m_deferredShader, "deferredPass.vsh", "deferredPass.fsh"))
 	  return false;
-  if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
+  if (!InitShader(m_screenShader, "screenShader.vsh", "screenShader.fsh"))
 	  return false;
-  if (!InitShader(m_pointShader, "shaders/shader.vsh", "shaders/screenDeferredPoint.fsh"))
+  if (!InitShader(m_pointShader, "shader.vsh", "screenDeferredPoint.fsh"))
 	  return false;
-  if (!InitShader(m_directionShader, "shaders/screenShader.vsh", "shaders/screenDeferredDir.fsh"))
+  if (!InitShader(m_directionShader, "screenShader.vsh", "screenDeferredDir.fsh"))
 	  return false;
-  if (!InitShader(m_ambientShader, "shaders/screenShader.vsh", "shaders/cheapAmbient.fsh"))
+  if (!InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh"))
 	  ; //Validation skipped for ambient shader
-  if (!InitShader(m_skyboxShader, "shaders/skyboxShader.vsh", "shaders/skyboxShader.fsh"))
+  if (!InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh"))
 	  return false;
-
-  //initialize object default directory
-  Object::init();
-  Shader::init();
 
   // Create the object
   world = new World();

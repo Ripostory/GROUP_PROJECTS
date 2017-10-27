@@ -9,23 +9,6 @@
 
 #define SPEED_STEP 		0.02f
 
-//support for instanced textures and models
-struct ModelInstance {
-	GLuint VB;
-	GLuint IB;
-	unsigned int size;
-	string name;
-	ModelInstance(GLuint v, GLuint i, unsigned int s, string n): VB(v), IB(i), size(s), name(n){}
-	ModelInstance(): VB(0), IB(0), size(0), name("NULL"){}
-};
-
-struct TexInstance {
-	GLuint texture;
-	string name;
-	TexInstance(GLuint m, string n): texture(m), name(n){}
-	TexInstance(): texture(0), name("NULL"){};
-};
-
 class Object
 {
   public:
@@ -46,8 +29,6 @@ class Object
     virtual void Render();
     void setVisual(string, string, string);
     void setMultiplier(float);
-    void setTex(Texture);
-    void setTex(Texture texture, GLenum type);
     void addChild(Object*);
     void translate(glm::vec3);
     void rotate(float angle, glm::vec3 axis);
@@ -56,11 +37,8 @@ class Object
     float getSize();
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();
-    void bindTex(GLuint&, GLenum);
-    void bindTex(GLuint&, GLenum, GLenum);
 
   protected:
-    static string rootDir;
     glm::mat4 model;
     glm::mat4 mtranslate;
     glm::mat4 mscale;
@@ -70,20 +48,14 @@ class Object
     std::vector<GLuint> texPointer;
     event listener;
     ModelInstance modelData;
-
     float multiplier;
     float size;
+    void bindTex(GLuint&, GLenum);
+    void bindTex(GLuint&, GLenum, GLenum);
 
     virtual void keyboard(eventType);
 
   private:
-    static vector<ModelInstance> modelBank;
-    static vector<TexInstance> textureBank;
-
-    TexInstance pushTexture(string, GLenum);
-    TexInstance pushTexture(string, GLenum, GLenum);
-    ModelInstance pushModel(string);
-
     TexInstance textureData;
     TexInstance normal;
 };

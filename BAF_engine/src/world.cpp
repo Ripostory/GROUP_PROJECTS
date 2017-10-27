@@ -8,17 +8,17 @@ void World::loadWorld()
 {
 	  //TODO load world here
 	  PhysObject *child = new PhysObject();
-	  child->loadModel("models/newBoard.obj");
+	  child->loadModel("newBoard.obj");
 	  child->translate(glm::vec3(0,-20,0));
 	  child->rotate(0, glm::vec3(1,0,0));
-	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
+	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  this->addChild(child);
 
 
 	  Object *test = new Object();
-	  test->loadModel("models/planet.obj");
-	  test->loadTexture("textures/a_earth.jpg");
-	  test->loadTexture("textures/s_earth.jpg", 2);
+	  test->loadModel("planet.obj");
+	  test->loadTexture("a_earth.jpg");
+	  test->loadTexture("s_earth.jpg", 2);
 	  test->scale(9.0f);
   	  this->addChild(test);
 
@@ -45,9 +45,9 @@ World::World()
 	  //initialize ground plane
 	  size = 1.0f;
 	  initPhys();
-	  loadModel("models/cube.obj");
+	  loadModel("cube.obj");
 	  loadWorld();
-	  loadCubeMap("textures/beach", skybox);
+	  loadCubeMap("beach", skybox);
 }
 
 World::~World()
@@ -78,9 +78,9 @@ void World::keyboard(eventType event)
 		{
 			//spawn item
 			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("models/planet.obj");
-			newItem->loadNormal("textures/n_earth.jpg");
-			newItem->loadTexture("textures/a_earth.jpg");
+			newItem->loadModel("planet.obj");
+			newItem->loadNormal("n_earth.jpg");
+			newItem->loadTexture("a_earth.jpg");
 			newItem->setCollisionMesh(PHYS_SPHERE, 1);
 			newItem->translate(glm::vec3(0,40,0));
 			newItem->scale(1);
@@ -91,7 +91,7 @@ void World::keyboard(eventType event)
 		{
 			//spawn item
 			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("models/planet.obj");
+			newItem->loadModel("planet.obj");
 			newItem->setCollisionMesh(PHYS_SPHERE, 3);
 			newItem->translate(glm::vec3(0,40,0));
 			newItem->scale(3);
@@ -103,8 +103,8 @@ void World::keyboard(eventType event)
 		{
 			//spawn item
 			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("models/cube.obj");
-			newItem->loadTexture("textures/a_earth.jpg");
+			newItem->loadModel("cube.obj");
+			newItem->loadTexture("a_earth.jpg");
 			newItem->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
 			newItem->translate(glm::vec3(1,40,0));
 			newItem->initPhysics();

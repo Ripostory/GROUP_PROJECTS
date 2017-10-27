@@ -1,7 +1,5 @@
 #include "shader.h"
 
-string Shader::rootDir = "assets/";
-
 Shader::Shader()
 {
   m_shaderProg = 0;
@@ -21,18 +19,6 @@ Shader::~Shader()
   }
 }
 
-void Shader::init()
-{
-	Shader test;
-	test.Initialize();
-	if (!test.AddShader(GL_VERTEX_SHADER, "shaders/shader.vsh"))
-	{
-		rootDir = "../assets/";
-		cout << "SHADER ROOT CHANGED" << endl;
-	}
-	test.Finalize();
-}
-
 bool Shader::Initialize()
 {
   m_shaderProg = glCreateProgram();
@@ -46,25 +32,13 @@ bool Shader::Initialize()
 }
 
 // Use this method to add shaders to the program. When finished - call finalize()
-bool Shader::AddShader(GLenum ShaderType)
-{
-  if(ShaderType == GL_VERTEX_SHADER)
-  {
-	return AddShader(ShaderType, rootDir + "shaders/vertexShader.s");
-  }
-  else if(ShaderType == GL_FRAGMENT_SHADER)
-  {
-	return AddShader(ShaderType, rootDir + "shaders/fragmentShader.s");
-  }
-  return false;
-}
 
 bool Shader::AddShader(GLenum ShaderType, string filename)
 {
   std::string s;
   loader loadShader;
 
-  loadShader.loadShader(rootDir + filename, s);
+  loadShader.loadShader(filename, s);
 
   GLuint ShaderObj = glCreateShader(ShaderType);
 

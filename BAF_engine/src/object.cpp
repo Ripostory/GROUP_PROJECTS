@@ -1,9 +1,5 @@
 #include "object.h"
 
-string Object::rootDir = "assets/";
-vector<ModelInstance> Object::modelBank;
-vector<TexInstance> Object::textureBank;
-
 Object::Object()
 {  
 	multiplier = 1.0f;
@@ -11,9 +7,9 @@ Object::Object()
 	model = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
 
 	//load default textures
-	loadTexture("textures/ERROR_TEXTURE.jpg");
-	loadNormal("textures/ERROR_NORMAL.png");
-	loadModel("models/cube.obj");
+	loadTexture("ERROR_TEXTURE.jpg");
+	loadNormal("ERROR_NORMAL.png");
+	loadModel("cube.obj");
 }
 
 Object::~Object()
@@ -28,31 +24,12 @@ Object::~Object()
 
 void Object::init()
 {
-	//initialize root directory
-	Object test;
-	if (!test.loadModel("models/cube.obj"))
-	{
-		rootDir = "../assets/";
-		cout << "ROOT CHANGED" << endl;
-	}
+	loader::init();
 }
 
 void Object::end()
 {
-	//clear all textures and models
-	for (int i = 0; i < modelBank.size(); i++)
-	{
-		glDeleteBuffers(1, &modelBank[i].VB);
-		glDeleteBuffers(1, &modelBank[i].IB);
-	}
-
-	for (int i = 0; i < textureBank.size(); i++)
-	{
-		glDeleteTextures(1, &textureBank[i].texture);
-	}
-
-	modelBank.clear();
-	textureBank.clear();
+	loader::end();
 }
 
 void Object::Begin()
@@ -73,7 +50,8 @@ void Object::setVisual(string model, string albedo, string normal)
 
 bool Object::loadModel(string filename)
 {
-	  ModelInstance model = pushModel(filename);
+	  loader modelLoader;
+	  ModelInstance model = modelLoader.loadModel(filename);
 	  if (model.VB != 0)
 	  {
 		  modelData = model;
@@ -85,7 +63,8 @@ bool Object::loadModel(string filename)
 
 bool Object::loadTexture(string filename)
 {
-	textureData = pushTexture(filename, GL_TEXTURE0);
+	loader texLoader;
+	textureData = texLoader.loadTexture(filename);
 	if (textureData.texture == 0)
 		return false;
 	else
@@ -94,146 +73,21 @@ bool Object::loadTexture(string filename)
 
 void Object::loadTexture(string filename, int index)
 {
-	texPointer.push_back(pushTexture(filename, GL_TEXTURE0 + index).texture);
+	loader texLoader;
+	texPointer.push_back(texLoader.loadTexture(filename, GL_TEXTURE0 + index).texture);
 	texIndex.push_back(index);
 }
 
 void Object::loadCubeMap(string filename, GLuint &target)
 {
-	target = pushTexture(filename, GL_TEXTURE3, GL_TEXTURE_CUBE_MAP).texture;
+	loader loadCube;
+	target = loadCube.loadCubemap(filename).texture;
 }
 
 void Object::loadNormal(string filename)
 {
-	normal = pushTexture(filename, GL_TEXTURE1);
-}
-
-TexInstance Object::pushTexture(string filename,GLenum position)
-{
-	return pushTexture(filename, position, GL_TEXTURE_2D);
-}
-
-TexInstance Object::pushTexture(string filename,GLenum position, GLenum type)
-{
-	//search if texture already exists
-	for (int i  = 0; i < textureBank.size(); i++)
-	{
-		if (textureBank[i].name.compare(filename) == 0)
-		{
-			//if exists, return pointer
-			return textureBank[i];
-		}
-	}
-
-	//texture doesn't exist yet, check type and add in
-	if (type == GL_TEXTURE_2D)
-	{
-		  loader fileLoader;
-		  Texture texture;
-
-		  if (fileLoader.loadTexture(rootDir + filename, texture))
-		  {
-			  GLuint final;
-			  //texture loaded
-			  glGenTextures(1, &final);
-			  bindTex(final, position);
-			  setTex(texture);
-			  glGenerateMipmap(GL_TEXTURE_2D);
-			  textureBank.push_back(TexInstance(final, filename));
-			  return TexInstance(final, filename);
-		  }
-
-	}
-	else if (type == GL_TEXTURE_CUBE_MAP)
-	{
-		  loader fileLoader;
-		  Texture texture;
-
-		  //attempt to load all textures
-		  //extract base name
-		  string baseName = filename.substr(filename.find_last_of("\\/")+1, filename.length()-1);
-
-		  if (fileLoader.loadTexture(rootDir + filename + "/" + baseName + "0.jpg" , texture))
-		  {
-			  GLuint final;
-			  Texture finalTex[6];
-			  //load successful, load rest of the images
-			  glGenTextures(1, &final);
-			  bindTex(final, position);
-
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "1.jpg" , texture);
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "2.jpg" , texture);
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "3.jpg" , texture);
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "4.jpg" , texture);
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
-			  fileLoader.loadTexture(rootDir + filename + "/" + baseName + "5.jpg" , texture);
-			  setTex(texture, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
-			  //setCubeMap(finalTex[0],finalTex[1],finalTex[2],finalTex[3],finalTex[4],finalTex[5]);
-			  textureBank.push_back(TexInstance(final, filename));
-			  //check for completeness
-			  // Get any errors from OpenGL
-			  auto error = glGetError();
-			  if ( error != GL_NO_ERROR )
-			  {
-			    std::cerr<< "Error in CubeMap generation: " << error << endl;
-			  }
-
-			  return TexInstance(final, filename);
-		  }
-	}
-	else
-	{
-		cerr << "ERROR LOADING TEXTURE, INVALID TEXTURE TYPE" << endl;
-	}
-
-	  //error, return 0
-	  return TexInstance(0, "NULL");
-}
-
-ModelInstance Object::pushModel(string filename)
-{
-	//search for model
-	for (int i = 0; i < modelBank.size(); i++)
-	{
-		if (modelBank[i].name.compare(filename) == 0)
-		{
-			//if exists, return pointer
-			return modelBank[i];
-		}
-	}
-
-	//model doesn't exist yet, add
-	  loader fileLoader;
-	  obj object;
-	  ModelInstance final;
-	  if (fileLoader.loadObject(rootDir + filename, object))
-	  {
-		  GLuint tempVB;
-		  GLuint tempIB;
-
-		  //model loading
-		  glGenBuffers(1, &tempVB);
-		  glBindBuffer(GL_ARRAY_BUFFER, tempVB);
-		  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * (object.getVerts().size()+1), &object.getVerts()[0], GL_STATIC_DRAW);
-
-		  glGenBuffers(1, &tempIB);
-		  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tempIB);
-		  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * object.getIndices().size(), &object.getIndices()[0], GL_STATIC_DRAW);
-
-		  //add to model bank
-		  final = ModelInstance(tempVB, tempIB, object.getIndices().size(), filename);
-		  modelBank.push_back(final);
-
-		  //return
-		  return final;
-	  }
-
-	//error, return empty vector
-	return final;
+	loader loadNorm;
+	normal = loadNorm.loadTexture(filename, GL_TEXTURE1);
 }
 
 void Object::bindTex(GLuint &bind, GLenum unit)
@@ -245,30 +99,6 @@ void Object::bindTex(GLuint &bind, GLenum unit, GLenum type)
 {
 	  glActiveTexture(unit);
 	  glBindTexture(type, bind);
-}
-
-void Object::setTex(Texture texture)
-{
-	  setTex(texture, GL_TEXTURE_2D);
-}
-
-void Object::setTex(Texture texture, GLenum type)
-{
-	  glTexImage2D(type, 0, GL_RGBA, texture.column, texture.row, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.data);
-	  if (type == GL_TEXTURE_2D)
-	  {
-		  glTexParameterf(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		  glTexParameterf(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	  }
-	  else
-	  {
-		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	  }
-
 }
 
 void Object::Update(unsigned int dt)
