@@ -32,6 +32,8 @@ bool loader::loadObject(string filename, obj &inputObj)
 	glm::vec3 tempVec;
 	glm::vec3 tempColor;
 	glm::vec2 tempTex;
+	glm::vec3 tempTan;
+	glm::vec3 bitangent;
 	int indice;
 	string finalFilename = rootDir + "models/" + filename;
 
@@ -74,21 +76,29 @@ bool loader::loadObject(string filename, obj &inputObj)
 		tempColor.g = vert.y;
 		tempColor.b = vert.z;
 
-		//get texture coordinates
+		//get texture coordinates and tangents
 		if (mesh->HasTextureCoords(0))
 		{
 			texture = mesh->mTextureCoords[0][i];
 			tempTex.x = texture.x;
 			tempTex.y = texture.y;
+
+			vert = mesh->mTangents[i];
+			tempTan.x = vert.x;
+			tempTan.y = vert.y;
+			tempTan.z = vert.z;
+
+
 			//if fails, default to 0,0 coords
  		}
 		else
 		{
 			tempTex = glm::vec2(0,0);
+			tempTan = glm::vec3(0.0);
 		}
 
 		//push into object
-		final.addVert(Vertex(tempVec, tempColor, tempTex));
+		final.addVert(Vertex(tempVec, tempColor, tempTex, tempTan));
 	}
 
 	//load indices

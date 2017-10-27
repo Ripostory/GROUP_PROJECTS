@@ -9,6 +9,7 @@
 #define PHYSOBJECT_H_
 
 #include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/btBulletCollisionCommon.h>
 #include "object.h"
 
 #define PHYS_BOX 		0

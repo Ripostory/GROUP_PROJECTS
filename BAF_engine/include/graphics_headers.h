@@ -27,8 +27,10 @@ struct Vertex
   glm::vec3 vertex;
   glm::vec3 color;
   glm::vec2 texCoord;
+  glm::vec3 tangent;
 
   Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t): vertex(v), color(c), texCoord(t){}
+  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t, glm::vec3 ta): vertex(v), color(c), texCoord(t), tangent(ta){}
 };
 
 struct Texture

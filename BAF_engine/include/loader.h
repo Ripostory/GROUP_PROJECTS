@@ -53,6 +53,7 @@ private:
     void setTex(Texture texture, GLenum type);
     void bindTex(GLuint&, GLenum);
     void bindTex(GLuint&, GLenum, GLenum);
+
 public:
 	loader();
 	~loader();
