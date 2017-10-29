@@ -4,6 +4,9 @@
 #include "graphics_headers.h"
 #include "event.h"
 #include "object.h"
+#include "imgui.h"
+
+#define MAX_VELOCITY 1
 
 class camera
 {
@@ -20,20 +23,20 @@ class camera
   private:
     glm::mat4 projection;
     glm::mat4 view;
-    glm::vec4 lookAt;
+    glm::vec3 lookAt;
     glm::vec3 position;
     event listener;
     Object *parent;
     Object *world;
-    float orbit;
-    float xPos;
-    float yPos;
-    float distance;
-    float height;
     float fov;
+    float speed;
+    float velocity;
     int index;
     int w;
     int h;
+
+    float xAngle;
+    float yAngle;
 };
 
 #endif /* CAMERALOC_H */

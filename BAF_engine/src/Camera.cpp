@@ -3,16 +3,19 @@
 
 camera::camera()
 {
-    orbit = 0.0f;
-    xPos = 0.0f;
-    yPos = 0.0f;
-    lookAt = glm::vec4(0.0f);
-    distance = 70.0f;
-    height = 15.0f;
     parent = NULL;
     world = NULL;
     index = -1;
     fov = 45;
+    speed = 0.4;
+    w = 0;
+    h = 0;
+    xAngle = 0;
+    yAngle = 0;
+    velocity = 0;
+
+    position = glm::vec3(0.0, 8.0, 16.0);
+    lookAt = glm::vec3(0.0);
 }
 
 camera::~camera()
@@ -28,11 +31,11 @@ bool camera::Initialize(int w, int h)
   //  for this project having them static will be fine
   this->w = w;
   this->h = h;
-  view = glm::lookAt( glm::vec3(0.0, 8.0, 16.0), //Eye Position
-                      glm::vec3(0.0, 0.0, 0.0), //Focus point
+  view = glm::lookAt( position, //Eye Position
+                      lookAt, //Focus point
                       glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
 
-  projection = glm::perspective( 90.0f, //the FoV typically 90 degrees is good which is what this is set to
+  projection = glm::perspective( 45.0f, //the FoV typically 90 degrees is good which is what this is set to
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  10000.0f); //Distance to the far plane,
@@ -55,64 +58,63 @@ void camera::Update(unsigned int dt)
 	for (int i = 0; i < listener.getSize(); i++)
 	{
 		type = listener.getEvent(i);
+
+		//implement FPS style camera
 		if (type.eventVer == SDL_MOUSEMOTION)
 		{
-			orbit -= type.x * 0.01f;
-			if (parent != NULL)
-				height -= type.y * 0.01f * parent->getSize();
+			xAngle += (float) type.x * dt * 0.001 * speed;
+			yAngle -= (float) type.y * dt * 0.0005 * speed;
 		}
 		else if (type.eventVer == SDL_MOUSEWHEEL)
 		{
-			if (parent != NULL)
-			{
-				if (distance > parent->getSize() * 3.0f || type.y > 0)
-				{
-					if (type.y > 0)
-						distance += type.y  * (parent->getSize()/50.0);
-					else
-						distance += type.y * ((distance - parent->getSize() * 3.0)/50.0);
-				}
-			}
-			else
-			{
-				if (distance > 0.5f * 3.0f || type.y > 0)
-				{
-					if (type.y > 0)
-						distance += type.y  * (50.0f/50.0);
-					else
-						distance += type.y * ((5.0f * 3.0)/50.0);
-				}
-			}
-
 		}
-
+		else if (type.eventVer == SDL_KEYDOWN)
+		{
+			if (type.key == SDLK_w)
+			{
+				velocity += dt * 0.05;
+				if (velocity > MAX_VELOCITY)
+					velocity = MAX_VELOCITY;
+			}
+			if (type.key == SDLK_s)
+			{
+				velocity -= dt * 0.05;
+				if (velocity < -MAX_VELOCITY)
+					velocity = -MAX_VELOCITY;
+			}
+		}
 	}
 
+	//update position
+	position -= (position - lookAt) *  velocity;
 
-	if (parent != NULL) {
-		//extract parent location
-		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	//update lookat
+	lookAt = position;
+	if (yAngle > 3.1415/2)
+		yAngle = 3.1415/2;
+	if (yAngle < -3.1415/2)
+		yAngle = -3.1415/2;
+
+	lookAt.x = lookAt.x +glm::cos(xAngle) * glm::cos(yAngle);
+	lookAt.z = lookAt.z +glm::sin(xAngle) * glm::cos(yAngle);
+	lookAt.y = lookAt.y +glm::sin(yAngle);
+
+	ImGui::Text("look: <%f,%f,%f>", lookAt.x, lookAt.y, lookAt.z );
+	ImGui::Text("angle: <%f,%f>", xAngle, yAngle);
+
+	view = glm::lookAt( position, //Eye Position
+	                    lookAt, //Focus point
+	                    glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
+	if (velocity != 0)
+	{
+		if (velocity > 0)
+			velocity -= 0.005 *dt;
+		if (velocity < 0)
+			velocity += 0.005 *dt;
+		if (velocity >= -0.1 && velocity <= 0.1)
+			velocity = 0;
 	}
-	else if (world != NULL) {
-		lookAt = glm::vec4(0.0f);
-	}
-
-	//calculate orbit and convert to position vector
-	//orbit += dt * M_PI/1000;
-	xPos = glm::sin(orbit);
-	yPos = glm::cos(orbit);
-
-	//translate it based on the parent position
-	position = glm::vec3(xPos*distance, height, yPos*distance) + glm::vec3(lookAt);
-
-	view = glm::lookAt( glm::vec3(position), //Eye Position
-	                      glm::vec3(lookAt.x, lookAt.y, lookAt.z), //Focus point
-	                      glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
-
-	  projection = glm::perspective( fov, //the FoV typically 90 degrees is good which is what this is set to
-	                                 float(w)/float(h), //Aspect Ratio, so Circles stay Circular
-	                                 0.01f, //Distance to the near plane, normally a small value like this
-	                                 10000.0f); //Distance to the far plane,
+	ImGui::Text("velocity: %f", velocity);
 }
 
 void camera::SetWorld(Object *model)

@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 1;
+	resScale = 2;
 }
 
 Graphics::~Graphics()
