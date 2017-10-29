@@ -11,6 +11,7 @@ Graphics::Graphics()
 Graphics::~Graphics()
 {
 	Object::end();
+	Billboard::end();
 }
 
 bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
@@ -71,6 +72,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 
   //initialize object default directory
   Object::init();
+  Billboard::init();
 
   //init UI
   ui.initGUI(window);
@@ -123,6 +125,8 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   if (!InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh"))
 	  ; //Validation skipped for ambient shader
   if (!InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh"))
+	  return false;
+  if (!InitShader(m_billboard, "billboard.vsh", "billboard.fsh"))
 	  return false;
 
   // Create the object
@@ -323,6 +327,16 @@ void Graphics::Render()
   //render user interface
   glViewport(0,0, width, height);
   ui.Render();
+
+  //render a test quad
+  m_billboard->Enable();
+  Billboard test;
+  test.Update(0);
+  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(test.getMatrix()));
+  test.setImage("ERROR_TEXTURE.jpg");
+  test.Render();
 }
 
 void Graphics::renderSkybox(Shader *shader)

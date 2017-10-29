@@ -9,6 +9,7 @@ using namespace std;
 #include "shader.h"
 #include "object.h"
 #include "world.h"
+#include "billboard.h"
 #include "gui.h"
 
 class Graphics
@@ -39,6 +40,7 @@ class Graphics
 
     camera *m_camera;
     Shader *m_shader;
+    Shader *m_billboard;
     Shader *m_skyboxShader;
     Shader *m_deferredShader;
     Shader *m_ambientShader;
