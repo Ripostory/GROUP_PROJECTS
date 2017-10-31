@@ -32,12 +32,19 @@ public:
     void setCollisionMesh(int capCylCone, float, float);
     void setCollisionMesh(int mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
+
+		void SetGravity (bool gravity);
+		void Rotate (float yaw, float pitch, float roll);
+		void ClearForces ();
+
 protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);
     btVector3 glmToBt(glm::vec3);
 
 private:
+		bool gravity;
+
     btRigidBody *physics;
     btCollisionShape *shape;
     btTransform transform;

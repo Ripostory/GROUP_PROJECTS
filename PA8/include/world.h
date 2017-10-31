@@ -14,6 +14,7 @@ protected:
 
 private:
 	btRigidBody *planeCollider;
+	PhysObject* paddle;
 
 	void initPhys();
 };

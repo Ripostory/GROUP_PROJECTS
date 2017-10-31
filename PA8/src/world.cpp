@@ -10,21 +10,25 @@ World::World()
 	  child->loadModel("models/planet.obj");
 	  child->translate(glm::vec3(0,17,1));
 	  this->addChild(child);
+
 	  child = new PhysObject();
 	  child->loadModel("models/cube.obj");
 	  child->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
 	  child->translate(glm::vec3(3,15,0));
 	  this->addChild(child);
+
 	  child = new PhysObject();
 	  child->loadModel("models/planet.obj");
 	  child->translate(glm::vec3(0,12,0));
 	  this->addChild(child);
+
 	  child = new PhysObject();
 	  child->loadModel("models/newBoard.obj");
 	  child->translate(glm::vec3(0,-12,0));
 	  child->rotate(-0.4, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "models/newBoard.obj");
 	  this->addChild(child);
+
 	  child  = new PhysObject();
 	  child->setCollisionMesh(PHYS_CYLINDER, glm::vec3(3,3,3));
 	  child->loadModel("models/cylinder.obj");
@@ -34,6 +38,18 @@ World::World()
 	  child->translate(glm::vec3(0,9,0));
 	  child->scale(3);
 	  this->addChild(child);
+
+		child = new PhysObject ();
+		child -> setCollisionMesh (PHYS_HULL, "models/paddle.obj");
+		child -> loadModel ("models/paddle.obj");
+		child -> rotate (-0.4, glm::vec3 (1,0,0));
+		child -> rotate (-0.6, glm::vec3 (0,1,0));
+		child -> setProperties (20, 0, 0);
+		child -> SetGravity (false);
+		paddle = child;
+		this -> addChild (child);
+
+
 }
 
 World::~World()
@@ -43,6 +59,10 @@ World::~World()
 
 void World::keyboard(eventType event)
 {
+
+	static bool x_pressed;
+	static bool z_pressed;
+
 	if (event.eventVer == SDL_KEYDOWN)
 	{
 		if (event.key == SDLK_k)
@@ -51,7 +71,7 @@ void World::keyboard(eventType event)
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("models/planet.obj");
 			newItem->setCollisionMesh(PHYS_SPHERE, 1);
-			newItem->translate(glm::vec3(0,40,0));
+			newItem->translate(glm::vec3(2,40,1));
 			newItem->initPhysics();
 			this->addChild(newItem);
 		}
@@ -61,10 +81,19 @@ void World::keyboard(eventType event)
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("models/cube.obj");
 			newItem->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
-			newItem->translate(glm::vec3(1,40,0));
+			newItem->translate(glm::vec3(0,40,0));
 			newItem->initPhysics();
 			this->addChild(newItem);
 		}
+
+		if (event.key == SDLK_z) {
+			paddle -> Rotate (0, 15, 0);
+		}
+		if (event.key == SDLK_x) {
+			paddle -> Rotate (0, -15, 0);
+		}
+		if (event.key == SDLK_c)
+			paddle -> Rotate (0, 0, 0);
 	}
 }
 

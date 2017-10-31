@@ -8,6 +8,8 @@ PhysObject::PhysObject()
 	mass = 0.0f;
 	friction = 0.3f;
 	restitution = 0.2;
+
+	gravity = true;
 }
 
 PhysObject::~PhysObject()
@@ -22,9 +24,11 @@ PhysObject::~PhysObject()
 
 void PhysObject::Update(unsigned int dt)
 {
+
 	  //update physics object
 	  if (physics != NULL)
 	  {
+
 		  physics->getMotionState()->getWorldTransform(transform);
 		  model = btToGlm(transform);
 		  //update scale
@@ -39,15 +43,47 @@ void PhysObject::Update(unsigned int dt)
 	  }
 }
 
+
+
 void PhysObject::Begin()
 {
+
+
+	
 	initPhysics();
+
+	if (gravity == false) {
+
+		physics -> setAngularFactor (btVector3 (0.0f, 1.0f, 0.0f));
+		physics -> setLinearFactor (btVector3(0.0f, 0.0f, 0.0f));
+		physics -> setGravity (btVector3 (0.0f, 0.0f, 0.0f));
+	}
+
+
 	//start children
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i]->Begin();
 	}
 }
+
+void PhysObject::SetGravity (bool gravity) {
+
+		this -> gravity = gravity;
+}
+
+void PhysObject::Rotate (float yaw, float pitch, float roll) {
+
+
+		physics -> setAngularVelocity (btVector3 (yaw, pitch, roll));
+
+}
+
+void PhysObject::ClearForces () {
+
+		physics -> clearForces ();
+}
+
 
 void setCollisionMesh(int)
 {
@@ -72,6 +108,8 @@ void PhysObject::setCollisionMesh(int box, glm::vec3 size)
 		shape = new btSphereShape(1.0f);
 	}
 }
+
+
 
 void PhysObject::setCollisionMesh(int sphere, float radius)
 {
@@ -163,6 +201,9 @@ void PhysObject::setCollisionMesh(int mesh, string filename)
 
 			delete shape;
 			shape = new btBvhTriangleMeshShape(mesh, true);
+			
+
+
 			isStatic = true;
 		}
 		else
