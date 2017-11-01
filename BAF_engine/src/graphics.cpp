@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 2;
+	resScale = 0.5;
 }
 
 Graphics::~Graphics()
@@ -70,13 +70,6 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
     }
   #endif
 
-  //initialize object default directory
-  Object::init();
-  Billboard::init();
-
-  //init UI
-  ui.initGUI(window);
-
   // For OpenGL 3
   GLuint vao;
   glGenVertexArrays(1, &vao);
@@ -91,10 +84,10 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //Generate Frame buffer
   generateFBO(FBO);
   //setup render buffers
-  generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width/resScale, height/resScale);
-  generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width/resScale, height/resScale);
-  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width/resScale, height/resScale);
-  generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width/resScale, height/resScale);
+  generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width*resScale, height*resScale);
+  generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width*resScale, height*resScale);
+  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width*resScale, height*resScale);
+  generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width*resScale, height*resScale);
 
   generateFBO(FB_buffer);
   generateRBOTex(T_buffer, GL_RGBA, GL_COLOR_ATTACHMENT0, width, height);
@@ -102,6 +95,15 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 
   //reset to default buffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  //initialize object default directory
+  Object::init();
+  Billboard::init();
+
+  //init UI
+  ui.initGUI(window);
 
   // Init Camera
   m_camera = new camera();
@@ -123,7 +125,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   if (!InitShader(m_directionShader, "screenShader.vsh", "screenDeferredDir.fsh"))
 	  return false;
   if (!InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh"))
-	  ; //Validation skipped for ambient shader
+	  return false; //Validation skipped for ambient shader
   if (!InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh"))
 	  return false;
   if (!InitShader(m_billboard, "billboard.vsh", "billboard.fsh"))
@@ -279,7 +281,7 @@ void Graphics::Render()
 {
   //set renderTarget
   //glViewport(0,0, width/resScale, height/resScale);
-  beginFBODraw(FBO, width/resScale, height/resScale);
+  beginFBODraw(FBO, width*resScale, height*resScale);
   //enable correct shader
   m_deferredShader->Enable();
 

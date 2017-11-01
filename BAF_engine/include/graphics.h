@@ -65,7 +65,7 @@ class Graphics
     World *world;
     Object *renderTarget;
 
-    int resScale;
+    float resScale;
 
     int width;
     int height;
