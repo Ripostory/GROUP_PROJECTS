@@ -117,11 +117,6 @@ bool Shader::Finalize()
 void Shader::Enable()
 {
     glUseProgram(m_shaderProg);
-    //bind texture locations
-    glUniform1i(GetUniformLocation("texture"), 0);
-    glUniform1i(GetUniformLocation("normalMap"), 1);
-    glUniform1i(GetUniformLocation("nightMap"), 2);
-    glUniform1i(GetUniformLocation("specularMap"), 3);
 }
 
 
@@ -129,8 +124,12 @@ GLint Shader::GetUniformLocation(const char* pUniformName)
 {
     GLuint Location = glGetUniformLocation(m_shaderProg, pUniformName);
 
-    if (Location == INVALID_UNIFORM_LOCATION) {
-        fprintf(stderr, "Warning! Unable to get the location of uniform '%s'\n", pUniformName);
+    if (Location == -1) {
+    	ImGui::TextColored(
+    			ImVec4(1,1,0,1),
+    			"Warning! Unable to get the location of uniform '%s' in '%s'\n",
+        		pUniformName,
+				name.c_str());
     }
 
     return Location;
@@ -139,4 +138,38 @@ GLint Shader::GetUniformLocation(const char* pUniformName)
 GLint Shader::getShader()
 {
 	return m_shaderProg;
+}
+
+bool Shader::InitShader(string vertex, string fragment)
+{
+	 // Set up the shaders
+	  if(!Initialize())
+	  {
+	    printf("Shader Failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Add the vertex shader
+	  if(!AddShader(GL_VERTEX_SHADER, vertex))
+	  {
+	    printf("Vertex Shader failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Add the fragment shader
+	  if(!AddShader(GL_FRAGMENT_SHADER, fragment))
+	  {
+	    printf("Fragment Shader failed to Initialize\n");
+	    return false;
+	  }
+
+	  // Connect the program
+	  if(!Finalize())
+	  {
+	    printf("Program to Finalize\n");
+	    return false;
+	  }
+
+	  name = fragment;
+	  return true;
 }

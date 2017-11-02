@@ -26,15 +26,14 @@ class Graphics
     void RenderList(vector<Object*>);
     void TreeRender(Object*);
     bool InitShader(Shader*&, string, string);
-    void addRenderTarget(Shader *shader, GLuint texTarget);
     void renderDeferred(Shader *shader, Light *light);
     void renderSkybox(Shader *shader);
     void generateFBO(GLuint &fbo);
-    void generateFBOTex(GLuint &fbo, GLuint &fbTarget, int width, int height);
     void generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height);
     void generateRBOTex(GLuint &target, GLenum type, GLenum attach, int width, int height);
     void beginFBODraw(GLuint fbo, int width, int height);
     void updateFPS(unsigned int dt);
+    void passMatrices(glm::mat4 modelMatrix);
 
     GUI ui;
 

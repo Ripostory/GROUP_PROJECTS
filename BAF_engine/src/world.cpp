@@ -1,31 +1,28 @@
 #include "world.h"
 
-GLuint World::lightPosArray = 0;
-GLuint World::lightRadArray = 0;
-GLuint World::lightSize = 0;
-
 void World::loadWorld()
 {
 	  //TODO load world here
 	  PhysObject *child = new PhysObject();
 	  child->loadModel("newBoard.obj");
+	  child->loadNormal("cleanNormal.png");
 	  child->translate(glm::vec3(0,-20,0));
 	  child->rotate(0, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  this->addChild(child);
 
 
-	  //Object *test = new Object();
-	  //test->loadModel("planet.obj");
-	  //test->loadTexture("a_earth.jpg");
-	  //test->loadTexture("s_earth.jpg", 2);
-	  //test->loadNormal("n_earth.jpg");
-	  //test->scale(9.0f);
-  	  //this->addChild(test);
+	  Object *test = new Object();
+	  test->loadModel("planet.obj");
+	  test->loadTexture("a_earth.jpg");
+	  test->loadTexture("s_earth.jpg", 2);
+	  test->loadNormal("n_earth.jpg");
+	  test->scale(9.0f);
+  	  this->addChild(test);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setColor(glm::vec3(2,2,2));
+	  light->setColor(glm::vec3(1,1,1));
 	  light->setSize(50.0f);
 	  addLight(light);
 	  light = new Light();
@@ -36,7 +33,7 @@ void World::loadWorld()
 	  light = new Light();
 	  light->translate(glm::vec3(0,20,30));
 	  light->setSize(100.0f);
-	  light->setColor(glm::vec3(10,8.2,8.2));
+	  light->setColor(glm::vec3(4,2.2,4.2));
 	  addLight(light);
 	  cursor.y = -6;
 }
@@ -64,13 +61,6 @@ World::~World()
 	lights.clear();
 }
 
-void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz)
-{
-	lightPosArray = pos;
-	lightRadArray = rad;
-	lightSize = siz;
-}
-
 void World::keyboard(eventType event)
 {
 	if (event.eventVer == SDL_KEYDOWN)
@@ -93,6 +83,7 @@ void World::keyboard(eventType event)
 			//spawn item
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("planet.obj");
+			newItem->loadNormal("cleanNormal.png");
 			newItem->setCollisionMesh(PHYS_SPHERE, 3);
 			newItem->translate(glm::vec3(0,40,0));
 			newItem->scale(3);
@@ -105,6 +96,7 @@ void World::keyboard(eventType event)
 			//spawn item
 			PhysObject *newItem = new PhysObject();
 			newItem->loadModel("cube.obj");
+			newItem->loadNormal("cleanNormal.png");
 			newItem->loadTexture("a_earth.jpg");
 			newItem->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
 			newItem->translate(glm::vec3(1,40,0));
@@ -178,7 +170,7 @@ void World::Render()
 	  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
 	  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
 
-	  bindTex(skybox, GL_TEXTURE3, GL_TEXTURE_CUBE_MAP);
+	  glBindTexture(GL_TEXTURE_2D, skybox);
 	  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelData.IB);
 	  glDrawElements(GL_TRIANGLES, modelData.size, GL_UNSIGNED_INT, 0);
 

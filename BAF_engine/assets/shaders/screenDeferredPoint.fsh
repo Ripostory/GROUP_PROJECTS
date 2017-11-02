@@ -32,11 +32,11 @@ void main()
     vec3 fragPos = texture(worldPos, Texcoord).xyz;
     vec3 lightDir = lightPos - fragPos;
         
-    vec3 normal = texture(normal, Texcoord).xyz;
+    vec3 finalNormal = texture(normal, Texcoord).xyz;
     vec3 viewDir = cameraPos;
     
     //vector calculation
-    vec3 N = normalize(normal);
+    vec3 N = normalize(finalNormal);
     vec3 L = normalize(lightDir);
     vec3 V = normalize(viewDir);
     vec3 R = normalize(L+V); //implements blinn-phong
@@ -45,11 +45,11 @@ void main()
     float attenuation = pow(smoothstep(radius*2, 0 , length(lightDir)), 7);
     
     //base color (albedo)
-    vec3 albedo = texture(albedo, Texcoord).rgb;
+    vec3 finalAlbedo = texture(albedo, Texcoord).rgb;
     
     //radiance calcuations
     vec3 F0 = vec3(0.04); //dielectric constant
-    F0 = mix(F0, albedo, metallic);
+    F0 = mix(F0, finalAlbedo, metallic);
     vec3 F = fresnel(max(dot(N, V), 0.0), F0);
     
     float nDistribution = normalDistr(N, R, roughness);       
@@ -65,10 +65,11 @@ void main()
     finalDiff *= 1.0 - metallic;
     
     float lightAngle = max(dot(N, L), 0.0);
-    vec3 finalColor = (finalDiff * albedo / 3.1415 + specular) * attenuation * color * lightAngle;
+    vec3 finalColor = (finalDiff * finalAlbedo / 3.1415 + specular) * attenuation * color * lightAngle;
     
     //gamma correction
     finalColor = finalColor / (finalColor + vec3(1.0));
+    finalColor = pow(finalColor, vec3(1.0/2.2));
     
     frag_color = vec4(finalColor, 1.0f);
 }

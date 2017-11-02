@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 0.5;
+	resScale = 0.7;
 }
 
 Graphics::~Graphics()
@@ -18,39 +18,17 @@ bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
 {
 	 // Set up the shaders
 	  shader = new Shader();
-	  if(!shader->Initialize())
-	  {
-	    printf("Shader Failed to Initialize\n");
-	    return false;
-	  }
-
-	  // Add the vertex shader
-	  if(!shader->AddShader(GL_VERTEX_SHADER, vertex))
-	  {
-	    printf("Vertex Shader failed to Initialize\n");
-	    return false;
-	  }
-
-	  // Add the fragment shader
-	  if(!shader->AddShader(GL_FRAGMENT_SHADER, fragment))
-	  {
-	    printf("Fragment Shader failed to Initialize\n");
-	    return false;
-	  }
-
-	  // Connect the program
-	  if(!shader->Finalize())
-	  {
-	    printf("Program to Finalize\n");
-	    return false;
-	  }
-	  return true;
+	  return shader->InitShader(vertex, fragment);
 }
 
 bool Graphics::Initialize(int width, int height, SDL_Window *window)
 {
-	this->width = width;
-	this->height = height;
+  //init UI
+  ui.initGUI(window);
+
+  this->width = width;
+  this->height = height;
+
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -102,9 +80,6 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   Object::init();
   Billboard::init();
 
-  //init UI
-  ui.initGUI(window);
-
   // Init Camera
   m_camera = new camera();
   if(!m_camera->Initialize(width, height))
@@ -114,30 +89,26 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   }
 
   //create shader
-  if (!InitShader(m_shader, "shader.vsh", "shader.fsh"))
-	  return false;
-  if (!InitShader(m_deferredShader, "deferredPass.vsh", "deferredPass.fsh"))
-	  return false;
-  if (!InitShader(m_screenShader, "screenShader.vsh", "screenShader.fsh"))
-	  return false;
-  if (!InitShader(m_pointShader, "shader.vsh", "screenDeferredPoint.fsh"))
-	  return false;
-  if (!InitShader(m_directionShader, "screenShader.vsh", "screenDeferredDir.fsh"))
-	  return false;
-  if (!InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh"))
-	  return false; //Validation skipped for ambient shader
-  if (!InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh"))
-	  return false;
-  if (!InitShader(m_billboard, "billboard.vsh", "billboard.fsh"))
+  bool success = true;
+
+  //build all shaders
+  success &= InitShader(m_shader, "shader.vsh", "shader.fsh");
+  success &= InitShader(m_deferredShader, "deferredPass.vsh", "deferredPass.fsh");
+  success &= InitShader(m_screenShader, "screenShader.vsh", "screenShader.fsh");
+  success &= InitShader(m_pointShader, "shader.vsh", "screenDeferredPoint.fsh");
+  success &= InitShader(m_directionShader, "screenShader.vsh", "screenDeferredDir.fsh");
+  success &= InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh");
+  success &= InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh");
+  success &= InitShader(m_billboard, "billboard.vsh", "billboard.fsh");
+
+  //stop program build if there was an error
+  if (!success)
 	  return false;
 
   // Create the object
   world = new World();
   world->Begin();
-  world->setLightPointer(
-		  m_shader->GetUniformLocation("lPos"),
-		  m_shader->GetUniformLocation("lRad"),
-		  m_shader->GetUniformLocation("lSize"));
+
   //set world for camera
   m_camera->SetWorld(world);
 
@@ -176,29 +147,6 @@ void Graphics::generateFBO(GLuint &fbo)
 {
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-}
-
-void Graphics::generateFBOTex(GLuint &fbo, GLuint &fbTarget, int width, int height)
-{
-	  glGenFramebuffers(1, &fbo);
-	  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
-	  //allocate texture
-	  glGenTextures(1, &fbTarget);
-	  glBindTexture(GL_TEXTURE_2D, fbTarget);
-
-	  glTexImage2D(
-	      GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL
-	  );
-
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	  glFramebufferTexture2D(
-	      GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbTarget, 0
-	  );
 }
 
 void Graphics::generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height)
@@ -280,16 +228,20 @@ void Graphics::updateFPS(unsigned int dt)
 void Graphics::Render()
 {
   //set renderTarget
-  //glViewport(0,0, width/resScale, height/resScale);
   beginFBODraw(FBO, width*resScale, height*resScale);
   //enable correct shader
   m_deferredShader->Enable();
+  glUniform1i(m_deferredShader->GetUniformLocation("texture"), 0);
+  glUniform1i(m_deferredShader->GetUniformLocation("normalMap"), 1);
+  glUniform1i(m_deferredShader->GetUniformLocation("specMap"), 2);
 
   //render world
   RenderList(world->getChildren());
 
   //render result of FBO to default buffer
   glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+  //set frame buffer parameters
   glViewport(0,0, width, height);
   glClearColor(0.0, 0.3, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -297,12 +249,13 @@ void Graphics::Render()
   glEnable(GL_CULL_FACE);
   glCullFace(GL_FRONT);
   glDepthFunc(GL_EQUAL);
+
   //render cubemap
-  renderSkybox(m_skyboxShader);
+  renderSkybox(m_skyboxShader); //TODO invalid operation error
 
   //render lightless world
-  Light *tempLight = new Light(LIGHT_DIR);
-  renderDeferred(m_ambientShader, tempLight);
+  Light *tempLight = new Light(LIGHT_AMB);
+  renderDeferred(m_ambientShader, tempLight); //TODO check worldpos render target
   delete tempLight;
 
   //render all lights
@@ -326,19 +279,18 @@ void Graphics::Render()
     //std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
 
-  //render user interface
-  glViewport(0,0, width, height);
-  ui.Render();
-
   //render a test quad
+  //TODO create a billboard world
   m_billboard->Enable();
   Billboard test;
   test.Update(0);
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(test.getMatrix()));
+  passMatrices(test.getMatrix());
   test.setImage("ERROR_TEXTURE.jpg");
   test.Render();
+
+  //render user interface
+  glViewport(0,0, width, height);
+  ui.Render();
 }
 
 void Graphics::renderSkybox(Shader *shader)
@@ -347,9 +299,7 @@ void Graphics::renderSkybox(Shader *shader)
 	// Send in the projection and view to the shader
 	glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	world->translate(glm::vec3(camPos));
-	glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-	glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-	glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(world->GetModel()));
+	passMatrices(world->GetModel());
 	ImGui::Text("camera Position: <%.1f,%.1f,%.1f>", camPos.x, camPos.y, camPos.z);
 	//render world
 	world->Render();
@@ -378,56 +328,18 @@ void Graphics::beginFBODraw(GLuint fbo, int width, int height)
 
 }
 
-void Graphics::addRenderTarget(Shader *shader, GLuint texTarget)
-{
-	  glDisable(GL_DEPTH_TEST);
-	  glDisable(GL_STENCIL_TEST);
-	  glDisable(GL_CULL_FACE);
-	  shader->Enable();
-	  glBindBuffer(GL_ARRAY_BUFFER, screen);
-	  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
-	  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
-
-	  //draw quad onto the screen
-	  glEnableVertexAttribArray(posAttrib);
-	  glEnableVertexAttribArray(colAttrib);
-	  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), 0);
-	  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), (void*)(2*sizeof(float)));
-
-	  //pass in output texture
-	  glActiveTexture(GL_TEXTURE0);
-	  glBindTexture(GL_TEXTURE_2D, texTarget);
-	  glDrawArrays(GL_TRIANGLES, 0 ,6);
-	  glDisableVertexAttribArray(posAttrib);
-	  glDisableVertexAttribArray(colAttrib);
-}
-
 void Graphics::renderDeferred(Shader *shader, Light *light)
 {
-	  glActiveTexture(0);
 	  shader->Enable();
-
-	  //pass in light data
-	  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	  glUniform3fv(shader->GetUniformLocation("lightPos"), 1,
-			  glm::value_ptr(light->getLight()->pos));
-	  glUniform3fv(shader->GetUniformLocation("cameraPos"), 1,
-			  glm::value_ptr(glm::vec3(camPos)));
-	  glUniform1f(shader->GetUniformLocation("radius"), light->getLight()->radius);
-	  glUniform3fv(shader->GetUniformLocation("color"), 1,
-			  glm::value_ptr(light->getLight()->color));
-
-	  //pass in screen size
-	  glm::vec2 screenSize = glm::vec2(width, height);
-	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
 
 	  //pass in buffers
 	  glUniform1i(shader->GetUniformLocation("albedo"), 0);
 	  glUniform1i(shader->GetUniformLocation("normal"), 1);
 	  glUniform1i(shader->GetUniformLocation("worldPos"), 2);
-	  glUniform1i(shader->GetUniformLocation("skybox"), 3);
+
+	  //pass in screen size
+	  glm::vec2 screenSize = glm::vec2(width, height);
+	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
 
 	  //pass in output texture
 	  glActiveTexture(GL_TEXTURE0);
@@ -436,46 +348,70 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  glBindTexture(GL_TEXTURE_2D, RB_normal);
 	  glActiveTexture(GL_TEXTURE2);
 	  glBindTexture(GL_TEXTURE_2D, RB_worldPos);
-	  //pass in world cube map
-	  glActiveTexture(GL_TEXTURE3);
-	  glBindTexture(GL_TEXTURE_CUBE_MAP, world->getSkybox());
 
 	  //choose render type
-	  if (light->getLight()->type == LIGHT_POINT)
+	  if (light->getLight()->type != LIGHT_AMB)
 	  {
-		  // Send in the projection and view to the shader
-		  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-		  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-		  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(light->GetModel()));
-		  light->Render();
-	  }
-	  else if (light->getLight()->type == LIGHT_DIR)
-	  {
-		  // Send in the projection and view to the shader
-		  //TODO fix directional light error
-		  glm::mat4 identity = glm::mat4(1.0f);
-		  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(identity));
-		  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(identity));
-		  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+		  //pass in light data
+		  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+		  glUniform3fv(shader->GetUniformLocation("lightPos"), 1,
+				  glm::value_ptr(light->getLight()->pos));
+		  glUniform3fv(shader->GetUniformLocation("cameraPos"), 1,
+				  glm::value_ptr(glm::vec3(camPos)));
+		  glUniform1f(shader->GetUniformLocation("radius"), light->getLight()->radius);
+		  glUniform3fv(shader->GetUniformLocation("color"), 1,
+				  glm::value_ptr(light->getLight()->color));
 
+		  if (light->getLight()->type == LIGHT_POINT)
+		  {
+			  // Send in the projection and view to the shader
+			  passMatrices(light->GetModel());
+			  light->Render();
+		  }
+		  else if (light->getLight()->type == LIGHT_DIR)
+		  {
+			  // Send in the projection and view to the shader
+			  glm::mat4 identity = glm::mat4(1.0f);
+			  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+			  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+			  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(identity));
+
+			  //draw quad for screen
+			  glBindBuffer(GL_ARRAY_BUFFER, screen);
+			  ImGui::Text("Albedo: %i Normal: %i World: %i",
+					  shader->GetUniformLocation("position"),
+					  glGetUniformLocation(shader->getShader(), "position"),
+					  RB_worldPos);
+
+			  glEnableVertexAttribArray(0);
+			  glEnableVertexAttribArray(1);
+			  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
+			                         4*sizeof(float), 0);
+			  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+			                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+			  glDrawArrays(GL_TRIANGLES, 0 ,6);
+
+			  glDisableVertexAttribArray(0);
+			  glDisableVertexAttribArray(1);
+		  }
+	  }
+	  else
+	  {
 		  //draw quad for screen
 		  glBindBuffer(GL_ARRAY_BUFFER, screen);
-		  GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
-		  GLint colAttrib = glGetAttribLocation(shader->getShader(), "texcoord");
-
-		  glEnableVertexAttribArray(posAttrib);
-		  glEnableVertexAttribArray(colAttrib);
-		  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+		  glEnableVertexAttribArray(0);
+		  glEnableVertexAttribArray(1);
+		  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
 		                         4*sizeof(float), 0);
-		  glVertexAttribPointer(colAttrib, 2, GL_FLOAT, GL_FALSE,
+		  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
 		                         4*sizeof(float), (void*)(2*sizeof(float)));
 
 		  glDrawArrays(GL_TRIANGLES, 0 ,6);
-
-		  glDisableVertexAttribArray(posAttrib);
-		  glDisableVertexAttribArray(colAttrib);
-
+		  glDisableVertexAttribArray(0);
+		  glDisableVertexAttribArray(1);
 	  }
+
 }
 
 void Graphics::RenderList(vector<Object*> list)
@@ -490,17 +426,22 @@ void Graphics::RenderList(vector<Object*> list)
 void Graphics::TreeRender(Object* object)
 {
 	  // Send in the projection and view to the shader
-	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+	  passMatrices(object->GetModel());
 
 	  //render this model
 	  renderTarget = object;
-	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(object->GetModel()));
 	  object->Render();
 
 	  //render children if there are children
 	  if (object->getChildren().size() != 0)
 		  RenderList(object->getChildren());
+}
+
+void Graphics::passMatrices(glm::mat4 modelMatrix)
+{
+	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
 std::string Graphics::ErrorString(GLenum error)

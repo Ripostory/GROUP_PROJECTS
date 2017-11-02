@@ -29,9 +29,9 @@ void main()
     float roughness = texture(worldPos, Texcoord).a;
     vec3 finalAlbedo = texture(albedo, Texcoord).rgb;
         
-    vec3 normal = texture(normal, Texcoord).xyz;
+    vec3 finalNormal = texture(normal, Texcoord).xyz;
     
-    vec3 N = normalize(normal);
+    vec3 N = normalize(finalNormal);
     vec3 L = vec3(0,1,0);
     
 	//radiance calcuations

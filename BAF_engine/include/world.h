@@ -15,7 +15,6 @@ public:
 	void loadWorld();
 	virtual void Render();
 	virtual void Update(unsigned int dt);
-	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz);
 	Light* getLightData(int index);
 	int getLightCount();
 	GLuint getSkybox();
@@ -23,9 +22,6 @@ protected:
 	virtual void keyboard(eventType);
 
 private:
-	static GLuint lightSize;
-	static GLuint lightPosArray;
-	static GLuint lightRadArray;
 	GLuint skybox;
 
 	btRigidBody *planeCollider;

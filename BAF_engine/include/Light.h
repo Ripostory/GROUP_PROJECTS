@@ -4,6 +4,7 @@
 
 #include "object.h"
 
+#define LIGHT_AMB	-1
 #define LIGHT_POINT	0
 #define LIGHT_DIR	1
 
