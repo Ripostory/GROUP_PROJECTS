@@ -60,15 +60,11 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   //Generate Frame buffer
-  generateFBO(FBO);
-  //setup render buffers
-  generateRBOTex(RB_albedo, GL_RGBA, GL_COLOR_ATTACHMENT0, width*resScale, height*resScale);
-  generateRBOTex(RB_normal, GL_RGBA16F, GL_COLOR_ATTACHMENT1, width*resScale, height*resScale);
-  generateRBOTex(RB_worldPos, GL_RGBA16F, GL_COLOR_ATTACHMENT2, width*resScale, height*resScale);
-  generateRBO(RB_depth, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, width*resScale, height*resScale);
-
-  generateFBO(FB_buffer);
-  generateRBOTex(T_buffer, GL_RGBA, GL_COLOR_ATTACHMENT0, width, height);
+  m_deferredFBO.initFB(width*resScale, height*resScale);
+  m_deferredFBO.addRBOTex(GL_RGBA, GL_COLOR_ATTACHMENT0);		//albedo
+  m_deferredFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT1);	//normal
+  m_deferredFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT2);	//worldPos
+  m_deferredFBO.addRBO(GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT);
 
 
   //reset to default buffer
@@ -143,66 +139,6 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   return true;
 }
 
-void Graphics::generateFBO(GLuint &fbo)
-{
-	glGenFramebuffers(1, &fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-}
-
-void Graphics::generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height)
-{
-	glGenRenderbuffers(1, &target);
-	glBindRenderbuffer(GL_RENDERBUFFER, target);
-	glRenderbufferStorage(GL_RENDERBUFFER, type, width, height);
-	glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, attach, GL_RENDERBUFFER, target);
-
-
-	  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	  {
-		  auto error = glGetError();
-		  string val = ErrorString( error );
-		  std::cerr << "Framebuffer creation was not successful:"
-				  << endl << error << " "<< val << endl;
-	  }
-}
-
-void Graphics::generateRBOTex(GLuint &target, GLenum type, GLenum attach, int width, int height)
-{
-	  //allocate texture
-	  glGenTextures(1, &target);
-	  glBindTexture(GL_TEXTURE_2D, target);
-
-	  if (type == GL_RGBA || type == GL_RGB8)
-		  glTexImage2D(GL_TEXTURE_2D, 0, type,
-				  width, height, 0, type,
-				  GL_UNSIGNED_BYTE, NULL);
-	  else if (type == GL_RGBA16F || type == GL_RGBA32F || type == GL_RGB10_A2)
-		  glTexImage2D(GL_TEXTURE_2D, 0, type,
-				  width, height, 0, GL_RGBA,
-				  GL_FLOAT, NULL);
-	  else if (type == GL_RGB16F || type == GL_RGB32F || type == GL_RGB10_A2)
-		  glTexImage2D(GL_TEXTURE_2D, 0, type,
-				  width, height, 0, GL_RGB,
-				  GL_FLOAT, NULL);
-
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	  glFramebufferTexture2D(
-	      GL_FRAMEBUFFER, attach, GL_TEXTURE_2D, target, 0
-	  );
-
-	  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	  {
-		  auto error = glGetError();
-		  string val = ErrorString( error );
-		  std::cerr << "Framebuffer creation was not successful:"
-				  << endl << error << " "<< val << endl;
-	  }
-}
-
 void Graphics::Update(unsigned int dt)
 {
   // Update everything
@@ -228,7 +164,7 @@ void Graphics::updateFPS(unsigned int dt)
 void Graphics::Render()
 {
   //set renderTarget
-  beginFBODraw(FBO, width*resScale, height*resScale);
+  beginFBODraw(width*resScale, height*resScale);
   //enable correct shader
   m_deferredShader->Enable();
   glUniform1i(m_deferredShader->GetUniformLocation("texture"), 0);
@@ -251,11 +187,11 @@ void Graphics::Render()
   glDepthFunc(GL_EQUAL);
 
   //render cubemap
-  renderSkybox(m_skyboxShader); //TODO invalid operation error
+  renderSkybox(m_skyboxShader);
 
   //render lightless world
   Light *tempLight = new Light(LIGHT_AMB);
-  renderDeferred(m_ambientShader, tempLight); //TODO check worldpos render target
+  renderDeferred(m_ambientShader, tempLight); //TODO worldpos not used in ambient
   delete tempLight;
 
   //render all lights
@@ -305,14 +241,9 @@ void Graphics::renderSkybox(Shader *shader)
 	world->Render();
 }
 
-void Graphics::beginFBODraw(GLuint fbo, int width, int height)
+void Graphics::beginFBODraw(int width, int height)
 {
-	  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-	  GLenum buffers[] = {
-			  GL_COLOR_ATTACHMENT0_EXT,
-			  GL_COLOR_ATTACHMENT1_EXT,
-			  GL_COLOR_ATTACHMENT2_EXT };
-	  glDrawBuffers(3, buffers);
+	  m_deferredFBO.bindFB();
 
 	  //enable depth testing
 	  glEnable(GL_DEPTH_TEST);
@@ -342,25 +273,30 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
 
 	  //pass in output texture
-	  glActiveTexture(GL_TEXTURE0);
-	  glBindTexture(GL_TEXTURE_2D, RB_albedo);
-	  glActiveTexture(GL_TEXTURE1);
-	  glBindTexture(GL_TEXTURE_2D, RB_normal);
-	  glActiveTexture(GL_TEXTURE2);
-	  glBindTexture(GL_TEXTURE_2D, RB_worldPos);
+	  m_deferredFBO.bindAllTex();
 
 	  //choose render type
 	  if (light->getLight()->type != LIGHT_AMB)
 	  {
 		  //pass in light data
 		  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-		  glUniform3fv(shader->GetUniformLocation("lightPos"), 1,
+
+		  glUniform3fv(
+				  shader->GetUniformLocation("lightPos"), 1,
 				  glm::value_ptr(light->getLight()->pos));
-		  glUniform3fv(shader->GetUniformLocation("cameraPos"), 1,
+
+		  glUniform3fv(
+				  shader->GetUniformLocation("cameraPos"), 1,
 				  glm::value_ptr(glm::vec3(camPos)));
-		  glUniform1f(shader->GetUniformLocation("radius"), light->getLight()->radius);
-		  glUniform3fv(shader->GetUniformLocation("color"), 1,
+
+		  glUniform1f(
+				  shader->GetUniformLocation("radius"),
+				  light->getLight()->radius);
+
+		  glUniform3fv(
+				  shader->GetUniformLocation("color"), 1,
 				  glm::value_ptr(light->getLight()->color));
+
 
 		  if (light->getLight()->type == LIGHT_POINT)
 		  {
@@ -376,42 +312,30 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 			  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(identity));
 			  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(identity));
 
-			  //draw quad for screen
-			  glBindBuffer(GL_ARRAY_BUFFER, screen);
-			  ImGui::Text("Albedo: %i Normal: %i World: %i",
-					  shader->GetUniformLocation("position"),
-					  glGetUniformLocation(shader->getShader(), "position"),
-					  RB_worldPos);
-
-			  glEnableVertexAttribArray(0);
-			  glEnableVertexAttribArray(1);
-			  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
-			                         4*sizeof(float), 0);
-			  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-			                         4*sizeof(float), (void*)(2*sizeof(float)));
-
-			  glDrawArrays(GL_TRIANGLES, 0 ,6);
-
-			  glDisableVertexAttribArray(0);
-			  glDisableVertexAttribArray(1);
+			  drawQuad();
 		  }
 	  }
 	  else
 	  {
-		  //draw quad for screen
-		  glBindBuffer(GL_ARRAY_BUFFER, screen);
-		  glEnableVertexAttribArray(0);
-		  glEnableVertexAttribArray(1);
-		  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
-		                         4*sizeof(float), 0);
-		  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-		                         4*sizeof(float), (void*)(2*sizeof(float)));
-
-		  glDrawArrays(GL_TRIANGLES, 0 ,6);
-		  glDisableVertexAttribArray(0);
-		  glDisableVertexAttribArray(1);
+		  drawQuad();
 	  }
 
+}
+
+void Graphics::drawQuad()
+{
+	  //draw quad for screen
+	  glBindBuffer(GL_ARRAY_BUFFER, screen);
+	  glEnableVertexAttribArray(0);
+	  glEnableVertexAttribArray(1);
+	  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), 0);
+	  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+	  glDrawArrays(GL_TRIANGLES, 0 ,6);
+	  glDisableVertexAttribArray(0);
+	  glDisableVertexAttribArray(1);
 }
 
 void Graphics::RenderList(vector<Object*> list)

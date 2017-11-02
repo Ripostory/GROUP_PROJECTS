@@ -11,6 +11,7 @@ using namespace std;
 #include "world.h"
 #include "billboard.h"
 #include "gui.h"
+#include "framebuffer.h"
 
 class Graphics
 {
@@ -28,12 +29,10 @@ class Graphics
     bool InitShader(Shader*&, string, string);
     void renderDeferred(Shader *shader, Light *light);
     void renderSkybox(Shader *shader);
-    void generateFBO(GLuint &fbo);
-    void generateRBO(GLuint &target, GLenum type, GLenum attach, int width, int height);
-    void generateRBOTex(GLuint &target, GLenum type, GLenum attach, int width, int height);
-    void beginFBODraw(GLuint fbo, int width, int height);
+    void beginFBODraw(int width, int height);
     void updateFPS(unsigned int dt);
     void passMatrices(glm::mat4 modelMatrix);
+    void drawQuad();
 
     GUI ui;
 
@@ -52,14 +51,7 @@ class Graphics
     GLint m_modelMatrix;
     GLuint screen;
 
-    GLuint FBO;
-    GLuint RB_depth;
-    GLuint RB_albedo;
-    GLuint RB_normal;
-    GLuint RB_worldPos;
-
-    GLuint FB_buffer;
-    GLuint T_buffer;
+    FrameBuffer m_deferredFBO;
 
     World *world;
     Object *renderTarget;
