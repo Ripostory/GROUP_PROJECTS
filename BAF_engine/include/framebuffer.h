@@ -36,6 +36,4 @@ private:
     std::vector<GLenum> attachmentList;
 };
 
-
-
 #endif /* INCLUDE_FRAMEBUFFER_H_ */

@@ -41,6 +41,14 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.toolchain.gnu.cross.base.1815463178.2067238197" name="billboard.frag" rcbsApplicability="disable" resourcePath="assets/shaders/billboard.frag" toolsToInvoke="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1099790337.1265165600">
+						<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1099790337.1265165600" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1099790337">
+							<option id="gnu.cpp.compiler.option.include.paths.432767176" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<listOptionValue builtIn="false" value="/home/nog/.eclipse/org.eclipse.platform_4.7.1_185596441_linux_gtk_x86_64/plugins"/>
+							</option>
+							<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.897634690" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+						</tool>
+					</fileInfo>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -49,9 +57,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="BAF_engine.null.1665121752" name="BAF_engine"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
@@ -59,4 +64,13 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1815463178;cdt.managedbuild.toolchain.gnu.cross.base.1815463178.278854687;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1099790337;cdt.managedbuild.tool.gnu.cpp.compiler.input.696171522">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1815463178;cdt.managedbuild.toolchain.gnu.cross.base.1815463178.278854687;cdt.managedbuild.tool.gnu.cross.c.compiler.32721053;cdt.managedbuild.tool.gnu.c.compiler.input.1053680759">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
 </cproject>

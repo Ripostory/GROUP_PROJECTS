@@ -66,7 +66,6 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   m_deferredFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT2);	//worldPos
   m_deferredFBO.addRBO(GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT);
 
-
   //reset to default buffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glActiveTexture(GL_TEXTURE0);
@@ -88,14 +87,14 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   bool success = true;
 
   //build all shaders
-  success &= InitShader(m_shader, "shader.vsh", "shader.fsh");
-  success &= InitShader(m_deferredShader, "deferredPass.vsh", "deferredPass.fsh");
-  success &= InitShader(m_screenShader, "screenShader.vsh", "screenShader.fsh");
-  success &= InitShader(m_pointShader, "shader.vsh", "screenDeferredPoint.fsh");
-  success &= InitShader(m_directionShader, "screenShader.vsh", "screenDeferredDir.fsh");
-  success &= InitShader(m_ambientShader, "screenShader.vsh", "cheapAmbient.fsh");
-  success &= InitShader(m_skyboxShader, "skyboxShader.vsh", "skyboxShader.fsh");
-  success &= InitShader(m_billboard, "billboard.vsh", "billboard.fsh");
+  success &= InitShader(m_shader, "shader.vert", "shader.frag");
+  success &= InitShader(m_deferredShader, "deferredPass.vert", "deferredPass.frag");
+  success &= InitShader(m_screenShader, "screenShader.vert", "screenShader.frag");
+  success &= InitShader(m_pointShader, "shader.vert", "screenDeferredPoint.frag");
+  success &= InitShader(m_directionShader, "screenShader.vert", "screenDeferredDir.frag");
+  success &= InitShader(m_ambientShader, "screenShader.vert", "cheapAmbient.frag");
+  success &= InitShader(m_skyboxShader, "skyboxShader.vert", "skyboxShader.frag");
+  success &= InitShader(m_billboard, "billboard.vert", "billboard.frag");
 
   //stop program build if there was an error
   if (!success)
@@ -190,9 +189,7 @@ void Graphics::Render()
   renderSkybox(m_skyboxShader);
 
   //render lightless world
-  Light *tempLight = new Light(LIGHT_AMB);
-  renderDeferred(m_ambientShader, tempLight); //TODO worldpos not used in ambient
-  delete tempLight;
+  renderDeferred(m_ambientShader, NULL);
 
   //render all lights
   glViewport(0,0, width, height);
@@ -276,7 +273,7 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  m_deferredFBO.bindAllTex();
 
 	  //choose render type
-	  if (light->getLight()->type != LIGHT_AMB)
+	  if (light != NULL)
 	  {
 		  //pass in light data
 		  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
@@ -317,25 +314,11 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  }
 	  else
 	  {
+		  //no light, render ambient light
+		  //TODO worldpos not used in ambient
 		  drawQuad();
 	  }
 
-}
-
-void Graphics::drawQuad()
-{
-	  //draw quad for screen
-	  glBindBuffer(GL_ARRAY_BUFFER, screen);
-	  glEnableVertexAttribArray(0);
-	  glEnableVertexAttribArray(1);
-	  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), 0);
-	  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-	                         4*sizeof(float), (void*)(2*sizeof(float)));
-
-	  glDrawArrays(GL_TRIANGLES, 0 ,6);
-	  glDisableVertexAttribArray(0);
-	  glDisableVertexAttribArray(1);
 }
 
 void Graphics::RenderList(vector<Object*> list)
@@ -366,6 +349,22 @@ void Graphics::passMatrices(glm::mat4 modelMatrix)
 	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
 	  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
 	  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+}
+
+void Graphics::drawQuad()
+{
+	  //draw quad for screen
+	  glBindBuffer(GL_ARRAY_BUFFER, screen);
+	  glEnableVertexAttribArray(0);
+	  glEnableVertexAttribArray(1);
+	  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), 0);
+	  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+	                         4*sizeof(float), (void*)(2*sizeof(float)));
+
+	  glDrawArrays(GL_TRIANGLES, 0 ,6);
+	  glDisableVertexAttribArray(0);
+	  glDisableVertexAttribArray(1);
 }
 
 std::string Graphics::ErrorString(GLenum error)
