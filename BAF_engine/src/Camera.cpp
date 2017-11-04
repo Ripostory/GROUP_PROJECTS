@@ -126,3 +126,8 @@ void camera::SetParent(Object *model)
 {
 	parent = model;
 }
+
+glm::vec3 camera::GetPosition()
+{
+	return position;
+}

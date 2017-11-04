@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 1;
+	resScale = 0.5;
 }
 
 Graphics::~Graphics()
@@ -152,18 +152,6 @@ void Graphics::Update(unsigned int dt)
   m_camera->Update(dt);
 }
 
-void Graphics::updateFPS(unsigned int dt)
-{
-	frameCount++;
-	delay += dt;
-	if (delay >= 1000)
-	{
-		fps = frameCount;
-		delay = 0;
-		frameCount = 0;
-	}
-}
-
 void Graphics::Render()
 {
   //set renderTarget
@@ -217,7 +205,8 @@ void Graphics::Render()
   if ( error != GL_NO_ERROR )
   {
     string val = ErrorString( error );
-    ImGui::TextColored(ImVec4(1,0,0,1), "OpenGL ERROR: %i, %s",error, val.c_str());
+    ImGui::TextColored(ImVec4(1,0,0,1), "OpenGL ERROR: %i",error);
+    ImGui::TextWrapped(val.c_str());
     //std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
 
@@ -293,7 +282,6 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  if (light != NULL)
 	  {
 		  //pass in light data
-		  glm::vec4 camPos = glm::inverse(m_camera->GetView()) * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 
 		  glUniform3fv(
 				  shader->GetUniformLocation("lightPos"), 1,
@@ -301,7 +289,7 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 
 		  glUniform3fv(
 				  shader->GetUniformLocation("cameraPos"), 1,
-				  glm::value_ptr(glm::vec3(camPos)));
+				  glm::value_ptr(glm::vec3(m_camera->GetPosition())));
 
 		  glUniform1f(
 				  shader->GetUniformLocation("radius"),
@@ -382,6 +370,18 @@ void Graphics::drawQuad()
 	  glDrawArrays(GL_TRIANGLES, 0 ,6);
 	  glDisableVertexAttribArray(0);
 	  glDisableVertexAttribArray(1);
+}
+
+void Graphics::updateFPS(unsigned int dt)
+{
+	frameCount++;
+	delay += dt;
+	if (delay >= 1000)
+	{
+		fps = frameCount;
+		delay = 0;
+		frameCount = 0;
+	}
 }
 
 std::string Graphics::ErrorString(GLenum error)

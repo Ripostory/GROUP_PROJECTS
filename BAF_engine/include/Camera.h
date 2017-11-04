@@ -16,6 +16,7 @@ class camera
     bool Initialize(int w, int h);
     glm::mat4 GetProjection();
     glm::mat4 GetView();
+    glm::vec3 GetPosition();
     void SetParent(Object*);
     void SetWorld(Object*);
     void Update(unsigned int);

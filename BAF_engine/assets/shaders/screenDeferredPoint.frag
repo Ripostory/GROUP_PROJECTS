@@ -39,7 +39,7 @@ void main()
 
     vec3 lightDir = lightPos - fragPos;
     vec3 finalNormal = texture(normal, Texcoord).rgb;
-    vec3 viewDir = cameraPos;
+    vec3 viewDir = cameraPos - fragPos;
     
     //vector calculation
     vec3 N = normalize(finalNormal);

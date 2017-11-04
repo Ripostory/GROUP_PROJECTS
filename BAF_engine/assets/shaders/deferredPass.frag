@@ -10,9 +10,11 @@ uniform sampler2D specMap;
 
 void main(void)
 {
-   //temp material properties
-   float metallic = 0;
-   float roughness = texture2D(specMap, texCoordModel).r;
+   //load material properties
+   //Metallic = white, Dielectric = Black;
+   //Full specular = White, Full roughness = Black;
+   float roughness = 1- texture2D(specMap, texCoordModel).r;
+   float metallic = texture2D(specMap, texCoordModel).g;
 	
    //modify textures to fit range
    metallic = mix(0.1, 1.0, metallic);
@@ -28,5 +30,5 @@ void main(void)
    gl_FragData[1] = vec4(normal, 1.0);
 
    //pass material information
-   gl_FragData[2] = vec4(metallic, roughness, 1, 1);
+   gl_FragData[2] = vec4(metallic, roughness, 0, 0);
 }
