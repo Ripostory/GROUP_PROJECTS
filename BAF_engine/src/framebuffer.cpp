@@ -6,6 +6,7 @@ FrameBuffer::FrameBuffer()
 	width = 0;
 	height = 0;
 	frameBuffer = -1;
+	depth = -1;
 }
 
 FrameBuffer::FrameBuffer(int w, int h)
@@ -56,35 +57,72 @@ void FrameBuffer::addRBOTex(GLenum type, GLenum attach)
 	glGenTextures(1, &newRBO);
 	glBindTexture(GL_TEXTURE_2D, newRBO);
 
-	if (type == GL_RGBA || type == GL_RGB8)
-		glTexImage2D(GL_TEXTURE_2D, 0, type,
-				width, height, 0, type,
-				GL_UNSIGNED_BYTE, NULL);
+	if (type != GL_DEPTH_COMPONENT)
+	{
+		if (type == GL_RGBA || type == GL_RGB8 || type == GL_RGB10 || GL_R11F_G11F_B10F)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, GL_RGB,
+					GL_UNSIGNED_BYTE, NULL);
 
-	else if (type == GL_RGBA16F || type == GL_RGBA32F || type == GL_RGB10_A2)
-		glTexImage2D(GL_TEXTURE_2D, 0, type,
-				width, height, 0, GL_RGBA,
-				GL_FLOAT, NULL);
+		else if (type == GL_RG || type == GL_RG8)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, GL_RG,
+					GL_UNSIGNED_BYTE, NULL);
 
-	else if (type == GL_RGB16F || type == GL_RGB32F || type == GL_RGB10_A2)
-		glTexImage2D(GL_TEXTURE_2D, 0, type,
-				width, height, 0, GL_RGB,
-				GL_FLOAT, NULL);
+		else if (type == GL_R || type == GL_R8)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, type,
+					GL_UNSIGNED_BYTE, NULL);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		else if (type == GL_RGBA16F || type == GL_RGBA32F || type == GL_RGB10_A2)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, GL_RGBA,
+					GL_FLOAT, NULL);
+
+		else if (type == GL_RGB16F || type == GL_RGB32F || type == GL_RGB10_A2)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, GL_RGB,
+					GL_FLOAT, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+	else
+	{
+		if (type == GL_DEPTH_COMPONENT)
+			glTexImage2D(GL_TEXTURE_2D, 0, type,
+					width, height, 0, GL_DEPTH_COMPONENT,
+					GL_FLOAT, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+
 
 	glFramebufferTexture2D(
 	    GL_FRAMEBUFFER, attach, GL_TEXTURE_2D, newRBO, 0
 	);
 
-	//push into RenderBuffer list
-	renderBuffers.push_back(RenderBuffer(newRBO, attach, true));
+	if (type != GL_DEPTH_COMPONENT)
+	{
+		//push into RenderBuffer list
+		renderBuffers.push_back(RenderBuffer(newRBO, attach, true));
 
-	//add to attachmentList
-	attachmentList.push_back(attach);
+		//add to attachmentList
+		attachmentList.push_back(attach);
+	}
+	else
+	{
+		//put it into depth
+		depth = newRBO;
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth, 0);
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
@@ -105,6 +143,12 @@ void FrameBuffer::bindRBTexture(int index, int attach)
 	//bind specific texture
 	glActiveTexture(attach);
 	glBindTexture(GL_TEXTURE_2D, renderBuffers[index].RBO);
+}
+
+void FrameBuffer::bindDepth(int where)
+{
+	glActiveTexture(GL_TEXTURE0 + where);
+	glBindTexture(GL_TEXTURE_2D, depth);
 }
 
 void FrameBuffer::bindAllTex()

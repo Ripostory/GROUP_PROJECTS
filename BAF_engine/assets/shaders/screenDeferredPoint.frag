@@ -3,9 +3,11 @@ out vec4 frag_color;
 
 uniform sampler2D albedo;
 uniform sampler2D normal;
-uniform sampler2D worldPos;
+uniform sampler2D material;
+uniform sampler2D depth;
 
 uniform vec3 cameraPos;
+uniform mat4 viewInverse;
 uniform vec3 lightPos;
 uniform vec3 color;
 uniform float radius;
@@ -24,15 +26,19 @@ void main()
         discard;
         
         
-    //get material properties from alphas
-    float metallic = texture(normal, Texcoord).a;
-    float roughness = texture(worldPos, Texcoord).a;
-    
-    
-    vec3 fragPos = texture(worldPos, Texcoord).xyz;
+    //get material properties from material buffer
+    float metallic = texture(material, Texcoord).r;
+    float roughness = texture(material, Texcoord).g;
+
+    //rebuild world pos from depth buffer
+    vec4 depthPos = vec4(1.0f);
+    depthPos.xy = Texcoord * 2.0f - 1.0f;
+    depthPos.z = texture(depth, Texcoord).r * 2.0f - 1.0f;
+    depthPos = viewInverse * depthPos;
+    vec3 fragPos = depthPos.xyz / depthPos.w;
+
     vec3 lightDir = lightPos - fragPos;
-        
-    vec3 finalNormal = texture(normal, Texcoord).xyz;
+    vec3 finalNormal = texture(normal, Texcoord).rgb;
     vec3 viewDir = cameraPos;
     
     //vector calculation
@@ -66,11 +72,7 @@ void main()
     
     float lightAngle = max(dot(N, L), 0.0);
     vec3 finalColor = (finalDiff * finalAlbedo / 3.1415 + specular) * attenuation * color * lightAngle;
-    
-    //gamma correction
-    finalColor = finalColor / (finalColor + vec3(1.0));
-    finalColor = pow(finalColor, vec3(1.0/2.2));
-    
+
     frag_color = vec4(finalColor, 1.0f);
 }
 

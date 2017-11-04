@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 0.7;
+	resScale = 1;
 }
 
 Graphics::~Graphics()
@@ -61,10 +61,13 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 
   //Generate Frame buffer
   m_deferredFBO.initFB(width*resScale, height*resScale);
-  m_deferredFBO.addRBOTex(GL_RGBA, GL_COLOR_ATTACHMENT0);		//albedo
-  m_deferredFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT1);	//normal
-  m_deferredFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT2);	//worldPos
-  m_deferredFBO.addRBO(GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT);
+  m_deferredFBO.addRBOTex(GL_RGBA, GL_COLOR_ATTACHMENT0);			//albedo
+  m_deferredFBO.addRBOTex(GL_RGB16F, GL_COLOR_ATTACHMENT1);			//normal
+  m_deferredFBO.addRBOTex(GL_RG, GL_COLOR_ATTACHMENT2);				//material
+  m_deferredFBO.addRBOTex(GL_DEPTH_COMPONENT, GL_DEPTH_ATTACHMENT);	//depth
+
+  m_lightingFBO.initFB(width, height);
+  m_lightingFBO.addRBOTex(GL_RGBA16F, GL_COLOR_ATTACHMENT0);
 
   //reset to default buffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -90,6 +93,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   success &= InitShader(m_shader, "shader.vert", "shader.frag");
   success &= InitShader(m_deferredShader, "deferredPass.vert", "deferredPass.frag");
   success &= InitShader(m_screenShader, "screenShader.vert", "screenShader.frag");
+  success &= InitShader(m_HDRShader, "screenShader.vert", "screenHDR.frag");
   success &= InitShader(m_pointShader, "shader.vert", "screenDeferredPoint.frag");
   success &= InitShader(m_directionShader, "screenShader.vert", "screenDeferredDir.frag");
   success &= InitShader(m_ambientShader, "screenShader.vert", "cheapAmbient.frag");
@@ -174,25 +178,21 @@ void Graphics::Render()
   RenderList(world->getChildren());
 
   //render result of FBO to default buffer
-  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+  m_lightingFBO.bindFB();
 
   //set frame buffer parameters
   glViewport(0,0, width, height);
-  glClearColor(0.0, 0.3, 0.5, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 0.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glDisable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_FRONT);
   glDepthFunc(GL_EQUAL);
 
-  //render cubemap
-  renderSkybox(m_skyboxShader);
-
   //render lightless world
   renderDeferred(m_ambientShader, NULL);
 
   //render all lights
-  glViewport(0,0, width, height);
   glEnable(GL_BLEND);
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_ONE, GL_ONE);
@@ -203,6 +203,15 @@ void Graphics::Render()
   }
 
   glDisable(GL_BLEND);
+
+  // draw to default FBO
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+  //render cubemap
+  renderSkybox(m_skyboxShader);
+  m_HDRShader->Enable();
+  m_lightingFBO.bindAllTex();
+  drawQuad();
+
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
@@ -263,14 +272,22 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  //pass in buffers
 	  glUniform1i(shader->GetUniformLocation("albedo"), 0);
 	  glUniform1i(shader->GetUniformLocation("normal"), 1);
-	  glUniform1i(shader->GetUniformLocation("worldPos"), 2);
+	  //glUniform1i(shader->GetUniformLocation("worldPos"), 2);
+	  glUniform1i(shader->GetUniformLocation("material"), 2);
+	  glUniform1i(shader->GetUniformLocation("depth"), 3);
 
 	  //pass in screen size
 	  glm::vec2 screenSize = glm::vec2(width, height);
 	  glUniform2fv(shader->GetUniformLocation("gScreenSize"), 1, glm::value_ptr(screenSize));
 
+	  //pass in view matrix
+	  glm::mat4 worldPosMatrix = glm::inverse(m_camera->GetProjection() * m_camera->GetView());
+	  glUniformMatrix4fv(shader->GetUniformLocation("viewInverse"),
+			  1, GL_FALSE, glm::value_ptr(worldPosMatrix));
+
 	  //pass in output texture
 	  m_deferredFBO.bindAllTex();
+	  m_deferredFBO.bindDepth(3);
 
 	  //choose render type
 	  if (light != NULL)

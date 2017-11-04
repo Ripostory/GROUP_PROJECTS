@@ -23,6 +23,7 @@ public:
     void addRBOTex(GLenum type, GLenum attach);
     void bindFB();
     void bindRBTexture(int index, int attach);
+    void bindDepth(int where);
     void bindAllTex();
 
     GLenum* getBufferList();
@@ -32,6 +33,7 @@ private:
     int height;
 
     GLuint frameBuffer;
+    GLuint depth;
     std::vector<RenderBuffer> renderBuffers;
     std::vector<GLenum> attachmentList;
 };

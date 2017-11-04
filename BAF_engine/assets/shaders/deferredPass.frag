@@ -18,15 +18,15 @@ void main(void)
    metallic = mix(0.1, 1.0, metallic);
    roughness = mix(0.02, 1.0, roughness);
 
-   //albedo > normal > worldPos
+   //albedo > normal
    gl_FragData[0] = texture2D(texture, texCoordModel);
    
-   //pack normal and Metallic into normal map
+   //pack normal
    vec3 normal = texture2D(normalMap, texCoordModel).xyz;
    normal = normalize(normal * 2.0 - 1.0);
    normal = normalize(TBN * normal);
-   gl_FragData[1] = vec4(normal, metallic);
-   
-   //pack worldPos and Roughness into worldPos map
-   gl_FragData[2] = vec4(fragPos.xyz, roughness);
+   gl_FragData[1] = vec4(normal, 1.0);
+
+   //pass material information
+   gl_FragData[2] = vec4(metallic, roughness, 1, 1);
 }

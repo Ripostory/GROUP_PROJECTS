@@ -45,6 +45,7 @@ class Graphics
     Shader *m_pointShader;
     Shader *m_directionShader;
     Shader *m_screenShader;
+    Shader *m_HDRShader;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
@@ -52,6 +53,7 @@ class Graphics
     GLuint screen;
 
     FrameBuffer m_deferredFBO;
+    FrameBuffer m_lightingFBO;
 
     World *world;
     Object *renderTarget;
