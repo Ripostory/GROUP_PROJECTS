@@ -19,6 +19,9 @@ FrameBuffer::~FrameBuffer()
 	width = 0;
 	height = 0;
 	frameBuffer = 0;
+
+	//clean up everything
+	glDeleteFramebuffers(1, &frameBuffer);
 }
 
 void FrameBuffer::initFB(int w, int h)
