@@ -16,6 +16,8 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
+
+		void SetShaderMode (bool mode);
     bool Initialize(int width, int height, SDL_Window *window);
     void Update(unsigned int dt);
     void Render();
@@ -29,10 +31,14 @@ class Graphics
     void generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int height);
     void updateFPS(unsigned int dt);
 
+		bool fragment;
+
     GUI ui;
 
     camera *m_camera;
     Shader *m_shader;
+		Shader *m_phongShader;
+		Shader *m_gouraudShader;
     Shader *m_screenShader;
 
     GLint m_projectionMatrix;

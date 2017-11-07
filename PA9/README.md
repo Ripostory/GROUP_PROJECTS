@@ -11,3 +11,6 @@ note: uses bullet 2.87 (build and do make install)
 
 k to spawn sphere
 l to spawn cube
+
+f set per fragment lighting
+g set per vertex lighting

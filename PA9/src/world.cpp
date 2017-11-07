@@ -3,12 +3,19 @@
 GLuint World::lightPosArray = 0;
 GLuint World::lightRadArray = 0;
 GLuint World::lightSize = 0;
+GLuint World::lightTypeArray = 0;
+GLuint World::lightRotArray = 0;
+
 
 World::World()
 {
 	  //initialize ground plane
 	  size = 1.0f;
 	  pos = NULL;
+		rot = NULL;
+		rad = NULL;
+		types = NULL;
+
 	  initPhys();
 
 	  //TODO load world here
@@ -22,12 +29,16 @@ World::World()
 	  Light *light = new Light();
 	  light->translate(glm::vec3(10,-5, 0));
 	  addLight(light);
-	  light = new Light();
-	  light->translate(glm::vec3(-10,-5,0));
+
+	  light = new Light (5, 1, Light_Point);
+	  light->translate(glm::vec3(-10, 5,0));
 	  addLight(light);
-	  light = new Light();
-	  light->translate(glm::vec3(0,-5,-20));
-	  addLight(light);
+
+		light = new Light (5, 1, Light_Spot);
+		light->translate (glm::vec3(-10, 9, 0));
+		spot = light;
+		addLight (light);
+
 }
 
 World::~World()
@@ -46,11 +57,13 @@ World::~World()
 		delete[] pos;
 }
 
-void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz)
+void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint rot, GLuint types)
 {
 	lightPosArray = pos;
 	lightRadArray = rad;
 	lightSize = siz;
+	lightRotArray = rot;
+	lightTypeArray = types;
 }
 
 void World::keyboard(eventType event)
@@ -66,6 +79,10 @@ void World::keyboard(eventType event)
 			newItem->translate(glm::vec3(0,40,0));
 			newItem->initPhysics();
 			this->addChild(newItem);
+
+
+			lastBall = newItem;
+			spot -> translate (glm::vec3(0, 0, 0));
 		}
 		if (event.key == SDLK_l)
 		{
@@ -76,12 +93,20 @@ void World::keyboard(eventType event)
 			newItem->translate(glm::vec3(1,40,0));
 			newItem->initPhysics();
 			this->addChild(newItem);
+
 		}
 	}
 }
 
 void World::Update(unsigned int dt)
 {
+
+		if(lastBall != NULL) {
+
+			spot -> translate (((PhysObject*)lastBall) -> btToGlm(((PhysObject*)lastBall) -> transform.getOrigin()));
+
+		}
+
 	  model = mtranslate * mscale * mrotate;
 	  //update keyboard
 	  for (int i = 0; i < listener.getSize(); i++)
@@ -110,6 +135,9 @@ void World::Render()
 
 	glUniform1i(lightSize, lights.size());
 	glUniform3fv(lightPosArray,16,(const float*) pos);
+	glUniform3fv(lightRadArray,16,(const float*) rad);
+	glUniform3fv(lightRotArray,16,(const float*) rot);
+	glUniform1iv(lightTypeArray,16,(const int*) types);
 }
 
 void World::addLight(Light *light)
@@ -122,6 +150,8 @@ void World::addLight(Light *light)
 
 void World::rebuildDataArray()
 {
+
+	//Rebuild positions array
 	if (pos != NULL)
 		delete[] pos;
 
@@ -133,6 +163,47 @@ void World::rebuildDataArray()
 	for (int i = 0; i < lights.size(); i++)
 	{
 		pos[i] = lights[i]->getLight()->pos;
+	}
+
+	//Rebuild rotations array
+	if (rot != NULL)
+		delete[] rot;
+
+	if (lights.size() < 16)
+		rot = new glm::vec3[16]();
+	else
+		rot = new glm::vec3 [lights.size()]();
+
+	for (int i = 0; i < lights.size(); i++) {
+
+		rot[i] = lights[i] -> getLight () -> rotation;
+	}
+
+	if (rad != NULL)
+		delete[] rad;
+
+	if (lights.size() < 16)
+		rad = new glm::vec3[16] ();
+	else
+		rad = new glm::vec3 [lights.size()]();
+
+	for (int i = 0; i < lights.size(); i++) {
+
+		rad[i] = lights[i] -> getLight () -> rotation;
+	}
+
+	//Rebuild Types array
+	if (types != NULL)
+		delete types;
+
+	if (lights.size() < 16)
+		types = new int [16];
+	else
+		types = new int[lights.size()];
+
+	for (int i = 0; i < lights.size(); i++) {
+
+		types [i] = lights[i] -> getLight () -> type;
 	}
 }
 

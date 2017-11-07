@@ -10,6 +10,7 @@ smooth in vec3 reflectDir[16];
 in float attenuation[16];
 flat in int lights;
 
+
 uniform sampler2D texture;
 uniform sampler2D normalMap;
 
@@ -20,6 +21,7 @@ float calculateSpecular(int index, vec3 V);
 
 void main(void)
 {	
+
 	vec3 N = normalize(normal);
 	vec3 V = normalize(viewDir);
 	
@@ -32,8 +34,6 @@ void main(void)
 		finalSpec += calculateSpecular(i, V);
 		finalAtten *= attenuation[i];
 	}
-	
-	
 	
 	vec3 albedo = texture2D(texture, texCoordMod).rgb;
 	frag_color = vec4((albedo * finalDiff + finalSpec) * finalAtten, 1.0f);

@@ -101,6 +101,8 @@ void Engine::Run()
 
 void Engine::Keyboard(eventType event)
 {
+
+
   if(event.eventVer == SDL_QUIT)
   {
     m_running = false;
@@ -112,6 +114,13 @@ void Engine::Keyboard(eventType event)
     {
       m_running = false;
     }
+
+		if (event.key == SDLK_f)
+			m_graphics -> SetShaderMode (true);
+
+		if (event.key == SDLK_g)
+			m_graphics -> SetShaderMode (false);
+
   }
 }
 

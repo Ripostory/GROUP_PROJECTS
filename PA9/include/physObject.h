@@ -32,15 +32,17 @@ public:
     void setCollisionMesh(int capCylCone, float, float);
     void setCollisionMesh(int mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
-protected:
+
+    btTransform transform;
     glm::vec3 btToGlm(btVector3);
+protected:
+
     glm::mat4 btToGlm(btTransform);
     btVector3 glmToBt(glm::vec3);
 
 private:
     btRigidBody *physics;
     btCollisionShape *shape;
-    btTransform transform;
     vector<btVector3> physMesh;
     float mass;
     float friction;

@@ -12,6 +12,19 @@ Graphics::~Graphics()
 	Object::end();
 }
 
+void Graphics::SetShaderMode (bool mode) {
+
+	fragment = mode;
+
+	if (fragment)
+		m_shader = m_phongShader;
+
+	if (!fragment)
+		m_shader = m_gouraudShader;
+	
+
+}
+
 bool Graphics::InitShader(Shader *&shader, string vertex, string fragment)
 {
 	 // Set up the shaders
@@ -114,10 +127,16 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   }
 
   //create shader
-  if (!InitShader(m_shader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
+	fragment = true; //Default mode is per-fragment
+
+  if (!InitShader(m_phongShader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
 	  return false;
+	if (!InitShader(m_gouraudShader, "shaders/gouraudVert.vsh", "shaders/gouraudVert.fsh"))
+		return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
+
+	m_shader = m_phongShader;
 
   //initialize object default directory
   Object::init();
@@ -129,7 +148,12 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   world->setLightPointer(
 		  m_shader->GetUniformLocation("lPos"),
 		  m_shader->GetUniformLocation("lRad"),
-		  m_shader->GetUniformLocation("lSize"));
+		  m_shader->GetUniformLocation("lSize"),
+			m_shader->GetUniformLocation("lRot"),
+			m_shader->GetUniformLocation("lType")
+	);
+	
+
   //set world for camera
   m_camera->SetWorld(world);
 
