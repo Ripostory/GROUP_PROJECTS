@@ -16,11 +16,37 @@ World::World()
 	  initPhys();
 
 	  //TODO load world here
-	  PhysObject *child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/newBoard.obj");
-	  child->translate(glm::vec3(0,-10,0));
-	  child->rotate(-0.4, glm::vec3(1,0,0));
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/newBoard.obj");
+
+	  //load board
+	  PhysObject *child;
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_extWall1.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall1.obj");
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_extWall2.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall2.obj");
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_divider1.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider1.obj");
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_divider2.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_intWalls.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child->loadModel("models/collision/c_island.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_island.obj");
 	  this->addChild(child);
 
 	  Light *light = new Light();
@@ -64,10 +90,10 @@ void World::keyboard(eventType event)
 		if (event.key == SDLK_k) {
 
 			//spawn item
-			PhysObject *newItem = new PhysObject(Layer_Ball, Layer_All);
+			PhysObject *newItem = new PhysObject(Layer_All, Layer_All);
 			newItem->loadModel("models/planet.obj");
 			newItem->setSphereCollider(Physics_Mesh_Sphere, 1);
-			newItem->translate(glm::vec3(0,40,0));
+			newItem->translate(glm::vec3(-80,40,0));
 			newItem->initPhysics();
 			this->addChild(newItem);
 		}
@@ -144,7 +170,7 @@ void World::initPhys()
 {
 
 	btCollisionShape* groundShape =
-			new btStaticPlaneShape(btVector3(0, 1, 0), -20);
+			new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 	btDefaultMotionState* groundMotionState =
 	        new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo

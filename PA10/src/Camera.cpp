@@ -6,9 +6,9 @@ camera::camera()
     orbit = 0.0f;
     xPos = 0.0f;
     yPos = 0.0f;
-    lookAt = glm::vec4(0.0f);
-    distance = 70.0f;
-    height = 15.0f;
+    lookAt = glm::vec4(-20, 0, 0, 1);
+    distance = 30.0f;
+    height = 40.0f;
     parent = NULL;
     world = NULL;
     index = -1;
@@ -28,11 +28,11 @@ bool camera::Initialize(int w, int h)
   //  for this project having them static will be fine
   this->w = w;
   this->h = h;
-  view = glm::lookAt( glm::vec3(0.0, 8.0, -16.0), //Eye Position
-                      glm::vec3(0.0, 0.0, 0.0), //Focus point
+  view = glm::lookAt( glm::vec3(0.0, 8.0, 16.0), //Eye Position
+                      glm::vec3(-20.0, 0.0, 0.0), //Focus point
                       glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
 
-  projection = glm::perspective( 40.0f, //the FoV typically 90 degrees is good which is what this is set to
+  projection = glm::perspective( 45.0f, //the FoV typically 90 degrees is good which is what this is set to
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  10000.0f); //Distance to the far plane,
@@ -85,16 +85,6 @@ void camera::Update(unsigned int dt)
 			}
 
 		}
-	}
-
-
-	if (parent != NULL) {
-		//extract parent location
-		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	}
-	else if (world != NULL) {
-		parent = world;
-		lookAt = parent->GetModel() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	//calculate orbit and convert to position vector

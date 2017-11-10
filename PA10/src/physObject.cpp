@@ -83,7 +83,7 @@ void PhysObject::OnCollisionDetected () {
 
 void PhysObject::OnCollisionDetected (PhysObject* hit) {
 
-		cout << hit << " is touching " << this << endl;
+	cout << hit << " is touching " << this << endl;
 }
 
 void PhysObject::Begin()

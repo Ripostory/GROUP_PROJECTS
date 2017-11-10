@@ -45,7 +45,7 @@ bool Engine::Initialize()
 
   physWorld = new btDiscreteDynamicsWorld(physDispatcher,
 		  overlapPairCache, solver, collConfig);
-  physWorld->setGravity(btVector3(0, -10, 0));
+  physWorld->setGravity(btVector3(5, -10, 0));
 
   //initialize event handler
   m_event.init(physWorld);
