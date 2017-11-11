@@ -3,7 +3,7 @@
 
 camera::camera()
 {
-    orbit = 0.0f;
+    orbit = 180.0f;
     xPos = 0.0f;
     yPos = 0.0f;
     lookAt = glm::vec4(-14, 0, 0, 1);

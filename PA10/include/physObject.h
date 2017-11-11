@@ -43,15 +43,16 @@ public:
     void setCapsuleCollider(Physics_Mesh_Shape capCylCone, float, float);
     void setMeshCollider(Physics_Mesh_Shape mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
+    void setConstraint(float low, float high);
 	
-		int GetColliderLayer ();
-		int GetTangibleLayers ();
-		void SetColliderMask (int, int);
+    int GetColliderLayer ();
+    int GetTangibleLayers ();
+    void SetColliderMask (int, int);
 
-		void OnCollisionDetected ();
-		void OnCollisionDetected (PhysObject* hit);
+	void OnCollisionDetected ();
+	void OnCollisionDetected (PhysObject* hit);
 
-		static PhysObject* btToPhysObject (const btCollisionObject* obj);
+	static PhysObject* btToPhysObject (const btCollisionObject* obj);
 
 protected:
     glm::vec3 btToGlm(btVector3);
@@ -60,7 +61,7 @@ protected:
 
 private:
 
-		//void OnCollisionDetected ();
+	//void OnCollisionDetected ();
     btRigidBody *physics;
     btCollisionShape *shape;
 
@@ -71,8 +72,8 @@ private:
     float restitution;
     bool isStatic;
 
-		int layer;
-		int layersThatCanBeHit;
+	int layer;
+	int layersThatCanBeHit;
 };
 
 struct ContactSensorCallback : public btCollisionWorld::ContactResultCallback {

@@ -81,6 +81,16 @@ void PhysObject::OnCollisionDetected () {
 
 }
 
+void PhysObject::setConstraint(float low, float high)
+{
+	initPhysics();
+	btVector3 axis(0,1,0);
+	btVector3 pivot(0,1,0);
+	btHingeConstraint *constraint = new btHingeConstraint(*physics, axis, pivot);
+	constraint->setLimit(low, high);
+	listener.getWorld()->addConstraint(constraint);
+}
+
 void PhysObject::OnCollisionDetected (PhysObject* hit) {
 
 	//TODO: add functionality here
@@ -177,15 +187,13 @@ void PhysObject::setMeshCollider(Physics_Mesh_Shape mesh, string filename)
 			btConvexHullShape *meshShape = new btConvexHullShape();
 			for (int i = 1; i < final.getVerts().size(); i++)
 			{
+
 				vert = &final.getVerts()[i].vertex;
-				cout <<  final.getIndices()[i] << ": "
-						<< vert->x << ", "
-						<< vert->y << ", "
-						<< vert->z  << endl;
 				btVector3 v1(vert->x, vert->y, vert->z);
 				meshShape->addPoint(v1, true);
 			}
-			delete shape;
+			if (shape != NULL)
+				delete shape;
 			shape = meshShape;
 		}
 		else if (mesh == PHYS_S_MESH)
@@ -224,41 +232,49 @@ void PhysObject::setMeshCollider(Physics_Mesh_Shape mesh, string filename)
 
 void PhysObject::initPhysics()
 {
-	//base initial position on model matrix
-	transform.setIdentity();
+	//if physics has already been initialized, skip
+	if (physics == NULL)
+	{
+		//base initial position on model matrix
+		transform.setIdentity();
 
-	//apply glm world position to simulated world
-	transform.setOrigin(glmToBt(glm::vec3(glm::vec4(0, 0, 0, 1) * glm::transpose(model))));
-	glm::quat qt = glm::quat_cast(model);
-	transform.setRotation(btQuaternion(qt.x,qt.y,qt.z,qt.w));
+		//apply glm world position to simulated world
+		transform.setOrigin(glmToBt(glm::vec3(glm::vec4(0, 0, 0, 1) * glm::transpose(model))));
+		glm::quat qt = glm::quat_cast(model);
+		transform.setRotation(btQuaternion(qt.x,qt.y,qt.z,qt.w));
 
-	//determine if static
-	if (isStatic)
-		mass = 0.0f;
+		//determine if static
+		if (isStatic)
+			mass = 0.0f;
+		else
+			mass = 1.0f;
+
+		btVector3 inertia(0,0,0);
+		shape->calculateLocalInertia(mass, inertia);
+
+		btDefaultMotionState* objMotionState = new btDefaultMotionState(transform);
+		btRigidBody::btRigidBodyConstructionInfo objCI(0, NULL, NULL, inertia);
+		objCI.m_localInertia = inertia;
+		objCI.m_collisionShape = shape;
+		objCI.m_motionState = objMotionState;
+		objCI.m_mass = mass;
+		objCI.m_restitution = restitution;
+		objCI.m_friction = friction;
+
+		physics = new btRigidBody(objCI);
+
+		//Rigidbody, collider layer, what it colliders with
+		listener.getWorld()->addRigidBody(physics, layer, layersThatCanBeHit);
+
+		ContactSensorCallback cb (*physics, *this);
+		listener.getWorld () -> contactTest (physics, cb); //Add callback function to struct
+
+		CollisionObjectMap.insert(std::pair<btCollisionObject*, PhysObject*> (physics, this));
+	}
 	else
-		mass = 1.0f;
-
-	btVector3 inertia(0,0,0);
-	shape->calculateLocalInertia(mass, inertia);
-
-	btDefaultMotionState* objMotionState = new btDefaultMotionState(transform);
-	btRigidBody::btRigidBodyConstructionInfo objCI(0, NULL, NULL, inertia);
-	objCI.m_localInertia = inertia;
-	objCI.m_collisionShape = shape;
-	objCI.m_motionState = objMotionState;
-	objCI.m_mass = mass;
-	objCI.m_restitution = restitution;
-	objCI.m_friction = friction;
-
-	physics = new btRigidBody(objCI);
-	
-	//Rigidbody, collider layer, what it colliders with
-	listener.getWorld()->addRigidBody(physics, layer, layersThatCanBeHit);
-
-	ContactSensorCallback cb (*physics, *this);
-	listener.getWorld () -> contactTest (physics, cb); //Add callback function to struct
-
-	CollisionObjectMap.insert(std::pair<btCollisionObject*, PhysObject*> (physics, this));
+	{
+		cout << "PHYSICS ALREADY INITIALZIED FOR THIS OBJECT" << endl;
+	}
 
 /*
 // USAGE:

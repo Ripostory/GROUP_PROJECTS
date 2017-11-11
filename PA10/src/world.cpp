@@ -63,12 +63,13 @@ World::World()
 	  child->rotate(-45, glm::vec3(0,1,0));
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Paddle, Layer_Ball);
 	  child->loadModel("models/paddle.obj");
 	  child->loadTexture("textures/paddle.png");
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_paddle.obj");
+	  child->setMeshCollider(Physics_Mesh_Hull, "models/collision/c_paddle.obj");
 	  child->translate(glm::vec3(-0.09729, 0, 8.46273));
-	  child->rotate(45, glm::vec3(0,1,0));
+	  child->rotate(90, glm::vec3(0,1,0));
+	  child->setConstraint(0.785, 2.35);
 	  this->addChild(child);
 
 	  Light *light = new Light();
