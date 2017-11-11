@@ -19,27 +19,27 @@ World::World()
 
 	  //load board
 	  PhysObject *child;
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/collision/c_extWall1.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall1.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/collision/c_extWall2.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall2.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/collision/c_divider1.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider1.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/collision/c_divider2.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/intWall1.obj");
 	  child->loadTexture("textures/intWall1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
@@ -49,9 +49,26 @@ World::World()
 	  base->loadTexture("textures/intWall2.png");
 	  this->addChild(base);
 
-	  child = new PhysObject(Layer_Table, Layer_All);;
+	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/collision/c_island.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_island.obj");
+	  this->addChild(child);
+
+	  //TODO: make paddles their own class
+	  child = new PhysObject(Layer_Table, Layer_All);
+	  child->loadModel("models/paddle.obj");
+	  child->loadTexture("textures/paddle.png");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_paddle.obj");
+	  child->translate(glm::vec3(-0.09729, 0, -8.46273));
+	  child->rotate(-45, glm::vec3(0,1,0));
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);
+	  child->loadModel("models/paddle.obj");
+	  child->loadTexture("textures/paddle.png");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_paddle.obj");
+	  child->translate(glm::vec3(-0.09729, 0, 8.46273));
+	  child->rotate(45, glm::vec3(0,1,0));
 	  this->addChild(child);
 
 	  Light *light = new Light();
