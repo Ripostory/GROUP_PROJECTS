@@ -30,7 +30,7 @@ void main(void)
 	{
 		finalDiff += calculateDiff(i, N);
 		finalSpec += calculateSpecular(i, V);
-		finalAtten *= attenuation[i];
+		finalAtten = min(finalAtten + attenuation[i], 1);
 	}
 	
 	

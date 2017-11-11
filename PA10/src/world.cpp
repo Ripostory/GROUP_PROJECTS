@@ -58,10 +58,10 @@ World::World()
 	  light->translate(glm::vec3(10,10, 0));
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(-20, 10,0));
+	  light->translate(glm::vec3(-80, 10,0));
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(0,10,-20));
+	  light->translate(glm::vec3(-50,10,-20));
 	  addLight(light);
 }
 
