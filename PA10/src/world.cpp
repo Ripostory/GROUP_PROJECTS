@@ -40,9 +40,14 @@ World::World()
 	  this->addChild(child);
 
 	  child = new PhysObject(Layer_Table, Layer_All);;
-	  child->loadModel("models/collision/c_intWalls.obj");
+	  child->loadModel("models/intWall1.obj");
+	  child->loadTexture("textures/intWall1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
 	  this->addChild(child);
+	  Object *base = new Object();
+	  base->loadModel("models/intwall2.obj");
+	  base->loadTexture("textures/intWall2.png");
+	  this->addChild(base);
 
 	  child = new PhysObject(Layer_Table, Layer_All);;
 	  child->loadModel("models/collision/c_island.obj");
@@ -50,13 +55,13 @@ World::World()
 	  this->addChild(child);
 
 	  Light *light = new Light();
-	  light->translate(glm::vec3(10,-5, 0));
+	  light->translate(glm::vec3(10,10, 0));
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(-10,-5,0));
+	  light->translate(glm::vec3(-20, 10,0));
 	  addLight(light);
 	  light = new Light();
-	  light->translate(glm::vec3(0,-5,-20));
+	  light->translate(glm::vec3(0,10,-20));
 	  addLight(light);
 }
 

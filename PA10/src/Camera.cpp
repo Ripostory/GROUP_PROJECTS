@@ -6,7 +6,7 @@ camera::camera()
     orbit = 0.0f;
     xPos = 0.0f;
     yPos = 0.0f;
-    lookAt = glm::vec4(-20, 0, 0, 1);
+    lookAt = glm::vec4(-14, 0, 0, 1);
     distance = 30.0f;
     height = 40.0f;
     parent = NULL;
