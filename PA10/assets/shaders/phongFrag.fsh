@@ -25,7 +25,7 @@ void main(void)
 	
 	float finalDiff = 0;
 	float finalSpec = 0;
-	float finalAtten = 1;
+	float finalAtten = 0;
 	for (int i = 0; i < lights; i++)
 	{
 		finalDiff += calculateDiff(i, N);
