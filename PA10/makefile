@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o paddle.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -79,8 +79,8 @@ light.o: ../src/Light.cpp
 gui.o: ../src/gui.cpp
 	$(CC) $(CXXFLAGS) -c ../src/gui.cpp -o gui.o $(INDLUDES)
 
-gui.o: ../src/gui.cpp
-	$(CC) $(CXXFLAGS) -c ../src/gui.cpp -o gui.o $(INDLUDES)
+gui.o: ../src/paddle.cpp
+	$(CC) $(CXXFLAGS) -c ../src/paddle.cpp -o paddle.o $(INDLUDES)
 
 imgui_impl_sdl_gl3.o: ../src/imgui_impl_sdl_gl3.cpp
 	$(CC) $(CXXFLAGS) -c ../src/imgui_impl_sdl_gl3.cpp -o imgui_impl_sdl_gl3.o $(INDLUDES)

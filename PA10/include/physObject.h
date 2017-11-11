@@ -52,20 +52,21 @@ public:
 	void OnCollisionDetected ();
 	void OnCollisionDetected (PhysObject* hit);
 
+	void applyForce(glm::vec3);
+
 	static PhysObject* btToPhysObject (const btCollisionObject* obj);
 
 protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);
     btVector3 glmToBt(glm::vec3);
-
+    btRigidBody *physics;
+    btTransform transform;
 private:
 
 	//void OnCollisionDetected ();
-    btRigidBody *physics;
-    btCollisionShape *shape;
 
-    btTransform transform;
+    btCollisionShape *shape;
     vector<btVector3> physMesh;
     float mass;
     float friction;

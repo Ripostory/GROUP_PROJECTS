@@ -1,22 +1,22 @@
 Determining if the pthread_create exist failed with the following output:
 Change Dir: /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_f87bf/fast"
-/usr/bin/make -f CMakeFiles/cmTC_f87bf.dir/build.make CMakeFiles/cmTC_f87bf.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_ddeeb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ddeeb.dir/build.make CMakeFiles/cmTC_ddeeb.dir/build
 make[1]: Entering directory '/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f87bf.dir/CheckSymbolExists.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_f87bf.dir/CheckSymbolExists.c.o   -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_f87bf
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f87bf.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_f87bf.dir/CheckSymbolExists.c.o  -o cmTC_f87bf -rdynamic 
-CMakeFiles/cmTC_f87bf.dir/CheckSymbolExists.c.o: In function `main':
+Building C object CMakeFiles/cmTC_ddeeb.dir/CheckSymbolExists.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_ddeeb.dir/CheckSymbolExists.c.o   -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_ddeeb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ddeeb.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_ddeeb.dir/CheckSymbolExists.c.o  -o cmTC_ddeeb -rdynamic 
+CMakeFiles/cmTC_ddeeb.dir/CheckSymbolExists.c.o: In function `main':
 CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_f87bf.dir/build.make:97: recipe for target 'cmTC_f87bf' failed
-make[1]: *** [cmTC_f87bf] Error 1
+CMakeFiles/cmTC_ddeeb.dir/build.make:97: recipe for target 'cmTC_ddeeb' failed
+make[1]: *** [cmTC_ddeeb] Error 1
 make[1]: Leaving directory '/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_f87bf/fast' failed
-make: *** [cmTC_f87bf/fast] Error 2
+Makefile:126: recipe for target 'cmTC_ddeeb/fast' failed
+make: *** [cmTC_ddeeb/fast] Error 2
 
 File /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -36,20 +36,20 @@ int main(int argc, char** argv)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_f2d2e/fast"
-/usr/bin/make -f CMakeFiles/cmTC_f2d2e.dir/build.make CMakeFiles/cmTC_f2d2e.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_7e9ee/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7e9ee.dir/build.make CMakeFiles/cmTC_7e9ee.dir/build
 make[1]: Entering directory '/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f2d2e.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f2d2e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_f2d2e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f2d2e.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_f2d2e.dir/CheckFunctionExists.c.o  -o cmTC_f2d2e -rdynamic -lpthreads 
+Building C object CMakeFiles/cmTC_7e9ee.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_7e9ee.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7e9ee
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7e9ee.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_7e9ee.dir/CheckFunctionExists.c.o  -o cmTC_7e9ee -rdynamic -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_f2d2e.dir/build.make:97: recipe for target 'cmTC_f2d2e' failed
-make[1]: *** [cmTC_f2d2e] Error 1
+CMakeFiles/cmTC_7e9ee.dir/build.make:97: recipe for target 'cmTC_7e9ee' failed
+make[1]: *** [cmTC_7e9ee] Error 1
 make[1]: Leaving directory '/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_f2d2e/fast' failed
-make: *** [cmTC_f2d2e/fast] Error 2
+Makefile:126: recipe for target 'cmTC_7e9ee/fast' failed
+make: *** [cmTC_7e9ee/fast] Error 2
 
 

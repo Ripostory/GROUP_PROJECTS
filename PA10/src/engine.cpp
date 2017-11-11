@@ -85,7 +85,7 @@ void Engine::Run()
 
     //Update the physics
 
-    physWorld->stepSimulation((float) m_DT/1000.0f, 30);
+    physWorld->stepSimulation(2*(float) m_DT/1000.0f, 100);
 		physWorld -> performDiscreteCollisionDetection ();
 		//Assume world->stepSimulation or world->performDiscreteCollisionDetection has been called
 

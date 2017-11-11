@@ -40,6 +40,12 @@ PhysObject::~PhysObject()
 
 void PhysObject::Update(unsigned int dt)
 {
+	  //update keyboard
+	  for (int i = 0; i < listener.getSize(); i++)
+	  {
+		  keyboard(listener.getEvent(i));
+	  }
+
 	  //update physics object
 	  if (physics != NULL)
 	  {
@@ -47,8 +53,6 @@ void PhysObject::Update(unsigned int dt)
 		  model = btToGlm(transform);
 		  //update scale
 		  model *= mscale;
-
-			
 	  }
 
 	  //update children
@@ -87,7 +91,7 @@ void PhysObject::setConstraint(float low, float high)
 	btVector3 axis(0,1,0);
 	btVector3 pivot(0,1,0);
 	btHingeConstraint *constraint = new btHingeConstraint(*physics, axis, pivot);
-	constraint->setLimit(low, high);
+	constraint->setLimit(low, high, 0.0, 0.3);
 	listener.getWorld()->addConstraint(constraint);
 }
 
@@ -228,6 +232,12 @@ void PhysObject::setMeshCollider(Physics_Mesh_Shape mesh, string filename)
 			shape = new btSphereShape(1.0f);
 		}
 	}
+}
+
+void PhysObject::applyForce(glm::vec3 direction)
+{
+	physics->activate(true);
+	physics->applyTorque(glmToBt(direction));
 }
 
 void PhysObject::initPhysics()

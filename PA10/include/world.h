@@ -5,6 +5,7 @@
 #include "object.h"
 #include "Light.h"
 #include "physObject.h"
+#include "paddle.h"
 
 class World : public Object{
 public:

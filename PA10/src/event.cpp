@@ -49,6 +49,10 @@ void event::update()
 		{
 			pushEvent(m_event.type, (Uint8) 0, m_event.key.keysym.sym, 0,0);
 		}
+		else if (m_event.type == SDL_KEYUP)
+		{
+			pushEvent(m_event.type, (Uint8) 0, m_event.key.keysym.sym, 0,0);
+		}
 		else if (m_event.type == SDL_MOUSEBUTTONDOWN)
 		{
 			pushEvent(m_event.type, m_event.button.button, SDLK_0, 0,0);

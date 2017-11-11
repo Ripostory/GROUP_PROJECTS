@@ -148,6 +148,10 @@ obj.h
 event.h
 ../include/event.h
 
+../include/paddle.h
+physObject.h
+../include/physObject.h
+
 ../include/physObject.h
 bullet/btBulletDynamicsCommon.h
 -
@@ -209,6 +213,8 @@ Light.h
 ../include/Light.h
 physObject.h
 ../include/physObject.h
+paddle.h
+../include/paddle.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Camera.cpp
 Camera.h
@@ -323,6 +329,10 @@ obj.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/object.cpp
 object.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/object.h
+
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/paddle.cpp
+paddle.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/paddle.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/physObject.cpp
 physObject.h
