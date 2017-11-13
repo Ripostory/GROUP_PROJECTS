@@ -6,6 +6,7 @@
 #include "Light.h"
 #include "physObject.h"
 #include "paddle.h"
+#include "plunger.h"
 
 class World : public Object{
 public:

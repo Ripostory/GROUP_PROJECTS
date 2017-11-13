@@ -44,6 +44,7 @@ World::World()
 	  child->loadTexture("textures/intWall1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
 	  this->addChild(child);
+
 	  Object *base = new Object();
 	  base->loadModel("models/intwall2.obj");
 	  base->loadTexture("textures/intWall2.png");
@@ -54,11 +55,21 @@ World::World()
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_island.obj");
 	  this->addChild(child);
 
+		child = new PhysObject(Layer_All, Layer_All);
+		child -> loadModel ("models/planet.obj");
+		child -> setMeshCollider (Physics_Mesh_Hull, "models/planet.obj");
+		child -> translate (glm::vec3(-17.0f, 0.0f, -21.46273f));
+		child -> setProperties (0.3f, 0.0f, 0.05f);
+		this -> addChild (child);
+
 	  //TODO: make paddles their own class
 	  child = new Paddle(pleft, 'g');
 	  this->addChild(child);
 	  child = new Paddle(pright, 'h');
 	  this->addChild(child);
+	
+		child = new Plunger ('b');
+		this -> addChild (child);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(10,10, 0));
