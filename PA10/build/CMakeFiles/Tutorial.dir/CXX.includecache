@@ -160,6 +160,10 @@ map
 object.h
 ../include/object.h
 
+../include/plunger.h
+physObject.h
+../include/physObject.h
+
 ../include/shader.h
 vector
 -
@@ -215,6 +219,8 @@ physObject.h
 ../include/physObject.h
 paddle.h
 ../include/paddle.h
+plunger.h
+../include/plunger.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Camera.cpp
 Camera.h
@@ -337,6 +343,10 @@ paddle.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/physObject.cpp
 physObject.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/physObject.h
+
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/plunger.cpp
+plunger.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/plunger.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/shader.cpp
 shader.h

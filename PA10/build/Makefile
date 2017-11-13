@@ -568,6 +568,33 @@ src/physObject.cpp.s:
 	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/physObject.cpp.s
 .PHONY : src/physObject.cpp.s
 
+src/plunger.o: src/plunger.cpp.o
+
+.PHONY : src/plunger.o
+
+# target to build an object file
+src/plunger.cpp.o:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/plunger.cpp.o
+.PHONY : src/plunger.cpp.o
+
+src/plunger.i: src/plunger.cpp.i
+
+.PHONY : src/plunger.i
+
+# target to preprocess a source file
+src/plunger.cpp.i:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/plunger.cpp.i
+.PHONY : src/plunger.cpp.i
+
+src/plunger.s: src/plunger.cpp.s
+
+.PHONY : src/plunger.s
+
+# target to generate assembly for a file
+src/plunger.cpp.s:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/plunger.cpp.s
+.PHONY : src/plunger.cpp.s
+
 src/shader.o: src/shader.cpp.o
 
 .PHONY : src/shader.o
@@ -707,6 +734,9 @@ help:
 	@echo "... src/physObject.o"
 	@echo "... src/physObject.i"
 	@echo "... src/physObject.s"
+	@echo "... src/plunger.o"
+	@echo "... src/plunger.i"
+	@echo "... src/plunger.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"

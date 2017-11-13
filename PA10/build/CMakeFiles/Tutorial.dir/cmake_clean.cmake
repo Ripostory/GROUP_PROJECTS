@@ -15,6 +15,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Tutorial.dir/src/object.cpp.o"
   "CMakeFiles/Tutorial.dir/src/paddle.cpp.o"
   "CMakeFiles/Tutorial.dir/src/physObject.cpp.o"
+  "CMakeFiles/Tutorial.dir/src/plunger.cpp.o"
   "CMakeFiles/Tutorial.dir/src/shader.cpp.o"
   "CMakeFiles/Tutorial.dir/src/window.cpp.o"
   "CMakeFiles/Tutorial.dir/src/world.cpp.o"

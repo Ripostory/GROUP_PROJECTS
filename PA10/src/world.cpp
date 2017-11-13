@@ -15,8 +15,6 @@ World::World()
 	  pos = NULL;
 	  initPhys();
 
-	  //TODO load world here
-
 	  //load board
 	  PhysObject *child;
 	  child = new PhysObject(Layer_Table, Layer_All);
@@ -39,6 +37,7 @@ World::World()
 
 	  child = new PhysObject(Layer_Table, Layer_All);
 	  child->loadModel("models/bumper.obj");
+	  child->loadTexture("textures/bumper.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_bumpers.obj");
 	  child->setProperties(0.0,0.5,3.0);
 	  this->addChild(child);
@@ -54,10 +53,32 @@ World::World()
 	  base->loadTexture("textures/intWall2.png");
 	  this->addChild(base);
 
+	  //TODO move bumpers to their own class
 	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/collision/c_island.obj");
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_island.obj");
+	  child->loadModel("models/cylBumper.obj");
+	  child->loadTexture("textures/cylBumper.png");
+	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
+	  child->setProperties(0,0,2);
+	  child->translate(glm::vec3(-27,0,0));
 	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);
+	  child->loadModel("models/cylBumper.obj");
+	  child->loadTexture("textures/cylBumper.png");
+	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
+	  child->setProperties(0,0,2);
+	  child->translate(glm::vec3(-43,0,4));
+	  this->addChild(child);
+
+	  child = new PhysObject(Layer_Table, Layer_All);
+	  child->loadModel("models/cylBumper.obj");
+	  child->loadTexture("textures/cylBumper.png");
+	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
+	  child->setProperties(0,0,2);
+	  child->translate(glm::vec3(-39,0,-4));
+	  this->addChild(child);
+
+
 
 		child = new PhysObject(Layer_All, Layer_All);
 		child -> loadModel ("models/planet.obj");
@@ -66,7 +87,6 @@ World::World()
 		child -> setProperties (0.3f, 0.0f, 0.05f);
 		this -> addChild (child);
 
-	  //TODO: make paddles their own class
 	  child = new Paddle(pleft, 'g');
 	  this->addChild(child);
 	  child = new Paddle(pright, 'h');

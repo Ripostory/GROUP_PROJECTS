@@ -222,7 +222,7 @@ void Graphics::Render()
   glViewport(0,0, width, height);
 
   //clear the screen
-  glClearColor(0.0, 0.3, 0.5, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Render all objects
