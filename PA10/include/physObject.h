@@ -13,7 +13,7 @@
 #include "object.h"
 
 enum Collision_Layer_Mask { Layer_None = 0, Layer_Table = 1, Layer_Ball = 2, Layer_Paddle = 4,
-Layer_Bumper = 8, Layer_All = 255 };
+Layer_Bumper = 8, Layer_Plunger = 16, Layer_All = 255 };
 
 enum Physics_Mesh_Shape { Physics_Mesh_Box = 0, Physics_Mesh_Sphere = 1, Physics_Mesh_Capsule = 2,
 Physics_Mesh_Cylinder = 3, Physics_Mesh_Cone = 4, Physics_Mesh_Hull = 5, Physics_Mesh_S_Mesh = 6 };
