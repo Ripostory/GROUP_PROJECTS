@@ -11,7 +11,7 @@ Paddle::Paddle(paddleType type, char k) : PhysObject(Layer_Paddle, Layer_Ball)
 {
 	  loadModel("models/paddle.obj");
 	  loadTexture("textures/paddle.png");
-	  setProperties(100.0, 0.5, 1.1);
+	  setProperties(0.1, 0.5, 0.0);
 	  setMeshCollider(Physics_Mesh_Hull, "models/collision/c_paddle.obj");
 	  paddle = type;
 	  isActive = false;

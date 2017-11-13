@@ -4,7 +4,7 @@
 
 #include "physObject.h"
 
-#define FORCE_MULT 500
+#define FORCE_MULT 1000
 
 enum paddleType {
 	pleft, pright
