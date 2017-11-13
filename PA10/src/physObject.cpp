@@ -10,7 +10,7 @@ PhysObject::PhysObject()
 	mass = 0.0f;
 	friction = 0.3f;
 	restitution = 0.2;
-
+	isRenderable = true;
 	layer = Layer_All;
 	layersThatCanBeHit = Layer_All;
 }
@@ -23,7 +23,7 @@ PhysObject::PhysObject(int layer, int layersThatCanBeHit)
 	mass = 0.0f;
 	friction = 0.3f;
 	restitution = 0.2;
-
+	isRenderable = true;
 	this -> layer = layer;
 	this -> layersThatCanBeHit = layersThatCanBeHit;
 }
@@ -109,6 +109,11 @@ void PhysObject::Begin()
 	{
 		children[i]->Begin();
 	}
+}
+
+void PhysObject::setRenderable(bool set)
+{
+	isRenderable = set;
 }
 
 void setDefaultCollider(int)
@@ -322,5 +327,13 @@ PhysObject* PhysObject::btToPhysObject (const btCollisionObject* obj) {
     return it -> second;
 
   return NULL;
+}
+
+void PhysObject::Render()
+{
+	if (isRenderable)
+	{
+		  Object::Render();
+	}
 }
 

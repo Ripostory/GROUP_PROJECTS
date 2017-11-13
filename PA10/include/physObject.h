@@ -36,6 +36,7 @@ public:
 	virtual ~PhysObject();
 	virtual void Begin();
 	virtual void Update(unsigned int dt);
+	virtual void Render();
     void initPhysics();
     void setDefaultCollider(Physics_Mesh_Shape base);
     void setBoxCollider(Physics_Mesh_Shape box, glm::vec3 size);
@@ -44,7 +45,8 @@ public:
     void setMeshCollider(Physics_Mesh_Shape mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
     void setConstraint(float low, float high);
-	
+	void setRenderable(bool);
+
     int GetColliderLayer ();
     int GetTangibleLayers ();
     void SetColliderMask (int, int);
@@ -72,7 +74,7 @@ private:
     float friction;
     float restitution;
     bool isStatic;
-
+    bool isRenderable;
 	int layer;
 	int layersThatCanBeHit;
 };

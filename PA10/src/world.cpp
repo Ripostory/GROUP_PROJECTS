@@ -48,6 +48,12 @@ World::World()
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
 	  this->addChild(child);
 
+	  child = new PhysObject(Layer_Table, Layer_All);
+	  child->setRenderable(false);
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/board.obj");
+	  child->translate(glm::vec3(0,4,0));
+	  this->addChild(child);
+
 	  Object *base = new Object();
 	  base->loadModel("models/intwall2.obj");
 	  base->loadTexture("textures/intWall2.png");
@@ -82,7 +88,7 @@ World::World()
 
 		child = new PhysObject(Layer_All, Layer_All);
 		child -> loadModel ("models/planet.obj");
-		child -> setMeshCollider (Physics_Mesh_Hull, "models/planet.obj");
+		child->setSphereCollider(Physics_Mesh_Sphere, 1);
 		child -> translate (glm::vec3(-17.0f, 0.0f, -21.46273f));
 		child -> setProperties (0.3f, 0.0f, 0.05f);
 		this -> addChild (child);
@@ -145,7 +151,7 @@ void World::keyboard(eventType event)
 			PhysObject *newItem = new PhysObject(Layer_All, Layer_All);
 			newItem->loadModel("models/planet.obj");
 			newItem->setSphereCollider(Physics_Mesh_Sphere, 1);
-			newItem->translate(glm::vec3(-80,40,0));
+			newItem->translate(glm::vec3(-60,1,0));
 			newItem->setProperties(0.1, 0.5, 0.5);
 			newItem->initPhysics();
 			this->addChild(newItem);
@@ -233,5 +239,5 @@ void World::initPhys()
 	//add collider
 	planeCollider = new btRigidBody(groundRigidBodyCI);
 	listener.getWorld()->addRigidBody(planeCollider);
-	
+
 }
