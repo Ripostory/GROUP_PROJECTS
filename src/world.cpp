@@ -20,27 +20,23 @@ World::World()
 	  //load board
 	  PhysObject *child;
 	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/boardSet1.obj");
-	  child->loadTexture("textures/boardSet1.png");
+	  child->loadModel("models/collision/c_extWall1.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall1.obj");
 	  this->addChild(child);
 
 	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/boardSet2.obj");
-	  child->loadTexture("textures/boardSet2.png");
+	  child->loadModel("models/collision/c_extWall2.obj");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall2.obj");
 	  this->addChild(child);
 
 	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/backDivider.obj");
-	  child->loadTexture("textures/intWall1.png");
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
+	  child->loadModel("models/collision/c_divider1.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider1.obj");
 	  this->addChild(child);
 
 	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/bumper.obj");
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_bumpers.obj");
-	  child->setProperties(0.0,0.5,3.0);
+	  child->loadModel("models/collision/c_divider2.obj");
+	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
 	  this->addChild(child);
 
 	  child = new PhysObject(Layer_Table, Layer_All);
@@ -84,12 +80,6 @@ World::World()
 	  light = new Light();
 	  light->translate(glm::vec3(-50,10,-20));
 	  addLight(light);
-
-	  //load visual objects
-	  Object *models = new Object();
-	  models->loadModel("models/board.obj");
-	  models->loadTexture("textures/board.png");
-	  this->addChild(models);
 }
 
 World::~World()
@@ -126,7 +116,7 @@ void World::keyboard(eventType event)
 			newItem->loadModel("models/planet.obj");
 			newItem->setSphereCollider(Physics_Mesh_Sphere, 1);
 			newItem->translate(glm::vec3(-80,40,0));
-			newItem->setProperties(0.1, 0.5, 0.5);
+			newItem->setProperties(1.0, 0.5, 0.5);
 			newItem->initPhysics();
 			this->addChild(newItem);
 		}
@@ -203,7 +193,7 @@ void World::initPhys()
 {
 
 	btCollisionShape* groundShape =
-			new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+			new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 	btDefaultMotionState* groundMotionState =
 	        new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo
