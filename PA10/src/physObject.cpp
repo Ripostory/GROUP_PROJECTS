@@ -80,11 +80,6 @@ void PhysObject::SetColliderMask (int layer, int layersThatCanBeHit) {
 	this -> layersThatCanBeHit = layersThatCanBeHit;
 }
 
-void PhysObject::OnCollisionDetected () {
-
-
-}
-
 void PhysObject::setConstraint(float low, float high)
 {
 	initPhysics();
@@ -99,6 +94,8 @@ void PhysObject::OnCollisionDetected (PhysObject* hit) {
 
 	//TODO: add functionality here
 	//cout << hit << " is touching " << this << endl;
+
+
 }
 
 void PhysObject::Begin()
