@@ -11,6 +11,7 @@
 #include <map>
 
 #include "object.h"
+#include "gui.h"
 
 enum Collision_Layer_Mask { Layer_None = 0, Layer_Table = 1, Layer_Ball = 2, Layer_Paddle = 4,
 Layer_Bumper = 8, Layer_Plunger = 16, Layer_All = 255 };
@@ -51,12 +52,13 @@ public:
     int GetTangibleLayers ();
     void SetColliderMask (int, int);
 
-	void OnCollisionDetected ();
-	void OnCollisionDetected (PhysObject* hit);
+	virtual void OnCollisionDetected (PhysObject* hit);
 
 	void applyForce(glm::vec3);
 
 	static PhysObject* btToPhysObject (const btCollisionObject* obj);
+
+
 
 protected:
     glm::vec3 btToGlm(btVector3);

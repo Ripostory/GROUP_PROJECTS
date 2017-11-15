@@ -17,38 +17,38 @@ World::World()
 
 	  //load board
 	  PhysObject *child;
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/boardSet1.obj");
 	  child->loadTexture("textures/boardSet1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall1.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/boardSet2.obj");
 	  child->loadTexture("textures/boardSet2.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_extWall2.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/backDivider.obj");
 	  child->loadTexture("textures/intWall1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/bumper.obj");
 	  child->loadTexture("textures/bumper.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_bumpers.obj");
 	  child->setProperties(0.0,0.5,3.0);
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/intWall1.obj");
 	  child->loadTexture("textures/intWall1.png");
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_intWalls.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
+	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->setRenderable(false);
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/board.obj");
 	  child->translate(glm::vec3(0,4,0));
@@ -59,42 +59,18 @@ World::World()
 	  base->loadTexture("textures/intWall2.png");
 	  this->addChild(base);
 
-	  //TODO move bumpers to their own class
-	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/cylBumper.obj");
-	  child->loadTexture("textures/cylBumper.png");
-	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
-	  child->setProperties(0,0,2);
-	  child->translate(glm::vec3(-27,0,0));
-	  this->addChild(child);
+		child = new Bumper (glm::vec3 (-27, 0, 0));
+		this -> addChild (child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/cylBumper.obj");
-	  child->loadTexture("textures/cylBumper.png");
-	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
-	  child->setProperties(0,0,2);
-	  child->translate(glm::vec3(-43,0,4));
-	  this->addChild(child);
+		child = new Bumper (glm::vec3 (-43, 0, 4));
+		this -> addChild (child);
 
-	  child = new PhysObject(Layer_Table, Layer_All);
-	  child->loadModel("models/cylBumper.obj");
-	  child->loadTexture("textures/cylBumper.png");
-	  child->setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
-	  child->setProperties(0,0,2);
-	  child->translate(glm::vec3(-39,0,-4));
-	  this->addChild(child);
-
-
-
-		child = new PhysObject(Layer_All, Layer_All);
-		child -> loadModel ("models/planet.obj");
-		child->setSphereCollider(Physics_Mesh_Sphere, 1);
-		child -> translate (glm::vec3(-17.0f, 0.0f, -21.46273f));
-		child -> setProperties (0.3f, 0.0f, 0.05f);
+		child = new Bumper (glm::vec3 (-39, 0, -4));
 		this -> addChild (child);
 
 	  child = new Paddle(pleft, 'g');
 	  this->addChild(child);
+
 	  child = new Paddle(pright, 'h');
 	  this->addChild(child);
 	
@@ -147,24 +123,16 @@ void World::keyboard(eventType event)
 	{
 		if (event.key == SDLK_k) {
 
-			//spawn item
-			PhysObject *newItem = new PhysObject(Layer_All, Layer_All);
-			newItem->loadModel("models/planet.obj");
-			newItem->setSphereCollider(Physics_Mesh_Sphere, 1);
-			newItem->translate(glm::vec3(-60,1,0));
-			newItem->setProperties(0.1, 0.5, 0.5);
-			newItem->initPhysics();
-			this->addChild(newItem);
-		}
-		if (event.key == SDLK_l) {
+			if (GUI::getInstance () -> GetLives () > 0) {
 
-			//spawn item
-			PhysObject *newItem = new PhysObject(Layer_Table, Layer_Table);
-			newItem->loadModel("models/cube.obj");
-			newItem->setBoxCollider(Physics_Mesh_Box, glm::vec3(1,1,1));
-			newItem->translate(glm::vec3(1,40,0));
-			newItem->initPhysics();
-			this->addChild(newItem);
+				//spawn item
+				PhysObject *newItem = new Ball (glm::vec3(-10, 1.1, -20.9));
+				this->addChild(newItem);
+		
+				GUI::getInstance () -> ChangeLives (-1);
+
+	
+			}
 		}
 	}
 }

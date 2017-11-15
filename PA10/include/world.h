@@ -7,6 +7,9 @@
 #include "physObject.h"
 #include "paddle.h"
 #include "plunger.h"
+#include "bumper.h"
+#include "gui.h"
+#include "ball.h"
 
 class World : public Object{
 public:
@@ -32,7 +35,7 @@ private:
 	glm::vec3 *pos;
 
 	void initPhys();
-	void rebuildDataArray();
+	void rebuildDataArray(); 
 };
 
 

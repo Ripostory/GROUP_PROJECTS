@@ -13,24 +13,25 @@ Plunger::Plunger(char k) : PhysObject(Layer_Plunger, Layer_Ball)
 	  setProperties(100.0, 0.5, 1.1);
 	  setMeshCollider(Physics_Mesh_Hull, "models/plunger.obj");
 	  isActive = false;
-	  key = 'z' - 'a';
-	  translate(glm::vec3(6.1, 0, -20.9));
-
+	  key = k - 'a';
+	  translate(glm::vec3(0.1, 1.1, -20.9));
 
 		initPhysics();
 
-		btTransform tr = transform;
+		btTransform t = btTransform::getIdentity();
 
-		btSliderConstraint* slider = new btSliderConstraint (
-			*physics,
-			tr,
+		btSliderConstraint *constraint = new btSliderConstraint
+		(
+			*physics, 
+			t, 
 			true
 		);
-	
-		slider -> setLowerLinLimit (2.0);
-		slider -> setUpperLinLimit (7.0);
 
-		listener.getWorld () -> addConstraint (slider);
+		constraint -> setLowerLinLimit (btScalar(-1.0));
+		constraint -> setUpperLinLimit (btScalar(4.0));
+
+		listener.getWorld()->addConstraint(constraint);
+		
 }
 
 Plunger::~Plunger()
@@ -56,23 +57,28 @@ void Plunger::keyboard(eventType event)
 
 void Plunger::Update(unsigned int dt)
 {
+
 	  //update keyboard
-	for (int i = 0; i < listener.getSize(); i++)
-	{
-		  keyboard(listener.getEvent(i));
-	}
+		for (int i = 0; i < listener.getSize(); i++)
+		{
+				keyboard(listener.getEvent(i));
+		}
 
 		if (isActive) {
 
-			cout << "FIRE!" << endl;
-			physics -> applyCentralImpulse (btVector3 (-20, 0, 0));
+			if (!offset) {
+				transform.setOrigin (btVector3 (-0.6, 1.1, -20.9));
+				offset = true;
+			}
+
+
+			physics -> applyCentralImpulse (btVector3(-45, 0, 0));
 		}
 		else if (!isActive) {
-
-			physics -> applyCentralImpulse (btVector3 (2, 0, 0));
-			cout << "WAIT!" << endl;
+			
+			physics -> applyCentralImpulse (btVector3(15, 0, 0));
+			offset = false;
 		}
-
 
 	  //update physics object
 	  if (physics != NULL)
