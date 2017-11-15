@@ -16,5 +16,5 @@ h to use right paddle
 b to launch ball
 
 You start with three lives. Once you lose them, it's game over.
-To activate multiball, just press the b button to use your next life.
+To activate multiball, just load multiple balls onto the plunger. Note: it only works if you have lives to spare.
 1000 points earns another life. 
