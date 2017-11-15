@@ -57,6 +57,8 @@ world.h
 ../include/world.h
 gui.h
 ../include/gui.h
+event.h
+../include/event.h
 
 ../include/graphics_headers.h
 iostream

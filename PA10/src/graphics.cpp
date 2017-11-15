@@ -116,9 +116,11 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //create shader
   if (!InitShader(m_shader, "shaders/phongFrag.vsh", "shaders/phongFrag.fsh"))
 	  return false;
+  if (!InitShader(m_vshader, "shaders/phongVert.vsh", "shaders/phongVert.fsh"))
+	  return false;
   if (!InitShader(m_screenShader, "shaders/screenShader.vsh", "shaders/screenShader.fsh"))
 	  return false;
-
+  selected = m_shader;
   //initialize object default directory
   Object::init();
   Shader::init();
@@ -188,6 +190,20 @@ void Graphics::generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int
 
 void Graphics::Update(unsigned int dt)
 {
+
+  //get keyboard
+  for (int i = 0; i < listener.getSize(); i++)
+  {
+	if (listener.getEvent(i).eventVer == SDL_KEYDOWN)
+		{
+			if (listener.getEvent(i).key == SDLK_t) {
+				selected = m_shader;
+			}
+			if (listener.getEvent(i).key == SDLK_y) {
+				selected = m_vshader;
+			}
+		}
+  }
   // Update everything
   world->Update(dt);
   m_camera->Update(dt);
@@ -289,7 +305,7 @@ void Graphics::RenderList(vector<Object*> list)
 void Graphics::TreeRender(Object* object)
 {
 	  //enable correct shader
-	  m_shader->Enable();
+	  selected->Enable();
 
 	  // Send in the projection and view to the shader
 	  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));

@@ -10,6 +10,7 @@ using namespace std;
 #include "object.h"
 #include "world.h"
 #include "gui.h"
+#include "event.h"
 
 class Graphics
 {
@@ -33,6 +34,8 @@ class Graphics
 
     camera *m_camera;
     Shader *m_shader;
+    Shader *m_vshader;
+    Shader *selected;
     Shader *m_screenShader;
 
     GLint m_projectionMatrix;
@@ -45,6 +48,7 @@ class Graphics
 
     World *world;
     Object *renderTarget;
+    event listener;
 
     int width;
     int height;
