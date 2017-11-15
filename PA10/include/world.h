@@ -18,7 +18,7 @@ public:
 	void addLight(Light*);
 	virtual void Render();
 	virtual void Update(unsigned int dt);
-	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz);
+	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint col);
 
 	static World* instance;
 protected:
@@ -28,11 +28,13 @@ private:
 	static GLuint lightSize;
 	static GLuint lightPosArray;
 	static GLuint lightRadArray;
+	static GLuint lightColArray;
 
 	btRigidBody *planeCollider;
 	vector<Light*> lights;
 
 	glm::vec3 *pos;
+	glm::vec3 *color;
 
 	void initPhys();
 	void rebuildDataArray(); 

@@ -6,6 +6,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Camera.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
   "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Light.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/Light.cpp.o"
+  "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/ball.cpp.o"
+  "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/bumper.cpp.o"
   "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/engine.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
   "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/event.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/event.cpp.o"
   "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/graphics.cpp" "/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"

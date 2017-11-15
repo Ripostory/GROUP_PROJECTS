@@ -11,8 +11,10 @@ struct LightData {
 	float radius;
 	float power;
 	glm::vec3 pos;
+	glm::vec3 color;
 	LightData(): radius(1), power(1), type(LIGHT_POINT) {}
-	LightData(float r, float p, int t): radius(r), power(p), type(t) {}
+	LightData(float r, float p, int t, glm::vec3 c):
+		radius(r), power(p), type(t), color(c) {}
 };
 
 class Light : public Object {
@@ -22,6 +24,7 @@ public:
 	void Render();
 	void Update(unsigned int dt);
 	LightData* getLight();
+	void setColor(glm::vec3);
 protected:
 private:
 	glm::vec3 color;

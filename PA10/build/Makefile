@@ -190,6 +190,60 @@ src/Light.cpp.s:
 	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/Light.cpp.s
 .PHONY : src/Light.cpp.s
 
+src/ball.o: src/ball.cpp.o
+
+.PHONY : src/ball.o
+
+# target to build an object file
+src/ball.cpp.o:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/ball.cpp.o
+.PHONY : src/ball.cpp.o
+
+src/ball.i: src/ball.cpp.i
+
+.PHONY : src/ball.i
+
+# target to preprocess a source file
+src/ball.cpp.i:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/ball.cpp.i
+.PHONY : src/ball.cpp.i
+
+src/ball.s: src/ball.cpp.s
+
+.PHONY : src/ball.s
+
+# target to generate assembly for a file
+src/ball.cpp.s:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/ball.cpp.s
+.PHONY : src/ball.cpp.s
+
+src/bumper.o: src/bumper.cpp.o
+
+.PHONY : src/bumper.o
+
+# target to build an object file
+src/bumper.cpp.o:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/bumper.cpp.o
+.PHONY : src/bumper.cpp.o
+
+src/bumper.i: src/bumper.cpp.i
+
+.PHONY : src/bumper.i
+
+# target to preprocess a source file
+src/bumper.cpp.i:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/bumper.cpp.i
+.PHONY : src/bumper.cpp.i
+
+src/bumper.s: src/bumper.cpp.s
+
+.PHONY : src/bumper.s
+
+# target to generate assembly for a file
+src/bumper.cpp.s:
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/bumper.cpp.s
+.PHONY : src/bumper.cpp.s
+
 src/engine.o: src/engine.cpp.o
 
 .PHONY : src/engine.o
@@ -692,6 +746,12 @@ help:
 	@echo "... src/Light.o"
 	@echo "... src/Light.i"
 	@echo "... src/Light.s"
+	@echo "... src/ball.o"
+	@echo "... src/ball.i"
+	@echo "... src/ball.s"
+	@echo "... src/bumper.o"
+	@echo "... src/bumper.i"
+	@echo "... src/bumper.s"
 	@echo "... src/engine.o"
 	@echo "... src/engine.i"
 	@echo "... src/engine.s"

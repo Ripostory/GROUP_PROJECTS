@@ -14,9 +14,10 @@ uniform mat4 modelMatrix;
 
 uniform int lSize;
 uniform vec3 lPos[16];
+uniform vec3 lCol[16];
 //uniform float lRad[16];
 
-out float lightColor;
+out vec3 lightColor;
 out float specColor;
 out float attenuationColor;
 
@@ -52,12 +53,12 @@ void main(void)
   	vec3 N = normalize(normal);
 	vec3 V = normalize(viewDir);
 	
-	float finalDiff = 0;
+	vec3 finalDiff = vec3(0,0,0);
 	float finalSpec = 0;
 	float finalAtten = 0;
 	for (int i = 0; i < lights; i++)
 	{
-		finalDiff += clamp(dot(normalize(lightDir[i]), N), 0, 1);
+		finalDiff += lCol[i] * clamp(dot(normalize(lightDir[i]), N), 0, 1);
 		finalSpec += pow(max(dot(V, normalize(reflectDir[i])), 0), 15.0f);
 		finalAtten = min(finalAtten + attenuation[i], 1);
 	}

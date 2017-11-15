@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Tutorial.dir/src/ball.cpp.o"
+  "CMakeFiles/Tutorial.dir/src/bumper.cpp.o"
   "CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
   "CMakeFiles/Tutorial.dir/src/engine.cpp.o"
   "CMakeFiles/Tutorial.dir/src/event.cpp.o"

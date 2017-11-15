@@ -3,7 +3,7 @@
 uniform sampler2D texture;
 uniform sampler2D normalMap;
 
-in float lightColor;
+in vec3 lightColor;
 in float specColor;
 in float attenuationColor;
 in vec2 texCoordMod;

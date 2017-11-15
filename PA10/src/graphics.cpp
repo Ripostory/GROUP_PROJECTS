@@ -133,7 +133,8 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   world->setLightPointer(
 		  m_shader->GetUniformLocation("lPos"),
 		  m_shader->GetUniformLocation("lRad"),
-		  m_shader->GetUniformLocation("lSize"));
+		  m_shader->GetUniformLocation("lSize"),
+		  m_shader->GetUniformLocation("lCol"));
   //set world for camera
 
   m_camera->SetWorld(world);

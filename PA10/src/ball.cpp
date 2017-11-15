@@ -5,7 +5,7 @@ Ball::Ball (glm::vec3 position) : PhysObject(Layer_All, Layer_All) {
 	loadModel ("models/planet.obj");
 	setSphereCollider(Physics_Mesh_Sphere, 1);
 	translate (position);
-	setProperties (0.3f, 0.0f, 0.05f);
+	setProperties (0.3f, 0.5f, 0.5f);
 
 	initPhysics ();
 }

@@ -57,9 +57,57 @@ include CMakeFiles/Tutorial.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Tutorial.dir/flags.make
 
+CMakeFiles/Tutorial.dir/src/ball.cpp.o: CMakeFiles/Tutorial.dir/flags.make
+CMakeFiles/Tutorial.dir/src/ball.cpp.o: ../src/ball.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Tutorial.dir/src/ball.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/ball.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.cpp
+
+CMakeFiles/Tutorial.dir/src/ball.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/ball.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.cpp > CMakeFiles/Tutorial.dir/src/ball.cpp.i
+
+CMakeFiles/Tutorial.dir/src/ball.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/ball.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.cpp -o CMakeFiles/Tutorial.dir/src/ball.cpp.s
+
+CMakeFiles/Tutorial.dir/src/ball.cpp.o.requires:
+
+.PHONY : CMakeFiles/Tutorial.dir/src/ball.cpp.o.requires
+
+CMakeFiles/Tutorial.dir/src/ball.cpp.o.provides: CMakeFiles/Tutorial.dir/src/ball.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/ball.cpp.o.provides.build
+.PHONY : CMakeFiles/Tutorial.dir/src/ball.cpp.o.provides
+
+CMakeFiles/Tutorial.dir/src/ball.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/ball.cpp.o
+
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.o: CMakeFiles/Tutorial.dir/flags.make
+CMakeFiles/Tutorial.dir/src/bumper.cpp.o: ../src/bumper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Tutorial.dir/src/bumper.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/bumper.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.cpp
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/bumper.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.cpp > CMakeFiles/Tutorial.dir/src/bumper.cpp.i
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/bumper.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.cpp -o CMakeFiles/Tutorial.dir/src/bumper.cpp.s
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.o.requires:
+
+.PHONY : CMakeFiles/Tutorial.dir/src/bumper.cpp.o.requires
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.o.provides: CMakeFiles/Tutorial.dir/src/bumper.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Tutorial.dir/build.make CMakeFiles/Tutorial.dir/src/bumper.cpp.o.provides.build
+.PHONY : CMakeFiles/Tutorial.dir/src/bumper.cpp.o.provides
+
+CMakeFiles/Tutorial.dir/src/bumper.cpp.o.provides.build: CMakeFiles/Tutorial.dir/src/bumper.cpp.o
+
+
 CMakeFiles/Tutorial.dir/src/Camera.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/Camera.cpp.o: ../src/Camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/Camera.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/Camera.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Camera.cpp
 
 CMakeFiles/Tutorial.dir/src/Camera.cpp.i: cmake_force
@@ -83,7 +131,7 @@ CMakeFiles/Tutorial.dir/src/Camera.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/engine.cpp.o: ../src/engine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Tutorial.dir/src/engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/engine.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/engine.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/engine.cpp
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.i: cmake_force
@@ -107,7 +155,7 @@ CMakeFiles/Tutorial.dir/src/engine.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/event.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/event.cpp.o: ../src/event.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/event.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Tutorial.dir/src/event.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/event.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/event.cpp
 
 CMakeFiles/Tutorial.dir/src/event.cpp.i: cmake_force
@@ -131,7 +179,7 @@ CMakeFiles/Tutorial.dir/src/event.cpp.o.provides.build: CMakeFiles/Tutorial.dir/
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o: ../src/graphics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/graphics.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/graphics.cpp
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.i: cmake_force
@@ -155,7 +203,7 @@ CMakeFiles/Tutorial.dir/src/graphics.cpp.o.provides.build: CMakeFiles/Tutorial.d
 
 CMakeFiles/Tutorial.dir/src/gui.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/gui.cpp.o: ../src/gui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Tutorial.dir/src/gui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Tutorial.dir/src/gui.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/gui.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/gui.cpp
 
 CMakeFiles/Tutorial.dir/src/gui.cpp.i: cmake_force
@@ -179,7 +227,7 @@ CMakeFiles/Tutorial.dir/src/gui.cpp.o.provides.build: CMakeFiles/Tutorial.dir/sr
 
 CMakeFiles/Tutorial.dir/src/imgui.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/imgui.cpp.o: ../src/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/imgui.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/imgui.cpp
 
 CMakeFiles/Tutorial.dir/src/imgui.cpp.i: cmake_force
@@ -203,7 +251,7 @@ CMakeFiles/Tutorial.dir/src/imgui.cpp.o.provides.build: CMakeFiles/Tutorial.dir/
 
 CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o: ../src/imgui_demo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/imgui_demo.cpp
 
 CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.i: cmake_force
@@ -227,7 +275,7 @@ CMakeFiles/Tutorial.dir/src/imgui_demo.cpp.o.provides.build: CMakeFiles/Tutorial
 
 CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o: ../src/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/imgui_draw.cpp
 
 CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.i: cmake_force
@@ -251,7 +299,7 @@ CMakeFiles/Tutorial.dir/src/imgui_draw.cpp.o.provides.build: CMakeFiles/Tutorial
 
 CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o: ../src/imgui_impl_sdl_gl3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/imgui_impl_sdl_gl3.cpp
 
 CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.i: cmake_force
@@ -275,7 +323,7 @@ CMakeFiles/Tutorial.dir/src/imgui_impl_sdl_gl3.cpp.o.provides.build: CMakeFiles/
 
 CMakeFiles/Tutorial.dir/src/Light.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/Light.cpp.o: ../src/Light.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Tutorial.dir/src/Light.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Tutorial.dir/src/Light.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/Light.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Light.cpp
 
 CMakeFiles/Tutorial.dir/src/Light.cpp.i: cmake_force
@@ -299,7 +347,7 @@ CMakeFiles/Tutorial.dir/src/Light.cpp.o.provides.build: CMakeFiles/Tutorial.dir/
 
 CMakeFiles/Tutorial.dir/src/loader.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/loader.cpp.o: ../src/loader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Tutorial.dir/src/loader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Tutorial.dir/src/loader.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/loader.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/loader.cpp
 
 CMakeFiles/Tutorial.dir/src/loader.cpp.i: cmake_force
@@ -323,7 +371,7 @@ CMakeFiles/Tutorial.dir/src/loader.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/main.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Tutorial.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Tutorial.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/main.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/main.cpp
 
 CMakeFiles/Tutorial.dir/src/main.cpp.i: cmake_force
@@ -347,7 +395,7 @@ CMakeFiles/Tutorial.dir/src/main.cpp.o.provides.build: CMakeFiles/Tutorial.dir/s
 
 CMakeFiles/Tutorial.dir/src/obj.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/obj.cpp.o: ../src/obj.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Tutorial.dir/src/obj.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Tutorial.dir/src/obj.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/obj.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/obj.cpp
 
 CMakeFiles/Tutorial.dir/src/obj.cpp.i: cmake_force
@@ -371,7 +419,7 @@ CMakeFiles/Tutorial.dir/src/obj.cpp.o.provides.build: CMakeFiles/Tutorial.dir/sr
 
 CMakeFiles/Tutorial.dir/src/object.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../src/object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Tutorial.dir/src/object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Tutorial.dir/src/object.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/object.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/object.cpp
 
 CMakeFiles/Tutorial.dir/src/object.cpp.i: cmake_force
@@ -395,7 +443,7 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/paddle.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/paddle.cpp.o: ../src/paddle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Tutorial.dir/src/paddle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Tutorial.dir/src/paddle.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/paddle.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/paddle.cpp
 
 CMakeFiles/Tutorial.dir/src/paddle.cpp.i: cmake_force
@@ -419,7 +467,7 @@ CMakeFiles/Tutorial.dir/src/paddle.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/physObject.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/physObject.cpp.o: ../src/physObject.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Tutorial.dir/src/physObject.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Tutorial.dir/src/physObject.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/physObject.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/physObject.cpp
 
 CMakeFiles/Tutorial.dir/src/physObject.cpp.i: cmake_force
@@ -443,7 +491,7 @@ CMakeFiles/Tutorial.dir/src/physObject.cpp.o.provides.build: CMakeFiles/Tutorial
 
 CMakeFiles/Tutorial.dir/src/plunger.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/plunger.cpp.o: ../src/plunger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Tutorial.dir/src/plunger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Tutorial.dir/src/plunger.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/plunger.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/plunger.cpp
 
 CMakeFiles/Tutorial.dir/src/plunger.cpp.i: cmake_force
@@ -467,7 +515,7 @@ CMakeFiles/Tutorial.dir/src/plunger.cpp.o.provides.build: CMakeFiles/Tutorial.di
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Tutorial.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Tutorial.dir/src/shader.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/shader.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/shader.cpp
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.i: cmake_force
@@ -491,7 +539,7 @@ CMakeFiles/Tutorial.dir/src/shader.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/window.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/window.cpp.o: ../src/window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Tutorial.dir/src/window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/Tutorial.dir/src/window.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/window.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/window.cpp
 
 CMakeFiles/Tutorial.dir/src/window.cpp.i: cmake_force
@@ -515,7 +563,7 @@ CMakeFiles/Tutorial.dir/src/window.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/world.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/world.cpp.o: ../src/world.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Tutorial.dir/src/world.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/Tutorial.dir/src/world.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/world.cpp.o -c /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/world.cpp
 
 CMakeFiles/Tutorial.dir/src/world.cpp.i: cmake_force
@@ -539,6 +587,8 @@ CMakeFiles/Tutorial.dir/src/world.cpp.o.provides.build: CMakeFiles/Tutorial.dir/
 
 # Object files for target Tutorial
 Tutorial_OBJECTS = \
+"CMakeFiles/Tutorial.dir/src/ball.cpp.o" \
+"CMakeFiles/Tutorial.dir/src/bumper.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/Camera.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/engine.cpp.o" \
 "CMakeFiles/Tutorial.dir/src/event.cpp.o" \
@@ -563,6 +613,8 @@ Tutorial_OBJECTS = \
 # External object files for target Tutorial
 Tutorial_EXTERNAL_OBJECTS =
 
+Tutorial: CMakeFiles/Tutorial.dir/src/ball.cpp.o
+Tutorial: CMakeFiles/Tutorial.dir/src/bumper.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/Camera.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/engine.cpp.o
 Tutorial: CMakeFiles/Tutorial.dir/src/event.cpp.o
@@ -606,7 +658,7 @@ Tutorial: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 Tutorial: /usr/lib/x86_64-linux-gnu/libSDL2.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libMagick++-6.Q16.so
 Tutorial: CMakeFiles/Tutorial.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX executable Tutorial"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX executable Tutorial"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Tutorial.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -614,6 +666,8 @@ CMakeFiles/Tutorial.dir/build: Tutorial
 
 .PHONY : CMakeFiles/Tutorial.dir/build
 
+CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/ball.cpp.o.requires
+CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/bumper.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/Camera.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/engine.cpp.o.requires
 CMakeFiles/Tutorial.dir/requires: CMakeFiles/Tutorial.dir/src/event.cpp.o.requires

@@ -2,6 +2,7 @@
 
 GLuint World::lightPosArray = 0;
 GLuint World::lightRadArray = 0;
+GLuint World::lightColArray = 0;
 GLuint World::lightSize = 0;
 World* World::instance = NULL;
 
@@ -13,6 +14,7 @@ World::World()
 	  //initialize ground plane
 	  size = 1.0f;
 	  pos = NULL;
+	  color = NULL;
 	  initPhys();
 
 	  //load board
@@ -79,12 +81,15 @@ World::World()
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(10,10, 0));
+	  light->setColor(glm::vec3(1,1,0.7));
 	  addLight(light);
 	  light = new Light();
 	  light->translate(glm::vec3(-80, 10,0));
+	  light->setColor(glm::vec3(0.7,1,1));
 	  addLight(light);
 	  light = new Light();
 	  light->translate(glm::vec3(-50,10,-20));
+	  light->setColor(glm::vec3(0.5,1,1));
 	  addLight(light);
 
 	  //load visual objects
@@ -108,12 +113,15 @@ World::~World()
 
 	if (pos != NULL)
 		delete[] pos;
+	if (color != NULL)
+		delete[] color;
 }
 
-void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz)
+void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint col)
 {
 	lightPosArray = pos;
 	lightRadArray = rad;
+	lightColArray = col;
 	lightSize = siz;
 }
 
@@ -167,6 +175,7 @@ void World::Render()
 
 	glUniform1i(lightSize, lights.size());
 	glUniform3fv(lightPosArray,16,(const float*) pos);
+	glUniform3fv(lightColArray,16,(const float*) color);
 }
 
 void World::addLight(Light *light)
@@ -181,15 +190,24 @@ void World::rebuildDataArray()
 {
 	if (pos != NULL)
 		delete[] pos;
+	if (color != NULL)
+		delete[] color;
 
 	if (lights.size() < 16)
+	{
 		pos = new glm::vec3[16]();
+		color = new glm::vec3[16]();
+	}
 	else
+	{
 		pos = new glm::vec3[lights.size()]();
+		color = new glm::vec3[lights.size()]();
+	}
 
 	for (int i = 0; i < lights.size(); i++)
 	{
 		pos[i] = lights[i]->getLight()->pos;
+		color[i] = lights[i]->getLight()->color;
 	}
 }
 

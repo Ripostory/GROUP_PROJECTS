@@ -18,6 +18,18 @@ object.h
 object.h
 ../include/object.h
 
+../include/ball.h
+physObject.h
+../include/physObject.h
+
+../include/bumper.h
+physObject.h
+../include/physObject.h
+ball.h
+../include/ball.h
+gui.h
+../include/gui.h
+
 ../include/engine.h
 sys/time.h
 -
@@ -161,6 +173,8 @@ map
 -
 object.h
 ../include/object.h
+gui.h
+../include/gui.h
 
 ../include/plunger.h
 physObject.h
@@ -223,6 +237,12 @@ paddle.h
 ../include/paddle.h
 plunger.h
 ../include/plunger.h
+bumper.h
+../include/bumper.h
+gui.h
+../include/gui.h
+ball.h
+../include/ball.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Camera.cpp
 Camera.h
@@ -231,6 +251,14 @@ Camera.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Light.cpp
 Light.h
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/Light.h
+
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.cpp
+ball.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/ball.h
+
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.cpp
+bumper.h
+/media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/bumper.h
 
 /media/nog/Projects/_Projects/GithubRepositories/GROUP_PROJECTS/PA10/src/engine.cpp
 engine.h

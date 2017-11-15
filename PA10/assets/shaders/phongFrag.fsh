@@ -8,6 +8,7 @@ in vec2 texCoordMod;
 smooth in vec3 lightDir[16];
 smooth in vec3 reflectDir[16];
 in float attenuation[16];
+uniform vec3 lCol[16];
 flat in int lights;
 
 uniform sampler2D texture;
@@ -23,12 +24,12 @@ void main(void)
 	vec3 N = normalize(normal);
 	vec3 V = normalize(viewDir);
 	
-	float finalDiff = 0;
+	vec3 finalDiff = vec3(0,0,0);
 	float finalSpec = 0;
 	float finalAtten = 0;
 	for (int i = 0; i < lights; i++)
 	{
-		finalDiff += calculateDiff(i, N);
+		finalDiff += lCol[i] * calculateDiff(i, N);
 		finalSpec += calculateSpecular(i, V);
 		finalAtten = min(finalAtten + attenuation[i], 1);
 	}
