@@ -4,7 +4,7 @@
 
 #include "physObject.h"
 
-#define PLUNGER_FORCE 1000
+#define PLUNGER_FORCE 5000
 
 class Plunger : public PhysObject{
 public:
@@ -16,6 +16,8 @@ private:
 	void Update(unsigned int dt);
 	bool isActive;
 	char key;
+
+	bool offset; //Prevents plunger from sticking
 };
 
 

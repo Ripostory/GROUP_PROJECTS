@@ -21,6 +21,7 @@ private:
 	paddleType paddle;
 	bool isActive;
 	char key;
+
 };
 
 

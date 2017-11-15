@@ -87,8 +87,8 @@ void Engine::Run()
 
     physWorld->stepSimulation(2*(float) m_DT/1000.0f, 1000);
 		physWorld -> performDiscreteCollisionDetection ();
-		//Assume world->stepSimulation or world->performDiscreteCollisionDetection has been called
 
+		//Assume world->stepSimulation or world->performDiscreteCollisionDetection has been called
 
     int numManifolds = physWorld->getDispatcher()->getNumManifolds();
     for (int i = 0; i < numManifolds; i++)
@@ -102,7 +102,7 @@ void Engine::Run()
     		contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
 
 				physObA -> OnCollisionDetected (physObB);
-				physObB -> OnCollisionDetected (physObA);
+				//physObB -> OnCollisionDetected (physObA);
     }
 
     // Check the keyboard input

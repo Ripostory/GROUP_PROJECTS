@@ -126,14 +126,19 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   Shader::init();
 
   // Create the object
+
   world = new World();
   world->Begin();
+
   world->setLightPointer(
 		  m_shader->GetUniformLocation("lPos"),
 		  m_shader->GetUniformLocation("lRad"),
 		  m_shader->GetUniformLocation("lSize"));
   //set world for camera
+
   m_camera->SetWorld(world);
+
+	cout << "World created successfully" << endl;
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -158,10 +163,11 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
     printf("m_modelMatrix not found\n");
     return false;
   }
-
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+
+	cout << "Graphics initialized" << endl;
   return true;
 }
 
@@ -190,26 +196,31 @@ void Graphics::generateFrameBuffer(GLuint &fbo, GLuint &fbTarget, int width, int
 
 void Graphics::Update(unsigned int dt)
 {
+		  //get keyboard
+		  for (int i = 0; i < listener.getSize(); i++)
+		  {
+			if (listener.getEvent(i).eventVer == SDL_KEYDOWN)
+				{
+					if (listener.getEvent(i).key == SDLK_t) {
+						selected = m_shader;
+					}
+					if (listener.getEvent(i).key == SDLK_y) {
+						selected = m_vshader;
+					}
+				}
+		  }
 
-  //get keyboard
-  for (int i = 0; i < listener.getSize(); i++)
-  {
-	if (listener.getEvent(i).eventVer == SDL_KEYDOWN)
-		{
-			if (listener.getEvent(i).key == SDLK_t) {
-				selected = m_shader;
-			}
-			if (listener.getEvent(i).key == SDLK_y) {
-				selected = m_vshader;
-			}
-		}
-  }
+	int score = 10000;
+	int lives = 3;
+
   // Update everything
   world->Update(dt);
   m_camera->Update(dt);
   updateFPS(dt);
   ui.Update(dt);
-  ImGui::Text("FPS: %.2f", fps);
+  //ImGui::Text("Score: %d\nLives: %d\nFPS: %.2f", score, lives, fps);
+
+
 }
 
 void Graphics::updateFPS(unsigned int dt)
