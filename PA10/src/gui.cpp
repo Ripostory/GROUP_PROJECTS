@@ -11,6 +11,8 @@ GUI::GUI(SDL_Window *window)
 	lives = 3;
 	newLifeCountdown = 1000;
 
+	std::cout << "Score: " << score << " lives: " << lives << std::endl;
+
 	m_instance = this;
 }
 
@@ -22,6 +24,8 @@ GUI::GUI()
 	score = 0;
 	lives = 3;
 	newLifeCountdown = 1000;
+
+	std::cout << "Score: " << score << " lives: " << lives << std::endl;
 }
 
 GUI::~GUI()
@@ -53,23 +57,25 @@ void GUI::initGUI(SDL_Window *window)
 
 void GUI::ChangeScore (int delta) {
 
-	std::cout << "Adding " << delta << " to score " << score << std::endl;
-
 	newLifeCountdown -= delta;
 	score += delta;
 
 	if (newLifeCountdown <= 0) {
 
+		std::cout << "NEW LIFE!\n" << std::endl;
+
 		ChangeLives (1);
 		newLifeCountdown = 1000;
 	}
+
+	std::cout << "Score: " << score << std::endl;
 }
 
 void GUI::ChangeLives (int delta) {
 
-	std::cout << "Adding " << delta << " to lives " << std::endl;
-
 	lives += delta;
+
+	std::cout << "Remaining Lives: " << lives << std::endl;
 }
 
 int GUI::GetLives () {

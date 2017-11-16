@@ -69,13 +69,10 @@ void Bumper::Update(unsigned int dt)
 		}
 		if (lightCooldownTimer > 0) {
 	
-			cout << lightCooldownTimer << endl;
 			lightCooldownTimer -= dt;
 		}
 
 		if (lightCooldownTimer <= 0) {
-			cout << "Remove Light\n";
-
 			lightCooldownTimer = 400;
 			World::GetInstance () -> removeLight (light);
 			active = false;

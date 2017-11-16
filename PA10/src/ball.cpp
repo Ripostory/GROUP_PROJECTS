@@ -7,6 +7,13 @@ Ball::Ball (glm::vec3 position) : PhysObject(Layer_All, Layer_All) {
 	translate (position);
 	setProperties (0.3f, 0.5f, 0.5f);
 
+	light = new Light ();
+	
+	light->translate(glm::vec3 (position.x, position.y + 0.5, position.z));
+	light->setColor(glm::vec3 (0.25, 0.25, 0.25));
+
+	World::GetInstance () -> addLight (light);
+
 	initPhysics ();
 }
 
@@ -20,9 +27,17 @@ void Ball::Update(unsigned int dt) {
 				keyboard(listener.getEvent(i));
 		}
 
+		if (light != NULL)
+			light -> translate (btToGlm(transform.getOrigin ()));
+
 		//Disable physics once ball is out of bounds
-		if (transform.getOrigin ().getX () > 12)
+		if (transform.getOrigin ().getX () > 12) {
 			physics = NULL;
+			World::GetInstance () -> removeLight (light);
+
+			delete light;
+			light = NULL;
+		}
 
 
 	  //update physics object

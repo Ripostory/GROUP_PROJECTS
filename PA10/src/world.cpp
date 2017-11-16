@@ -129,7 +129,7 @@ void World::keyboard(eventType event)
 	{
 		if (event.key == SDLK_k) {
 
-			if (GUI::getInstance () -> GetLives () > -100) {
+			if (GUI::getInstance () -> GetLives () > 0) {
 
 				//spawn item
 				PhysObject *newItem = new Ball (glm::vec3(-10, 1.1, -20.9));
