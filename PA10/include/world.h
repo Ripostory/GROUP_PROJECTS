@@ -16,11 +16,12 @@ public:
 	World();
 	virtual ~World();
 	void addLight(Light*);
+	void removeLight (Light*);
 	virtual void Render();
 	virtual void Update(unsigned int dt);
 	static void setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint col);
 
-	static World* instance;
+	static World* GetInstance ();
 protected:
 	virtual void keyboard(eventType);
 
@@ -38,6 +39,8 @@ private:
 
 	void initPhys();
 	void rebuildDataArray(); 
+
+	static World* m_instance;
 };
 
 

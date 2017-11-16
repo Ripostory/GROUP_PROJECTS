@@ -66,18 +66,12 @@ void Plunger::Update(unsigned int dt)
 
 		if (isActive) {
 
-			if (!offset) {
-				transform.setOrigin (btVector3 (-0.6, 1.1, -20.9));
-				offset = true;
-			}
-
-
+			physics -> forceActivationState (true);
 			physics -> applyCentralImpulse (btVector3(-45, 0, 0));
 		}
 		else if (!isActive) {
-			
+			physics -> forceActivationState (true);
 			physics -> applyCentralImpulse (btVector3(15, 0, 0));
-			offset = false;
 		}
 
 	  //update physics object

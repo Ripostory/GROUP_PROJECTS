@@ -20,6 +20,11 @@ void Ball::Update(unsigned int dt) {
 				keyboard(listener.getEvent(i));
 		}
 
+		//Disable physics once ball is out of bounds
+		if (transform.getOrigin ().getX () > 12)
+			physics = NULL;
+
+
 	  //update physics object
 	  if (physics != NULL)
 	  {

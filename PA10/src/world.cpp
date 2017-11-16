@@ -4,12 +4,12 @@ GLuint World::lightPosArray = 0;
 GLuint World::lightRadArray = 0;
 GLuint World::lightColArray = 0;
 GLuint World::lightSize = 0;
-World* World::instance = NULL;
+World* World::m_instance = NULL;
 
 World::World()
 {
 
-		World::instance = this;
+		World::m_instance = this;
 
 	  //initialize ground plane
 	  size = 1.0f;
@@ -37,12 +37,8 @@ World::World()
 	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_divider2.obj");
 	  this->addChild(child);
 
-	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
-	  child->loadModel("models/bumper.obj");
-	  child->loadTexture("textures/bumper.png");
-	  child->setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_bumpers.obj");
-	  child->setProperties(0.0,0.5,3.0);
-	  this->addChild(child);
+		child = new Bumper (glm::vec3 (0, 0, 0), glm::vec3 (0.5, 0.25, 0.25), BumperTriangle);
+		this -> addChild (child);
 
 	  child = new PhysObject(Layer_Table, Layer_All ^ Layer_Paddle);
 	  child->loadModel("models/intWall1.obj");
@@ -61,13 +57,13 @@ World::World()
 	  base->loadTexture("textures/intWall2.png");
 	  this->addChild(base);
 
-		child = new Bumper (glm::vec3 (-27, 0, 0));
+		child = new Bumper (glm::vec3 (-27, 0, 0), glm::vec3 (0.5, 0.25, 0.25), BumperCylinder);
 		this -> addChild (child);
 
-		child = new Bumper (glm::vec3 (-43, 0, 4));
+		child = new Bumper (glm::vec3 (-43, 0, 4), glm::vec3 (0.25, 0.25, 0.5), BumperCylinder);
 		this -> addChild (child);
 
-		child = new Bumper (glm::vec3 (-39, 0, -4));
+		child = new Bumper (glm::vec3 (-39, 0, -4), glm::vec3 (0.25, 0.5, 0.25), BumperCylinder);
 		this -> addChild (child);
 
 	  child = new Paddle(pleft, 'g');
@@ -81,12 +77,14 @@ World::World()
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(10,10, 0));
-	  light->setColor(glm::vec3(1,1,0.7));
+	  light->setColor(glm::vec3(1,0.6,0.7));
 	  addLight(light);
+
 	  light = new Light();
 	  light->translate(glm::vec3(-80, 10,0));
 	  light->setColor(glm::vec3(0.7,1,1));
 	  addLight(light);
+
 	  light = new Light();
 	  light->translate(glm::vec3(-50,10,-20));
 	  light->setColor(glm::vec3(0.5,1,1));
@@ -131,7 +129,7 @@ void World::keyboard(eventType event)
 	{
 		if (event.key == SDLK_k) {
 
-			if (GUI::getInstance () -> GetLives () > 0) {
+			if (GUI::getInstance () -> GetLives () > -100) {
 
 				//spawn item
 				PhysObject *newItem = new Ball (glm::vec3(-10, 1.1, -20.9));
@@ -186,6 +184,20 @@ void World::addLight(Light *light)
 	rebuildDataArray();
 }
 
+void World::removeLight (Light* value) {
+/*
+	std::vector<int>::iterator position = std::find(myVector.begin(), myVector.end(), 8);
+if (position != myVector.end()) // == myVector.end() means the element was not found
+    myVector.erase(position);*/
+
+	std::vector<Light*>::iterator it = std::find (lights.begin (), lights.end (), value);
+	if (it != lights.end())
+		lights.erase (it);
+
+
+	rebuildDataArray ();
+}
+
 void World::rebuildDataArray()
 {
 	if (pos != NULL)
@@ -226,4 +238,9 @@ void World::initPhys()
 	planeCollider = new btRigidBody(groundRigidBodyCI);
 	listener.getWorld()->addRigidBody(planeCollider);
 
+}
+
+World* World::GetInstance () {
+
+	return m_instance;
 }
