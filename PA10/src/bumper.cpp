@@ -3,17 +3,37 @@
 
 Bumper::Bumper() { }
 
-Bumper::Bumper(glm::vec3 position) : PhysObject(Layer_Plunger, Layer_Ball)
+Bumper::Bumper(glm::vec3 position, glm::vec3 lColor, BumperType type) : PhysObject(Layer_Plunger, Layer_Ball)
 {
+		lightCooldownTimer = 0;
+		
+		this -> type = type;
+		std::cout << type << endl;
 
-	  loadModel("models/cylBumper.obj");
-	  loadTexture("textures/cylBumper.png");
-	  
-		setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
-	 	setProperties(0,0,2);
-	  translate(position);
+		if (type == BumperCylinder) {
+			loadModel("models/cylBumper.obj");
+			loadTexture("textures/cylBumper.png");
+			
+			setBoxCollider(Physics_Mesh_Cylinder, glm::vec3(1.5, 2, 1.5));
+		 	setProperties(0,0,2);
+			translate(position);
 
+			light = new Light ();
 
+	  	light->translate(position);
+	  	light->setColor(lColor);
+		}
+
+		if (type == BumperTriangle) {
+
+			//FIXME: BUMPER TRIANGLE NOT SENDING COLLISONS TO CALLBACK
+	  	loadModel("models/bumper.obj");
+	  	loadTexture("textures/bumper.png");
+	  	setMeshCollider(Physics_Mesh_S_Mesh, "models/collision/c_bumpers.obj");
+	  	setProperties(0.0,0.5,3.0);
+		}
+
+		pos = position;
 
 		initPhysics();
 }
@@ -30,7 +50,14 @@ void Bumper::keyboard(eventType event)
 
 void Bumper::OnCollisionDetected (PhysObject* hit) {
 
-	GUI::getInstance () -> ChangeScore (25);
+		GUI::getInstance () -> ChangeScore (25 * (int)type);
+
+		if (active || type == BumperTriangle)
+			return;
+
+		lightCooldownTimer = 400;
+		World::GetInstance () -> addLight (light);
+		active = true;
 }
 
 void Bumper::Update(unsigned int dt)
@@ -40,6 +67,20 @@ void Bumper::Update(unsigned int dt)
 		{
 				keyboard(listener.getEvent(i));
 		}
+		if (lightCooldownTimer > 0) {
+	
+			cout << lightCooldownTimer << endl;
+			lightCooldownTimer -= dt;
+		}
+
+		if (lightCooldownTimer <= 0) {
+			cout << "Remove Light\n";
+
+			lightCooldownTimer = 400;
+			World::GetInstance () -> removeLight (light);
+			active = false;
+		}
+
 
 	  //update physics object
 	  if (physics != NULL)
