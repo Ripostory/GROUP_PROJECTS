@@ -279,19 +279,78 @@ void World::ActivateGameOverState () {
 	//6 - Start new game!
 
 	cout << "*** GAME OVER ***\n";
-	cout << "Player 1 | 10000\n";
-	cout << "Player 2 | 9000\n";
-	cout << "Player 3 | 8000\n";
-	cout << "Player 4 | 7000\n";
-	cout << "Player 5 | 6000\n";
-	cout << "Player 6 | 5000\n";
-	cout << "Player 7 | 4000\n";
-	cout << "Player 8 | 3000\n";
-	cout << "Player 9 | 2000\n";
-	cout << "Player 10 | 1000\n\n";
 
-	
+	ifstream READER;
+	ofstream WRITER;
 
+	READER.open ("TopTen.txt");
+
+	if (!READER) {
+
+		WRITER.open ("TopTen.txt");
+		
+		cout << "Enter your name: ";
+
+		string player;
+		cin >> player;
+
+		WRITER << player << " " << GUI::getInstance () -> GetScore () << endl;
+		WRITER.close ();
+
+	}
+	else {
+
+		int index = 1;
+		int topScores[10];
+
+		string names [10];
+		while (READER >> names [index - 1] >> topScores[index - 1]) {
+
+			cout << "#" << index << " " << names [index - 1] << " " << topScores[index - 1] << endl;
+			index++;
+
+			if (index > 10)
+				break;
+		}
+		
+		READER.close ();
+
+		WRITER.open ("TopTen.txt");
+
+
+		bool wroteName = false;
+		int myScore = GUI::getInstance () -> GetScore ();
+		for (int i = 0; i < index - 1; i++) {
+
+			if (topScores [i] < myScore && !wroteName) {
+				cout << "Enter your name: ";
+				string player;
+				cin >> player;
+
+				WRITER << player << " " << GUI::getInstance () -> GetScore () << endl;
+				wroteName = true;
+
+				i++;
+			}
+			else {
+
+				WRITER << names [i] << " " << topScores [i] << endl;
+			}
+
+		}
+		
+		if (index < 11) {
+
+				cout << "Enter your name: ";
+				string player;
+				cin >> player;
+
+				WRITER << player << " " << GUI::getInstance () -> GetScore () << endl;
+		}
+
+
+		WRITER.close ();
+	}
 }
 
 World* World::GetInstance () {
