@@ -125,6 +125,8 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   Object::init();
   Shader::init();
 
+
+
   // Create the object
 
   world = new World();
@@ -134,7 +136,11 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 		  m_shader->GetUniformLocation("lPos"),
 		  m_shader->GetUniformLocation("lRad"),
 		  m_shader->GetUniformLocation("lSize"),
-		  m_shader->GetUniformLocation("lCol"));
+		  m_shader->GetUniformLocation("lCol"),
+			m_shader->GetUniformLocation("atmosphere")
+	);
+
+
   //set world for camera
 
   m_camera->SetWorld(world);

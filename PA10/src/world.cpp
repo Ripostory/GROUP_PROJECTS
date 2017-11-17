@@ -4,12 +4,16 @@ GLuint World::lightPosArray = 0;
 GLuint World::lightRadArray = 0;
 GLuint World::lightColArray = 0;
 GLuint World::lightSize = 0;
+GLuint World::atmosphereColor = 0;
+
 World* World::m_instance = NULL;
 
 World::World()
 {
 
 		World::m_instance = this;
+
+		m_atmosphereColor = glm::vec3 (0.5, 0.5, 0.5);
 
 	  //initialize ground plane
 	  size = 1.0f;
@@ -115,12 +119,13 @@ World::~World()
 		delete[] color;
 }
 
-void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint col)
+void World::setLightPointer(GLuint pos, GLuint rad, GLuint siz, GLuint col, GLuint atmos)
 {
 	lightPosArray = pos;
 	lightRadArray = rad;
 	lightColArray = col;
 	lightSize = siz;
+	atmosphereColor = atmos;
 }
 
 void World::keyboard(eventType event)
@@ -136,15 +141,37 @@ void World::keyboard(eventType event)
 				this->addChild(newItem);
 		
 				GUI::getInstance () -> ChangeLives (-1);
-
-	
 			}
+
+
+
+		}
+
+		//Set Atmospheric colors
+		if (event.key == SDLK_q && m_atmosphereColor.x < 1) {
+			m_atmosphereColor.x += 0.1;
+		}
+		if (event.key == SDLK_w && m_atmosphereColor.y < 1) {
+			m_atmosphereColor.y += 0.1;
+		}
+		if (event.key == SDLK_e && m_atmosphereColor.z < 1) {
+			m_atmosphereColor.z += 0.1;
+		}
+		if (event.key == SDLK_a && m_atmosphereColor.x > 0) {
+			m_atmosphereColor.x -= 0.1;
+		}
+		if (event.key == SDLK_s && m_atmosphereColor.t > 0) {
+			m_atmosphereColor.y -= 0.1;
+		}
+		if (event.key == SDLK_d && m_atmosphereColor.z > 0) {
+			m_atmosphereColor.z -= 0.1;
 		}
 	}
 }
 
 void World::Update(unsigned int dt)
 {
+
 	  model = mtranslate * mscale * mrotate;
 	  //update keyboard
 	  for (int i = 0; i < listener.getSize(); i++)
@@ -174,6 +201,8 @@ void World::Render()
 	glUniform1i(lightSize, lights.size());
 	glUniform3fv(lightPosArray,16,(const float*) pos);
 	glUniform3fv(lightColArray,16,(const float*) color);
+
+	glUniform3f (atmosphereColor, m_atmosphereColor.x, m_atmosphereColor.y, m_atmosphereColor.z);
 }
 
 void World::addLight(Light *light)
@@ -185,10 +214,6 @@ void World::addLight(Light *light)
 }
 
 void World::removeLight (Light* value) {
-/*
-	std::vector<int>::iterator position = std::find(myVector.begin(), myVector.end(), 8);
-if (position != myVector.end()) // == myVector.end() means the element was not found
-    myVector.erase(position);*/
 
 	std::vector<Light*>::iterator it = std::find (lights.begin (), lights.end (), value);
 	if (it != lights.end())
@@ -237,6 +262,35 @@ void World::initPhys()
 	//add collider
 	planeCollider = new btRigidBody(groundRigidBodyCI);
 	listener.getWorld()->addRigidBody(planeCollider);
+
+}
+
+void World::ActivateGameOverState () {
+
+	//Too soon
+	if (GUI::getInstance () -> GetLives () > 0)
+		return;
+
+	//Game over state has two steps
+	//1 - Get top 10 scores
+	//2 - If you are in top 10, add your score
+	//3 - Show top 10 scores
+	//4 - Save
+	//6 - Start new game!
+
+	cout << "*** GAME OVER ***\n";
+	cout << "Player 1 | 10000\n";
+	cout << "Player 2 | 9000\n";
+	cout << "Player 3 | 8000\n";
+	cout << "Player 4 | 7000\n";
+	cout << "Player 5 | 6000\n";
+	cout << "Player 6 | 5000\n";
+	cout << "Player 7 | 4000\n";
+	cout << "Player 8 | 3000\n";
+	cout << "Player 9 | 2000\n";
+	cout << "Player 10 | 1000\n\n";
+
+	
 
 }
 

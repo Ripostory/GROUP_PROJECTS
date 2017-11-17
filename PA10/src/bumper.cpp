@@ -8,7 +8,6 @@ Bumper::Bumper(glm::vec3 position, glm::vec3 lColor, BumperType type) : PhysObje
 		lightCooldownTimer = 0;
 		
 		this -> type = type;
-		std::cout << type << endl;
 
 		if (type == BumperCylinder) {
 			loadModel("models/cylBumper.obj");
@@ -19,7 +18,6 @@ Bumper::Bumper(glm::vec3 position, glm::vec3 lColor, BumperType type) : PhysObje
 			translate(position);
 
 			light = new Light ();
-
 	  	light->translate(position);
 	  	light->setColor(lColor);
 		}
