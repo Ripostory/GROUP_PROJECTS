@@ -14,6 +14,8 @@ public:
 
 private:
 	Light* light;
+
+	static int activeBalls;
 };
 
 

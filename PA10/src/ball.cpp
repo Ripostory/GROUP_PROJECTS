@@ -1,5 +1,7 @@
 #include "ball.h"
 
+int Ball::activeBalls = 0;
+
 Ball::Ball (glm::vec3 position) : PhysObject(Layer_All, Layer_All) {
 
 	loadModel ("models/planet.obj");
@@ -15,6 +17,8 @@ Ball::Ball (glm::vec3 position) : PhysObject(Layer_All, Layer_All) {
 	World::GetInstance () -> addLight (light);
 
 	initPhysics ();
+
+	activeBalls++;
 }
 
 void Ball::keyboard(eventType) { }
@@ -32,11 +36,22 @@ void Ball::Update(unsigned int dt) {
 
 		//Disable physics once ball is out of bounds
 		if (transform.getOrigin ().getX () > 12) {
+
+			if (physics != NULL) {
+				activeBalls--;
+
+				if (activeBalls == 0) {
+					World::GetInstance () -> ActivateGameOverState ();
+				}
+			}
+
 			physics = NULL;
 			World::GetInstance () -> removeLight (light);
 
 			delete light;
 			light = NULL;
+
+		
 		}
 
 
