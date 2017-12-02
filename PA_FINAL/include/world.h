@@ -5,6 +5,7 @@
 #include "object.h"
 #include "Light.h"
 #include "physObject.h"
+#include "kineObject.h"
 #include "imgui.h"
 
 class World : public Object{
@@ -28,6 +29,7 @@ private:
 	vector<Light*> lights;
 
 	glm::vec3 cursor;
+	KinematicObject *testphy;
 
 	void initPhys();
 };

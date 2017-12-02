@@ -30,9 +30,11 @@ class Object
     void setVisual(string, string, string);
     void setMultiplier(float);
     void addChild(Object*);
-    void translate(glm::vec3);
-    void rotate(float angle, glm::vec3 axis);
-    void scale(float amount);
+    virtual void translate(glm::vec3);
+    virtual void rotate(float angle, glm::vec3 axis);
+    virtual void translateBy(glm::vec3);
+    virtual void rotateBy(float angle, glm::vec3 axis);
+    virtual void scale(float amount);
 
     float getSize();
     glm::mat4 GetModel();

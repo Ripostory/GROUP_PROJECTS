@@ -18,7 +18,7 @@ void World::loadWorld()
 	  test->loadTexture("s_earth.jpg", 2);
 	  test->loadNormal("n_earth.jpg");
 	  test->scale(9.0f);
-  	  this->addChild(test);
+  	  //this->addChild(test);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
@@ -36,6 +36,14 @@ void World::loadWorld()
 	  light->setColor(glm::vec3(4,2.2,4.2));
 	  addLight(light);
 	  cursor.y = -6;
+
+	  //test kinematic object
+	  testphy = new KinematicObject();
+	  testphy->loadModel("planet.obj");
+	  testphy->loadNormal("cleanNormal.png");
+	  testphy->loadTexture("s_earth.jpg", 2);
+	  testphy->translate(glm::vec3(0,30,0));
+	  addChild(testphy);
 }
 
 World::World()
@@ -156,6 +164,10 @@ void World::Update(unsigned int dt)
 	  //output world amount
 	  ImGui::Text("Object Count: %lu", children.size());
 	  ImGui::Text("Cursor Pos: <%.1f, %.1f, %.1f>", cursor.x, cursor.y, cursor.z);
+
+	  //TODO remove test
+	  testphy->translateBy(glm::vec3(0,-0.001*dt,0));
+	  testphy->rotateBy(0.01*dt, glm::vec3(1,0,0));
 }
 
 void World::Render()

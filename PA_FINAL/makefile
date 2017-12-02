@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o kineObject.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -54,6 +54,9 @@ object.o: ../src/object.cpp
 
 physObject.o: ../src/physObject.cpp
 	$(CC) $(CXXFLAGS) -c ../src/physObject.cpp -o physObject.o $(INDLUDES)
+	
+kineObject.o: ../src/kineObject.cpp
+	$(CC) $(CXXFLAGS) -c ../src/kineObject.cpp -o kineObject.o $(INDLUDES)
 
 shader.o: ../src/shader.cpp
 	$(CC) $(CXXFLAGS) -c ../src/shader.cpp -o shader.o $(INDLUDES)

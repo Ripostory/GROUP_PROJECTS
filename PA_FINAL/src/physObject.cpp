@@ -224,3 +224,12 @@ btVector3 PhysObject::glmToBt(glm::vec3 input)
 {
 	return btVector3(input.x, input.y, input.z);
 }
+
+btTransform PhysObject::glmToBt(glm::mat4 input)
+{
+	btTransform final;
+	glm::quat qt = glm::quat_cast(input);
+	final.setRotation(btQuaternion(qt.x, qt.y, qt.z, qt.w));
+	final.setOrigin(glmToBt(glm::vec3(glm::vec4(0, 0, 0, 1) * glm::transpose(input))));
+	return final;
+}

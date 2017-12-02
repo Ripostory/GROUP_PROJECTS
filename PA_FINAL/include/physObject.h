@@ -26,7 +26,7 @@ public:
 	virtual ~PhysObject();
 	virtual void Begin();
 	virtual void Update(unsigned int dt);
-    void initPhysics();
+    virtual void initPhysics();
     void setCollisionMesh(int base);
     void setCollisionMesh(int box, glm::vec3 size);
     void setCollisionMesh(int sphere, float radius);
@@ -37,8 +37,8 @@ protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);
     btVector3 glmToBt(glm::vec3);
+    btTransform glmToBt(glm::mat4);
 
-private:
     btRigidBody *physics;
     btCollisionShape *shape;
     btTransform transform;
@@ -47,6 +47,7 @@ private:
     float friction;
     float restitution;
     bool isStatic;
+private:
 };
 
 
