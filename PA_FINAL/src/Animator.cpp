@@ -12,34 +12,50 @@ Animator::~Animator()
 
 void Animator::Update(unsigned int dt)
 {
-	//update front frame
+	//update all front frames
 	if (eventBuffer.size() != 0)
 	{
-		if (eventBuffer.front().Update(dt))
-			eventBuffer.pop();
+		std::vector<AnimFrame>::iterator it;
+		int doneCounter = 0;
+
+		for (it = eventBuffer.begin(); it != eventBuffer.end(); it++)
+		{
+			if ((&(*it))->Update(dt))
+				doneCounter++;
+		}
+
+		if (eventBuffer.size() == doneCounter)
+			eventBuffer.clear();
 	}
 }
 
 void Animator::pushAnimation(AnimGroup animation)
 {
-	//try to push it into last animation frame
-	if (eventBuffer.size() != 0)
+	//search for frame
+	std::vector<AnimFrame>::iterator it;
+	for (it = eventBuffer.begin(); it != eventBuffer.end(); it++)
 	{
-		if(!eventBuffer.back().addEvent(animation))
+		if ((*it).getID() == animation.id)
 		{
-			//if failed, create a new frame
-			AnimFrame newFrame;
-			newFrame.addEvent(animation);
-			eventBuffer.push(newFrame);
+			std::cout << "added event!" << std::endl;
+			(&(*it))->addEvent(animation);
+			return;
 		}
 	}
+
+	//if there is no frame, add a new one
+	AnimFrame newFrame(animation.id);
+	newFrame.addEvent(animation);
+	eventBuffer.push_back(newFrame);
+
+}
+
+bool Animator::isPending()
+{
+	if (eventBuffer.size() != 0)
+		return true;
 	else
-	{
-		//empty, create a new frame
-		AnimFrame newFrame;
-		newFrame.addEvent(animation);
-		eventBuffer.push(newFrame);
-	}
+		return false;
 }
 
 void Animator::animateFloat(float* value, float lerpTo, float time, interpolation interp, int id)
@@ -66,6 +82,12 @@ void Animator::animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, inter
 
 AnimFrame::AnimFrame()
 {
+	id = -1;
+}
+
+AnimFrame::AnimFrame(int i)
+{
+	id = i;
 }
 
 AnimFrame::~AnimFrame()
@@ -75,17 +97,13 @@ AnimFrame::~AnimFrame()
 
 bool AnimFrame::Update(unsigned int dt)
 {
-	int doneCounter = 0;
-	std::vector<AnimGroup>::iterator it;
-	for (it = children.begin(); it != children.end(); it++)
-	{
-		if(UpdateGroup(dt, &(*it)))
-			doneCounter++;
-	}
+	//update front group if exists
+	if (children.size() != 0)
+		if (UpdateGroup(dt, &children.front()))
+			children.pop();
 
-	if (children.size() == doneCounter)
+	if (children.size() == 0)
 		return true;
-
 	return false;
 }
 
@@ -108,19 +126,14 @@ bool AnimFrame::UpdateGroup(unsigned int dt, AnimGroup *set)
 
 bool AnimFrame::addEvent(AnimGroup group)
 {
-	//check to make sure there isn't an existing animation on the same value
-	if (children.size() != 0)
-	{
-		std::vector<AnimGroup>::iterator it;
-		for (it = children.begin(); it != children.end(); it++)
-		{
-			if ((*it).id == group.id)
-				return false;
-		}
-	}
-
-	children.push_back(group);
+	//add to frame
+	children.push(group);
 	return true;
+}
+
+int AnimFrame::getID()
+{
+	return id;
 }
 
 /*

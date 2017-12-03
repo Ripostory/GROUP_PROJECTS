@@ -48,12 +48,15 @@ struct AnimGroup {
 class AnimFrame {
 public:
 	AnimFrame();
+	AnimFrame(int id);
 	~AnimFrame();
 	bool Update(unsigned int dt);
 	bool addEvent(AnimGroup);
+	int getID();
 private:
 	bool UpdateGroup(unsigned int dt, AnimGroup*);
-	std::vector<AnimGroup> children;
+	std::queue<AnimGroup> children;
+	int id;
 };
 
 //the animator, animates each animation sequentially
@@ -62,13 +65,14 @@ public:
 	Animator();
 	~Animator();
 	void Update(unsigned int dt);
+	bool isPending();
 
 	//TODO add animator functions
 	void animateFloat(float* value, float lerpTo, float time, interpolation interp, int id);
 	void animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, interpolation interp, int id);
 private:
 	void pushAnimation(AnimGroup);
-	std::queue<AnimFrame> eventBuffer;
+	std::vector<AnimFrame> eventBuffer;
 };
 
 
