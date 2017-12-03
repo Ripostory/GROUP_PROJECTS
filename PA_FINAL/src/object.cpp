@@ -209,13 +209,6 @@ void Object::rotateBy(float angle, glm::vec3 axis)
 	model = mtranslate * mscale * mrotate;
 }
 
-void Object::rotateTo(glm::vec3 lookat, glm::vec3 up)
-{
-	mrotate = glm::lookAt(glm::vec3(0),lookat,up);
-	//reset model matrix
-	model = mtranslate * mscale * mrotate;
-}
-
 void Object::scale(float amount)
 {
 	size  = amount;
