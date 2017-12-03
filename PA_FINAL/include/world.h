@@ -6,7 +6,6 @@
 #include "Light.h"
 #include "physObject.h"
 #include "kineObject.h"
-#include "plane.h"
 #include "imgui.h"
 
 class World : public Object{

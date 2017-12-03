@@ -37,6 +37,7 @@ void Animator::pushAnimation(AnimGroup animation)
 	{
 		if ((*it).getID() == animation.id)
 		{
+			std::cout << "added event!" << std::endl;
 			(&(*it))->addEvent(animation);
 			return;
 		}
