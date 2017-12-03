@@ -35,6 +35,7 @@ class Object
     virtual void rotate(float angle, glm::vec3 axis);
     virtual void translateBy(glm::vec3);
     virtual void rotateBy(float angle, glm::vec3 axis);
+    virtual void rotateTo(glm::vec3 lookat, glm::vec3 up);
     virtual void scale(float amount);
 
     float getSize();

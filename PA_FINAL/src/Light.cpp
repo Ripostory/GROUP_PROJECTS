@@ -6,6 +6,7 @@ Light::Light()
 	light = LightData(1, 1, LIGHT_POINT);
 	light.pos = glm::vec3(0,0,0);
 	loadModel("planet.obj");
+	parent = NULL;
 }
 
 Light::Light(int type)
@@ -13,6 +14,7 @@ Light::Light(int type)
 	light = LightData(1, 1, type);
 	light.pos = glm::vec3(0,0,0);
 	loadModel("planet.obj");
+	parent = NULL;
 }
 
 Light::~Light()
@@ -22,7 +24,16 @@ Light::~Light()
 
 void Light::Update(unsigned int dt)
 {
-	light.pos = glm::vec3(model * glm::vec4(0,0,0,1));
+	if (parent!= NULL)
+	{
+		//apply parent position
+		glm::mat4 pModel = parent->GetModel();
+		model = glm::translate(glm::vec3(pModel[3][0], pModel[3][1], pModel[3][2]));
+		model *= mtranslate;
+		model *= mscale;
+
+	}
+	light.pos = glm::vec3(model[3][0], model[3][1], model[3][2]);
 	light.radius = size;
 }
 
@@ -56,4 +67,9 @@ void Light::Render()
 
 	  glDisableVertexAttribArray(0);
 	  glDisableVertexAttribArray(1);
+}
+
+void Light::setParent(Object* newParent)
+{
+	parent = newParent;
 }

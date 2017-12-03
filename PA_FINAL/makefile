@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o kineObject.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o kineObject.o plane.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -93,6 +93,9 @@ billboard.o: ../src/billboard.cpp
 
 imgui_impl_sdl_gl3.o: ../src/imgui_impl_sdl_gl3.cpp
 	$(CC) $(CXXFLAGS) -c ../src/imgui_impl_sdl_gl3.cpp -o imgui_impl_sdl_gl3.o $(INDLUDES)
+	
+plane.o: ../src/plane.cpp
+	$(CC) $(CXXFLAGS) -c ../src/plane.cpp -o plane.o $(INDLUDES)
 
 clean:
 	-@if rm *.o Tutorial 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi

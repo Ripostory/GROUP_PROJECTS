@@ -38,12 +38,14 @@ void World::loadWorld()
 	  cursor.y = -6;
 
 	  //test kinematic object
-	  testphy = new KinematicObject();
-	  testphy->loadModel("planet.obj");
-	  testphy->loadNormal("cleanNormal.png");
-	  testphy->loadTexture("s_earth.jpg", 2);
-	  testphy->translate(glm::vec3(0, -4,0));
-	  addChild(testphy);
+	  Plane *plane = new Plane();
+	  addChild(plane);
+	  light = new Light();
+	  light->translate(glm::vec3(0,18,0));
+	  light->setSize(50.0f);
+	  light->setColor(glm::vec3(0,5,0));
+	  light->setParent(plane);
+	  addLight(light);
 
 	  animator.animateVec3(&cursor, glm::vec3(0,0,0), 2, linear, 2);
 	  animator.animateVec3(&cursor, glm::vec3(2,2,5), 5, none, 2);

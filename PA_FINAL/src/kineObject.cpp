@@ -20,6 +20,12 @@ void KinematicObject::Update(unsigned int dt)
 		  physics->getMotionState()->setWorldTransform(glmToBt(model));
 	  }
 
+	  //update keyboard
+	  for (int i = 0; i < listener.getSize(); i++)
+	  {
+		  keyboard(listener.getEvent(i));
+	  }
+
 	  animator.Update(dt);
 
 	  //update children
