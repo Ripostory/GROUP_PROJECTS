@@ -9,6 +9,12 @@
 #include "graphics.h"
 #include "event.h"
 
+#include "BulletCollision/NarrowPhaseCollision/btRaycastCallback.h"
+#include "BulletCollision/Gimpact/btGImpactShape.h"
+
+
+#include "LinearMath/btAlignedObjectArray.h"
+
 class Engine
 {
   public:
@@ -20,6 +26,7 @@ class Engine
     void Keyboard(eventType);
     unsigned int getDT();
     long long GetCurrentTimeMillis();
+		void castRays ();
   
   private:
     // Window related variables

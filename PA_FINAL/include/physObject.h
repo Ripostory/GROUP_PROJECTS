@@ -10,6 +10,7 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <bullet/btBulletCollisionCommon.h>
+#include <map>
 #include "object.h"
 
 #define PHYS_BOX 		0
@@ -22,6 +23,10 @@
 
 class PhysObject : public Object {
 public:
+
+	static std::map <btCollisionObject*, PhysObject*> CollisionObjectMap;
+	static PhysObject* btToPhysObject (const btCollisionObject* obj);
+
 	PhysObject();
 	virtual ~PhysObject();
 	virtual void Begin();
@@ -33,6 +38,9 @@ public:
     void setCollisionMesh(int capCylCone, float, float);
     void setCollisionMesh(int mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
+
+	PhysObject* Raycast (btVector3 origin, btVector3 direction, bool worldNormal);
+
 protected:
     glm::vec3 btToGlm(btVector3);
     glm::mat4 btToGlm(btTransform);
