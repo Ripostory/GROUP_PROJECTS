@@ -83,6 +83,7 @@ void Engine::Run()
     //Update the physics
     physWorld->stepSimulation((float) m_DT/1000.0f, 30);
 
+
     // Check the keyboard input
     m_event.update();
     for (int i = 0; i < m_event.getSize(); i++)
