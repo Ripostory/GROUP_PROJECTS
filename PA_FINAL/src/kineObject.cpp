@@ -20,6 +20,8 @@ void KinematicObject::Update(unsigned int dt)
 		  physics->getMotionState()->setWorldTransform(glmToBt(model));
 	  }
 
+	  animator.Update(dt);
+
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {

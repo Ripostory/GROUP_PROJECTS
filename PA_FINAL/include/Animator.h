@@ -2,21 +2,73 @@
 #ifndef INCLUDE_ANIMATOR_H_
 #define INCLUDE_ANIMATOR_H_
 
+#include "graphics_headers.h"
+#include <vector>
+#include <queue>
+
 //Handles animating items
 
-struct AnimEvent {
-
+enum interpolation {
+	none, linear, easein, easeout, easeinout, exponential
 };
 
+//a single animated float
+class AnimEvent {
+public:
+	AnimEvent();
+	AnimEvent(float *toAnimate, float final, float time, interpolation lerp);
+	~AnimEvent();
+	bool Update(unsigned int dt);
+private:
+	float *value;
+	float initial;
+	float final;
+	float time;
+	float progress;
+	interpolation lerp;
+	bool isDone;
+
+	void interpNone(unsigned int dt);
+	void interpLinear(unsigned int dt);
+	void interpEasein(unsigned int dt);
+	void interpEaseOut(unsigned int dt);
+	void interpEaseInOut(unsigned int dt);
+	void interpExponential(unsigned int dt);
+};
+
+//a group of floats
+//used to ensure multiple animations dont overlap one another
+struct AnimGroup {
+	int id = -1;
+	std::vector<AnimEvent> event;
+	AnimGroup(int i): id(i) {}
+};
+
+//an animation frame, updates all groups at the same time
+class AnimFrame {
+public:
+	AnimFrame();
+	~AnimFrame();
+	bool Update(unsigned int dt);
+	bool addEvent(AnimGroup);
+private:
+	bool UpdateGroup(unsigned int dt, AnimGroup*);
+	std::vector<AnimGroup> children;
+};
+
+//the animator, animates each animation sequentially
 class Animator {
 public:
 	Animator();
 	~Animator();
 	void Update(unsigned int dt);
 
+	//TODO add animator functions
+	void animateFloat(float* value, float lerpTo, float time, interpolation interp, int id);
+	void animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, interpolation interp, int id);
 private:
-
-
+	void pushAnimation(AnimGroup);
+	std::queue<AnimFrame> eventBuffer;
 };
 
 

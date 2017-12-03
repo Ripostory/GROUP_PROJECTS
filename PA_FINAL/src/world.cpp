@@ -42,8 +42,12 @@ void World::loadWorld()
 	  testphy->loadModel("planet.obj");
 	  testphy->loadNormal("cleanNormal.png");
 	  testphy->loadTexture("s_earth.jpg", 2);
-	  testphy->translate(glm::vec3(0,30,0));
+	  testphy->translate(glm::vec3(0, -4,0));
 	  addChild(testphy);
+
+	  animator.animateVec3(&cursor, glm::vec3(0,0,0), 2, linear, 2);
+	  animator.animateVec3(&cursor, glm::vec3(2,2,5), 5, none, 2);
+	  animator.animateVec3(&cursor, glm::vec3(0,-9,-10), 5, linear, 2);
 }
 
 World::World()
@@ -154,6 +158,8 @@ void World::Update(unsigned int dt)
 		  lights[i]->Update(dt);
 	  }
 
+	  animator.Update(dt);
+
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {
@@ -165,9 +171,6 @@ void World::Update(unsigned int dt)
 	  ImGui::Text("Object Count: %lu", children.size());
 	  ImGui::Text("Cursor Pos: <%.1f, %.1f, %.1f>", cursor.x, cursor.y, cursor.z);
 
-	  //TODO remove test
-	  testphy->translateBy(glm::vec3(0,-0.001*dt,0));
-	  testphy->rotateBy(0.01*dt, glm::vec3(1,0,0));
 }
 
 void World::Render()

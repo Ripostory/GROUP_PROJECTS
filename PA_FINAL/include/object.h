@@ -6,6 +6,7 @@
 #include "loader.h"
 #include "obj.h"
 #include "event.h"
+#include "Animator.h"
 
 #define SPEED_STEP 		0.02f
 
@@ -39,6 +40,8 @@ class Object
     float getSize();
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();
+
+    Animator animator;
 
   protected:
     glm::mat4 model;
