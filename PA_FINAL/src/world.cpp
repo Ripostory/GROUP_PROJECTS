@@ -11,7 +11,6 @@ void World::loadWorld()
 	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  this->addChild(child);
 
-
 	  Object *test = new Object();
 	  test->loadModel("planet.obj");
 	  test->loadTexture("a_earth.jpg");
@@ -38,14 +37,12 @@ void World::loadWorld()
 	  cursor.y = -6;
 
 	  //test kinematic object
-	  Plane *plane = new Plane();
-	  addChild(plane);
-	  light = new Light();
-	  light->translate(glm::vec3(0,18,0));
-	  light->setSize(50.0f);
-	  light->setColor(glm::vec3(0,5,0));
-	  light->setParent(plane);
-	  addLight(light);
+	  testphy = new KinematicObject();
+	  testphy->loadModel("planet.obj");
+	  testphy->loadNormal("cleanNormal.png");
+	  testphy->loadTexture("s_earth.jpg", 2);
+	  testphy->translate(glm::vec3(0, -4,0));
+	  addChild(testphy);
 
 	  animator.animateVec3(&cursor, glm::vec3(0,0,0), 2, linear, 2);
 	  animator.animateVec3(&cursor, glm::vec3(2,2,5), 5, none, 2);
@@ -141,6 +138,7 @@ void World::keyboard(eventType event)
 		{
 			  cursor.x++;
 		}
+
 	}
 }
 
