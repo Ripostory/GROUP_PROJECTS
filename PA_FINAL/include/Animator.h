@@ -65,7 +65,9 @@ public:
 	Animator();
 	~Animator();
 	void Update(unsigned int dt);
+	void interrupt(int id);
 	bool isPending();
+	int getAnimationCount();
 
 	//TODO add animator functions
 	void animateFloat(float* value, float lerpTo, float time, interpolation interp, int id);

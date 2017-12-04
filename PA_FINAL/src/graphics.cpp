@@ -212,12 +212,12 @@ void Graphics::Render()
 
   //render a test quad
   //TODO create a billboard world
-  m_billboard->Enable();
-  Billboard test;
-  test.Update(0);
-  passMatrices(test.getMatrix());
-  test.setImage("ERROR_TEXTURE.jpg");
-  test.Render();
+  //m_billboard->Enable();
+  //Billboard test;
+  //test.Update(0);
+  //passMatrices(test.getMatrix());
+  //test.setImage("ERROR_TEXTURE.jpg");
+  //test.Render();
 
   //render user interface
   glViewport(0,0, width, height);
