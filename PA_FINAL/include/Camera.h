@@ -4,6 +4,10 @@
 #include "graphics_headers.h"
 #include "event.h"
 #include "object.h"
+#include "physObject.h"
+
+#include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/btBulletCollisionCommon.h>
 #include "imgui.h"
 
 #define MAX_VELOCITY 1

@@ -1,5 +1,7 @@
 #include "physObject.h"
 
+std::map <btCollisionObject*, PhysObject*> PhysObject::CollisionObjectMap;
+
 PhysObject::PhysObject()
 {
 	isStatic = false;
@@ -8,6 +10,8 @@ PhysObject::PhysObject()
 	mass = 0.0f;
 	friction = 0.3f;
 	restitution = 0.2;
+
+	cout << "Phys Obj address: " << this << endl;
 }
 
 PhysObject::~PhysObject()
@@ -205,6 +209,7 @@ void PhysObject::initPhysics()
 	physics = new btRigidBody(objCI);
 	listener.getWorld()->addRigidBody(physics);
 
+	CollisionObjectMap.insert(std::pair<btCollisionObject*, PhysObject*> (physics, this));
 }
 
 glm::vec3 PhysObject::btToGlm(btVector3 input)
@@ -233,3 +238,29 @@ btTransform PhysObject::glmToBt(glm::mat4 input)
 	final.setOrigin(glmToBt(glm::vec3(glm::vec4(0, 0, 0, 1) * glm::transpose(input))));
 	return final;
 }
+
+PhysObject* PhysObject::Raycast (btVector3 origin, btVector3 direction, bool localNormal = true) {
+
+	btCollisionWorld::ClosestRayResultCallback	closestResults(origin, direction);
+	listener.getWorld () -> rayTest(origin, direction, closestResults);
+
+	if (closestResults.hasHit ()) {
+		PhysObject* hit = PhysObject::btToPhysObject(closestResults.m_collisionObject);
+		return hit;
+	}
+
+	return NULL;
+}
+
+PhysObject* PhysObject::btToPhysObject (const btCollisionObject* obj) {
+
+
+	std::map<btCollisionObject*,PhysObject*>::iterator it;
+
+  it = CollisionObjectMap.find((btCollisionObject*)obj);
+  if (it != CollisionObjectMap.end())
+    return it -> second;
+
+  return NULL;
+}
+

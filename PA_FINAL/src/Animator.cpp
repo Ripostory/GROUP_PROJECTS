@@ -37,6 +37,7 @@ void Animator::pushAnimation(AnimGroup animation)
 	{
 		if ((*it).getID() == animation.id)
 		{
+			std::cout << "added event!" << std::endl;
 			(&(*it))->addEvent(animation);
 			return;
 		}
@@ -55,24 +56,6 @@ bool Animator::isPending()
 		return true;
 	else
 		return false;
-}
-
-void Animator::interrupt(int id)
-{
-	std::vector<AnimFrame>::iterator it;
-	for (it = eventBuffer.begin(); it != eventBuffer.end(); it++)
-	{
-		if ((*it).getID() == id)
-		{
-			eventBuffer.erase(it);
-			return;
-		}
-	}
-}
-
-int Animator::getAnimationCount()
-{
-	return eventBuffer.size();
 }
 
 void Animator::animateFloat(float* value, float lerpTo, float time, interpolation interp, int id)

@@ -64,11 +64,14 @@ bool Window::Initialize(const string &name, int* width, int* height)
     return false;
   }
 
+	SDL_SetRelativeMouseMode (SDL_TRUE);
+
   return true;
 }
 
 void Window::Swap()
 {
+
   SDL_GL_SwapWindow(gWindow);
 }
 
