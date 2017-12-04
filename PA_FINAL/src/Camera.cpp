@@ -82,6 +82,35 @@ void camera::Update(unsigned int dt)
 				if (velocity < -MAX_VELOCITY)
 					velocity = -MAX_VELOCITY;
 			}
+
+			if (type.key == SDLK_a) {
+
+
+				btVector3 origin (0,-20, 0);
+				btVector3 direction (0, 20, 0);
+
+				btCollisionWorld::ClosestRayResultCallback	closestResults(origin, direction);
+				listener.getWorld () -> rayTest(origin, direction, closestResults);
+
+				if (closestResults.hasHit ()) {
+					PhysObject* hit = PhysObject::btToPhysObject(closestResults.m_collisionObject);
+					cout << "Hit mem addr " << hit << endl;
+				}
+			}
+
+			if (type.key == SDLK_b) {
+
+				btVector3 origin (-10,-4, -10);
+				btVector3 direction (10, -4, 10);
+
+				btCollisionWorld::ClosestRayResultCallback	closestResults(origin, direction);
+				listener.getWorld () -> rayTest(origin, direction, closestResults);
+
+				if (closestResults.hasHit ()) {
+					PhysObject* hit = PhysObject::btToPhysObject(closestResults.m_collisionObject);
+					cout << "Hit mem addr " << hit << endl;
+				}
+			}
 		}
 	}
 
