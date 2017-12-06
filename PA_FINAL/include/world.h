@@ -7,11 +7,14 @@
 #include "physObject.h"
 #include "kineObject.h"
 #include "plane.h"
+#include "gun.h"
 #include "imgui.h"
+#include "Camera.h"
 
 class World : public Object{
 public:
 	World();
+	World(camera*);
 	virtual ~World();
 	void addLight(Light*);
 	void loadWorld();
@@ -20,11 +23,13 @@ public:
 	Light* getLightData(int index);
 	int getLightCount();
 	GLuint getSkybox();
+	void setCam(camera*);
 protected:
 	virtual void keyboard(eventType);
 
 private:
 	GLuint skybox;
+	camera *currentCam;
 
 	btRigidBody *planeCollider;
 	vector<Light*> lights;

@@ -103,6 +103,9 @@ void Object::bindTex(GLuint &bind, GLenum unit, GLenum type)
 
 void Object::Update(unsigned int dt)
 {
+	  //update animator
+	  animator.Update(dt);
+
 	  //render
 	  model = mtranslate * mscale * mrotate;
 	  //update keyboard
@@ -110,9 +113,6 @@ void Object::Update(unsigned int dt)
 	  {
 		  keyboard(listener.getEvent(i));
 	  }
-
-	  //update animator
-	  animator.Update(dt);
 
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
@@ -222,4 +222,11 @@ void Object::scale(float amount)
 	mscale = glm::scale(glm::vec3(size));
 	//reset model matrix
 	model = mtranslate * mscale * mrotate;
+}
+
+void Object::lerpTo(glm::vec3 position, float time)
+{
+	animator.animateFloat(&mtranslate[3][0], position.x, time, linear, 10);
+	animator.animateFloat(&mtranslate[3][1], position.y, time, linear, 11);
+	animator.animateFloat(&mtranslate[3][2], position.z, time, linear, 12);
 }

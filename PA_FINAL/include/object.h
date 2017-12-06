@@ -38,6 +38,8 @@ class Object
     virtual void rotateTo(glm::vec3 lookat, glm::vec3 up);
     virtual void scale(float amount);
 
+    void lerpTo(glm::vec3, float);
+
     float getSize();
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();

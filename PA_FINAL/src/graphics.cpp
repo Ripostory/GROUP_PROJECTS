@@ -106,7 +106,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
 	  return false;
 
   // Create the object
-  world = new World();
+  world = new World(m_camera);
   world->Begin();
   ocean = new Ocean();
 

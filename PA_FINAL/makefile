@@ -19,7 +19,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x
 
 # .o Compilation
-O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o kineObject.o plane.o ocean.o
+O_FILES=main.o Camera.o engine.o graphics.o object.o shader.o window.o loader.o obj.o event.o world.o physObject.o light.o imgui.o imgui_demo.o imgui_draw.o gui.o animator.o billboard.o framebuffer.o kineObject.o plane.o ocean.o gun.o
 
 # Point to includes of local directories
 INDLUDES=-I../include
@@ -84,6 +84,9 @@ gui.o: ../src/gui.cpp
 	
 ocean.o: ../src/ocean.cpp
 	$(CC) $(CXXFLAGS) -c ../src/ocean.cpp -o ocean.o $(INDLUDES)
+	
+gun.o: ../src/gun.cpp
+	$(CC) $(CXXFLAGS) -c ../src/gun.cpp -o gun.o $(INDLUDES)
 
 framebuffer.o: ../src/framebuffer.cpp
 	$(CC) $(CXXFLAGS) -c ../src/framebuffer.cpp -o framebuffer.o $(INDLUDES)

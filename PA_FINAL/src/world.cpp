@@ -12,13 +12,13 @@ void World::loadWorld()
 	  this->addChild(child);
 
 
-	  Object *test = new Object();
+	  Gun *test = new Gun(currentCam);
 	  //test->loadModel("planet.obj");
 	  //test->loadTexture("a_earth.jpg");
 	  //test->loadTexture("s_earth.jpg", 2);
 	  //test->loadNormal("n_earth.jpg");
 	  //test->scale(9.0f);
-  	  //this->addChild(test);
+  	  this->addChild(test);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
@@ -62,6 +62,18 @@ World::World()
 {
 	  //initialize ground plane
 	  size = 1.0f;
+	  currentCam = NULL;
+	  initPhys();
+	  loadModel("cube.obj");
+	  loadWorld();
+	  loadCubeMap("beach", skybox);
+}
+
+World::World(camera *final)
+{
+	  //initialize ground plane
+	  size = 1.0f;
+	  currentCam = final;
 	  initPhys();
 	  loadModel("cube.obj");
 	  loadWorld();
@@ -235,4 +247,9 @@ void World::initPhys()
 	//add collider
 	planeCollider = new btRigidBody(groundRigidBodyCI);
 	listener.getWorld()->addRigidBody(planeCollider);
+}
+
+void World::setCam(camera *incam)
+{
+	currentCam = incam;
 }

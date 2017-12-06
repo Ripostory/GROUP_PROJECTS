@@ -5,7 +5,7 @@ Plane::Plane()
 {
 	throttle = 50;
 	turn = 0;
-	pitch = 0;
+	pitch = 60;
 	tilt = 0;
 	atDestination = false;
 	destination = glm::vec3(0);
@@ -19,10 +19,11 @@ Plane::Plane()
 	loadNormal("cleanNormal.png");
 	setCollisionMesh(PHYS_SPHERE, 10);
 
-	events.push(glm::vec3(254, 0 , 162));
-	events.push(glm::vec3(0, 0, 0));
-	events.push(glm::vec3(-168, 0, -99));
-	events.push(glm::vec3(221, 0, -76));
+	translate(glm::vec3(0, pitch, 0));
+	events.push(glm::vec3(254, pitch , 162));
+	events.push(glm::vec3(0, pitch, 0));
+	events.push(glm::vec3(-168, pitch, -99));
+	events.push(glm::vec3(221, pitch, -76));
 }
 
 Plane::~Plane()
