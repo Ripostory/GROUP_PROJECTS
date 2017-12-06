@@ -5,7 +5,7 @@ Graphics::Graphics()
 	delay = 1;
 	frameCount = 1;
 	fps = 1;
-	resScale = 0.5;
+	resScale = 0.75;
 }
 
 Graphics::~Graphics()
@@ -96,7 +96,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   success &= InitShader(m_screenShader, "screenShader.vert", "screenShader.frag");
   success &= InitShader(m_HDRShader, "screenShader.vert", "screenHDR.frag");
   success &= InitShader(m_pointShader, "shader.vert", "screenDeferredPoint.frag");
-  success &= InitShader(m_directionShader, "screenShader.vert", "screenDeferredDir.frag");
+  success &= InitShader(m_directionShader, "shader.vert", "screenDeferredDir.frag");
   success &= InitShader(m_ambientShader, "screenShader.vert", "cheapAmbient.frag");
   success &= InitShader(m_skyboxShader, "skyboxShader.vert", "skyboxShader.frag");
   success &= InitShader(m_billboard, "billboard.vert", "billboard.frag");
@@ -266,7 +266,19 @@ void Graphics::beginFBODraw(int width, int height)
 
 void Graphics::renderDeferred(Shader *shader, Light *light)
 {
-	  shader->Enable();
+	  if (light != NULL)
+	  {
+		  if (light->getLight()->type == LIGHT_POINT)
+		  {
+			  m_pointShader->Enable();
+		  }
+		  else if (light->getLight()->type == LIGHT_DIR)
+		  {
+			  m_directionShader->Enable();
+		  }
+	  }
+	  else
+		  shader->Enable();
 
 	  //pass in buffers
 	  glUniform1i(shader->GetUniformLocation("albedo"), 0);

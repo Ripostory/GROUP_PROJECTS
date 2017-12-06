@@ -6,7 +6,7 @@ void World::loadWorld()
 	  PhysObject *child = new PhysObject();
 	  child->loadModel("newBoard.obj");
 	  child->loadNormal("cleanNormal.png");
-	  child->translate(glm::vec3(0,-20,0));
+	  child->translate(glm::vec3(0,0,0));
 	  child->rotate(0, glm::vec3(1,0,0));
 	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  this->addChild(child);
@@ -45,6 +45,12 @@ void World::loadWorld()
 	  light->setSize(50.0f);
 	  light->setColor(glm::vec3(0,5,0));
 	  light->setParent(plane);
+	  addLight(light);
+
+	  light = new Light(LIGHT_DIR);
+	  light->translate(glm::vec3(1,0.3,0));
+	  light->setSize(50.0f);
+	  light->setColor(glm::vec3(1,0.7,0.3));
 	  addLight(light);
 
 	  animator.animateVec3(&cursor, glm::vec3(0,0,0), 2, linear, 2);
