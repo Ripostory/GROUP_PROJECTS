@@ -7,7 +7,7 @@ camera::camera()
     world = NULL;
     index = -1;
     fov = 45;
-    speed = 0.4;
+    speed = 0.2;
     w = 0;
     h = 0;
     xAngle = 0;

@@ -92,6 +92,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   //build all shaders
   success &= InitShader(m_shader, "shader.vert", "shader.frag");
   success &= InitShader(m_deferredShader, "deferredPass.vert", "deferredPass.frag");
+  success &= InitShader(m_deferredOcean, "deferredPassOcean.vert", "deferredPassOcean.frag");
   success &= InitShader(m_screenShader, "screenShader.vert", "screenShader.frag");
   success &= InitShader(m_HDRShader, "screenShader.vert", "screenHDR.frag");
   success &= InitShader(m_pointShader, "shader.vert", "screenDeferredPoint.frag");
@@ -107,6 +108,7 @@ bool Graphics::Initialize(int width, int height, SDL_Window *window)
   // Create the object
   world = new World();
   world->Begin();
+  ocean = new Ocean();
 
   //set world for camera
   m_camera->SetWorld(world);
@@ -150,6 +152,7 @@ void Graphics::Update(unsigned int dt)
   ImGui::Text("FPS: %.2f", fps);
   world->Update(dt);
   m_camera->Update(dt);
+  ocean->Update(dt);
 }
 
 void Graphics::Render()
@@ -164,6 +167,13 @@ void Graphics::Render()
 
   //render world
   RenderList(world->getChildren());
+  m_deferredOcean->Enable();
+  glUniform1i(m_deferredOcean->GetUniformLocation("texture"), 0);
+  glUniform1i(m_deferredOcean->GetUniformLocation("normalMap"), 1);
+  glUniform1i(m_deferredOcean->GetUniformLocation("specMap"), 2);
+  glUniform1i(m_deferredOcean->GetUniformLocation("offset"), 3);
+  passMatrices(ocean->GetModel());
+  ocean->Render();
 
   //render result of FBO to default buffer
   m_lightingFBO.bindFB();

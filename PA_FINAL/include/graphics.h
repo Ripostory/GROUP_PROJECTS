@@ -12,6 +12,7 @@ using namespace std;
 #include "billboard.h"
 #include "gui.h"
 #include "framebuffer.h"
+#include "ocean.h"
 
 class Graphics
 {
@@ -41,6 +42,7 @@ class Graphics
     Shader *m_billboard;
     Shader *m_skyboxShader;
     Shader *m_deferredShader;
+    Shader *m_deferredOcean;
     Shader *m_ambientShader;
     Shader *m_pointShader;
     Shader *m_directionShader;
@@ -57,6 +59,7 @@ class Graphics
 
     World *world;
     Object *renderTarget;
+    Ocean *ocean;
 
     float resScale;
 

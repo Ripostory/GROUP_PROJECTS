@@ -95,18 +95,15 @@ void Plane::moveTo(glm::vec3 newDestination)
 
 		//queue actions
 		turnTo(glm::normalize(position - destination));
-		cout <<"starting moveto" << endl;
 	}
 	else
 	{
 		//check if near destination
 		if (!atDestination)
 		{
-			ImGui::Text("Plane Pos: <%.02f, %.02f, %.02f>", position.x, position.y, position.z);
 			if (glm::distance(destination, position) <= 100)
 			{
 				atDestination = true;
-				cout <<"destination reached" << endl;
 			}
 			else
 			{
@@ -128,7 +125,6 @@ void Plane::moveTo(glm::vec3 newDestination)
 				animator.animateFloat(&turn,1,5,none,TURN);
 				atDestination = true;
 				idling = true;
-				cout <<"ending moveto" << endl;
 			}
 		}
 	}
@@ -150,7 +146,7 @@ void Plane::turnTo(glm::vec3 direction)
 		float turnDir;
 		if (glm::cross(direction, flyVector).y > 0)
 		{
-			//4 seconds approx = 180 degrees; 7.4
+			//7.4 seconds approx = 180 degrees
 			turnDir = -1;
 			time = 3.7*(angle/180);
 		}

@@ -13,11 +13,11 @@ void World::loadWorld()
 
 
 	  Object *test = new Object();
-	  test->loadModel("planet.obj");
-	  test->loadTexture("a_earth.jpg");
-	  test->loadTexture("s_earth.jpg", 2);
-	  test->loadNormal("n_earth.jpg");
-	  test->scale(9.0f);
+	  //test->loadModel("planet.obj");
+	  //test->loadTexture("a_earth.jpg");
+	  //test->loadTexture("s_earth.jpg", 2);
+	  //test->loadNormal("n_earth.jpg");
+	  //test->scale(9.0f);
   	  //this->addChild(test);
 
 	  Light *light = new Light();
