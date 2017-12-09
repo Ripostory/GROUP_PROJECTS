@@ -15,7 +15,12 @@ out mat3 TBN;
         
 void main(void) 
 { 
-  vec4 v = vec4(v_position, 1.0); 
+	
+  vec4 v = vec4(v_position, 1.0);
+
+
+	v.y = (sin ((offset + v.x) / 2.0f) * cos ((offset + v.z) / 2.0f)) * 8;
+
   gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * v; 
 
   //use worldpos texture coordinates

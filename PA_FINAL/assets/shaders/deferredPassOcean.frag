@@ -15,13 +15,16 @@ void main(void)
    //Full specular = White, Full roughness = Black;
    float roughness = 0.0;
    float metallic = 1.0;
-	
+
    //modify textures to fit range
    metallic = mix(0.1, 1.0, metallic);
    roughness = mix(0.02, 1.0, roughness);
 
    //albedo > normal
    gl_FragData[0] = texture2D(texture, texCoordModel);
+
+   //Ambient Lighting
+   gl_FragData [0].rgb = gl_FragData [0].rgb + vec3 (1, 1, 1);
    
    //pack normal
    vec3 normal = texture2D(normalMap, texCoordModel).xyz;
