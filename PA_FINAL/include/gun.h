@@ -16,6 +16,7 @@ public:
 private:
 	virtual void keyboard(eventType);
 	camera *Cam;
+	glm::vec3 lastLookat;
 };
 
 #endif /* INCLUDE_GUN_H_ */

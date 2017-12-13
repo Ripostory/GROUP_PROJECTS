@@ -22,10 +22,13 @@ Gun::~Gun()
 void Gun::Update(unsigned int dt)
 {
 	//move to camera
-	translate(glm::vec3(0,-8,0));
-	model = mrotate * mtranslate  * glm::inverse(Cam->GetView());
-	KinematicObject::Update(dt);
+	translate(Cam->GetPosition());
+	lastLookat += (Cam->getLookat()-lastLookat)*0.2f;
+	mrotate = glm::lookAt(glm::vec3(0), lastLookat, glm::vec3(0,1,0));
+	model = mtranslate * glm::inverse(mrotate);
 
+	//get current model quat
+	KinematicObject::Update(dt);
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn
 	if (children.size() != 0)
@@ -49,12 +52,12 @@ void Gun::keyboard(eventType event)
 
 void Gun::spawnTracer()
 {
-	glm::mat4 view = Cam->GetView();
-	view = glm::inverse(view);
-	Object *tracer = new Object();
+	KinematicObject *tracer = new KinematicObject();
 	tracer->loadModel("planet.obj");
 	tracer->loadNormal("cleanNormal.png");
-	tracer->translate(glm::vec3(Cam->GetPosition()));
-	tracer->lerpTo(glm::vec3(view[2][0], view[2][1], view[2][2])*-10000.0f, 10);
+	tracer->translate(glm::vec3(Cam->GetPosition().x-5,Cam->GetPosition().y,Cam->GetPosition().z));
+	tracer->lerpTo(lastLookat*1000.0f, 5);
+	tracer->setCollisionMesh(PHYS_SPHERE, 3);
+	tracer->initPhysics();
 	addChild(tracer);
 }

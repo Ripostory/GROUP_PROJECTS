@@ -14,7 +14,7 @@ camera::camera()
     yAngle = 0;
     velocity = 0;
 
-    position = glm::vec3(0.0, 8.0, 16.0);
+    position = glm::vec3(0.0, 32.0, 0.0);
     lookAt = glm::vec3(0.0);
 }
 
@@ -151,4 +151,8 @@ void camera::SetParent(Object *model)
 glm::vec3 camera::GetPosition()
 {
 	return position;
+}
+
+glm::vec3 camera::getLookat() {
+	return lookAt - position;
 }

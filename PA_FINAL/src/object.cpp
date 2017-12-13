@@ -226,7 +226,7 @@ void Object::scale(float amount)
 
 void Object::lerpTo(glm::vec3 position, float time)
 {
-	animator.animateFloat(&mtranslate[3][0], position.x, time, linear, 10);
-	animator.animateFloat(&mtranslate[3][1], position.y, time, linear, 11);
-	animator.animateFloat(&mtranslate[3][2], position.z, time, linear, 12);
+	animator.animateFloat(&model[3][0], position.x, time, linear, 10);
+	animator.animateFloat(&model[3][1], position.y, time, linear, 11);
+	animator.animateFloat(&model[3][2], position.z, time, linear, 12);
 }

@@ -52,10 +52,6 @@ void World::loadWorld()
 	  light->setSize(50.0f);
 	  light->setColor(glm::vec3(1,0.7,0.3));
 	  addLight(light);
-
-	  animator.animateVec3(&cursor, glm::vec3(0,0,0), 2, linear, 2);
-	  animator.animateVec3(&cursor, glm::vec3(2,2,5), 5, none, 2);
-	  animator.animateVec3(&cursor, glm::vec3(0,-9,-10), 5, linear, 2);
 }
 
 World::World()

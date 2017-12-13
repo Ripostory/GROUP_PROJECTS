@@ -21,6 +21,7 @@ class camera
     void SetParent(Object*);
     void SetWorld(Object*);
     void Update(unsigned int);
+    glm::vec3 getLookat();
 
   private:
     glm::mat4 projection;

@@ -14,11 +14,19 @@ PhysObject::PhysObject()
 
 PhysObject::~PhysObject()
 {
-	listener.getWorld()->removeCollisionObject(physics);
-	delete physics;
-	delete shape;
-	physics = NULL;
-	shape = NULL;
+	if (physics != NULL) {
+		delete physics->getMotionState();
+		listener.getWorld()->removeCollisionObject(physics);
+		delete physics;
+		physics = NULL;
+	}
+
+	if (shape != NULL)
+	{
+		//TODO check
+		//delete shape;
+		shape = NULL;
+	}
 	mass = 0.0f;
 }
 
@@ -33,6 +41,7 @@ void PhysObject::Update(unsigned int dt)
 		  model *= mscale;
 	  }
 
+	  animator.Update(dt);
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {

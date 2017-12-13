@@ -8,11 +8,12 @@ KinematicObject::KinematicObject()
 
 KinematicObject::~KinematicObject()
 {
-
 }
 
 void KinematicObject::Update(unsigned int dt)
 {
+	  animator.Update(dt);
+
 	  //update physics object
 	  if (physics != NULL)
 	  {
@@ -25,8 +26,6 @@ void KinematicObject::Update(unsigned int dt)
 	  {
 		  keyboard(listener.getEvent(i));
 	  }
-
-	  animator.Update(dt);
 
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
