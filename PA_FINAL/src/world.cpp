@@ -20,6 +20,8 @@ void World::loadWorld()
 	  //test->scale(9.0f);
   	  this->addChild(test);
 
+		cout << "Gun memory address " << test << endl;
+
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
 	  light->setColor(glm::vec3(1,1,1));
@@ -40,6 +42,8 @@ void World::loadWorld()
 	  //test kinematic object
 	  Plane *plane = new Plane();
 	  addChild(plane);
+		cout << "Plane memory address " << plane << endl;
+
 	  light = new Light();
 	  light->translate(glm::vec3(0,18,0));
 	  light->setSize(50.0f);

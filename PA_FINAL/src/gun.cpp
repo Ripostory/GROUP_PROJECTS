@@ -52,6 +52,7 @@ void Gun::keyboard(eventType event)
 
 void Gun::spawnTracer()
 {
+	
 	KinematicObject *tracer = new KinematicObject();
 	tracer->loadModel("planet.obj");
 	tracer->loadNormal("cleanNormal.png");

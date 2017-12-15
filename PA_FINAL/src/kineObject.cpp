@@ -43,3 +43,13 @@ void KinematicObject::initPhysics()
 			btCollisionObject::CF_KINEMATIC_OBJECT);
 	physics->setActivationState(DISABLE_DEACTIVATION);
 }
+
+
+void KinematicObject::OnCollisionDetected (PhysObject* hit) {
+
+	cout << "Kinematic object hit another object" << endl;
+}
+void KinematicObject::OnRaycastHit () {
+
+	cout << "Kinematic object at " << this << " hit by ray" << endl;
+}
