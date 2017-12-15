@@ -31,7 +31,10 @@ public:
 	virtual ~PhysObject();
 	virtual void Begin();
 	virtual void Update(unsigned int dt);
-    virtual void initPhysics();
+  virtual void initPhysics();
+	virtual void OnCollisionDetected (PhysObject* hit);
+	virtual void OnRaycastHit ();
+
     void setCollisionMesh(int base);
     void setCollisionMesh(int box, glm::vec3 size);
     void setCollisionMesh(int sphere, float radius);

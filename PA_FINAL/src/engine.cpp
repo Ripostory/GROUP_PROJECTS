@@ -82,6 +82,26 @@ void Engine::Run()
 
     //Update the physics
     physWorld->stepSimulation((float) m_DT/1000.0f, 30);
+		physWorld -> performDiscreteCollisionDetection ();
+
+
+    int numManifolds = physWorld->getDispatcher()->getNumManifolds();
+    for (int i = 0; i < numManifolds; i++)
+    {
+        btPersistentManifold* contactManifold =  physWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject* obA = contactManifold->getBody0();
+        const btCollisionObject* obB = contactManifold->getBody1();
+
+				PhysObject* physObA = PhysObject::btToPhysObject (obA);
+				PhysObject* physObB = PhysObject::btToPhysObject (obB);
+    		contactManifold->refreshContactPoints(obA->getWorldTransform(), obB->getWorldTransform());
+
+				if (physObA != NULL && physObB != NULL)
+					physObA -> OnCollisionDetected (physObB);
+				else
+					cout << "On collision detected found null obj" << endl;
+    }
+
 
     // Check the keyboard input
     m_event.update();

@@ -4,6 +4,9 @@ std::map <btCollisionObject*, PhysObject*> PhysObject::CollisionObjectMap;
 
 PhysObject::PhysObject()
 {
+
+	cout << "Creating physics object at mem address " << this << endl;
+
 	isStatic = false;
 	physics = NULL;
 	shape = new btSphereShape(1);
@@ -14,11 +17,16 @@ PhysObject::PhysObject()
 
 PhysObject::~PhysObject()
 {
+
+
+
 	if (physics != NULL) {
+		CollisionObjectMap.erase (physics);
 		delete physics->getMotionState();
 		listener.getWorld()->removeCollisionObject(physics);
 		delete physics;
 		physics = NULL;
+
 	}
 
 	if (shape != NULL)
@@ -246,7 +254,6 @@ btTransform PhysObject::glmToBt(glm::mat4 input)
 	return final;
 }
 
-
 PhysObject* PhysObject::Raycast (btVector3 origin, btVector3 direction, bool localNormal = true) {
 
 	btCollisionWorld::ClosestRayResultCallback	closestResults(origin, direction);
@@ -258,6 +265,16 @@ PhysObject* PhysObject::Raycast (btVector3 origin, btVector3 direction, bool loc
 	}
 
 	return NULL;
+}
+
+void PhysObject::OnCollisionDetected (PhysObject* hit) {
+	
+	cout << "Collision with other object detected" << endl;
+}
+
+void PhysObject::OnRaycastHit () {
+
+	cout << "Raycast hit on object at " << this << endl;
 }
 
 PhysObject* PhysObject::btToPhysObject (const btCollisionObject* obj) {

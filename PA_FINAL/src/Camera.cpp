@@ -86,7 +86,7 @@ void camera::Update(unsigned int dt)
 			if (type.key == SDLK_a) {
 
 				glm::vec3 viewDir;
-				float magnitude = 100.0f;
+				float magnitude = 10000.0f;
 
 				viewDir.x = glm::cos(xAngle) * glm::cos(yAngle) * magnitude;
 				viewDir.z = glm::sin(xAngle) * glm::cos(yAngle) * magnitude;
@@ -100,7 +100,8 @@ void camera::Update(unsigned int dt)
 
 				if (closestResults.hasHit ()) {
 					PhysObject* hit = PhysObject::btToPhysObject(closestResults.m_collisionObject);
-					cout << "Hit mem addr " << hit << endl;
+					if (hit != NULL)
+						hit -> OnRaycastHit ();
 				}
 			}
 		}

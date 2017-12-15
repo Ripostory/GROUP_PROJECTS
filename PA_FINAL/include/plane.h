@@ -19,6 +19,11 @@ public:
 	void turnTo(glm::vec3);
 	void Update(unsigned int dt);
 	bool isTravelling();
+
+
+	void OnCollisionDetected (PhysObject* hit);
+	void OnRaycastHit ();
+
 private:
 	float throttle;
 	float turn;
