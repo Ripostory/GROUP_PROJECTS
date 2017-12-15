@@ -26,9 +26,11 @@ private:
 
 	Light *muzzle;
 	bool activeBarrel;
+	bool firing;
 
 	float barrel1z;
 	float barrel2z;
+	float recoil;
 
 	SDL_Keycode keyBind;
 

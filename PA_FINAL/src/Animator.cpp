@@ -3,6 +3,7 @@
 
 Animator::Animator()
 {
+	nullValue = 0;
 }
 
 Animator::~Animator()
@@ -16,16 +17,16 @@ void Animator::Update(unsigned int dt)
 	if (eventBuffer.size() != 0)
 	{
 		std::vector<AnimFrame>::iterator it;
-		int doneCounter = 0;
-
 		for (it = eventBuffer.begin(); it != eventBuffer.end(); it++)
 		{
 			if ((&(*it))->Update(dt))
-				doneCounter++;
+			{
+				eventBuffer.erase(it);
+				it = eventBuffer.begin();
+				if (eventBuffer.empty())
+					return;
+			}
 		}
-
-		if (eventBuffer.size() == doneCounter)
-			eventBuffer.clear();
 	}
 }
 
@@ -55,6 +56,17 @@ bool Animator::isPending()
 		return true;
 	else
 		return false;
+}
+
+bool Animator::isPending(int id)
+{
+	std::vector<AnimFrame>::iterator it = eventBuffer.begin();
+	for (; it != eventBuffer.end(); it++)
+	{
+		if ((*it).getID() == id)
+			return true;
+	}
+	return false;
 }
 
 void Animator::interrupt(int id)
@@ -91,6 +103,13 @@ void Animator::animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, inter
 	pushAnimation(final);
 }
 
+void Animator::timer(float time, int id)
+{
+	AnimGroup final(id);
+	final.event.push_back(AnimEvent(&nullValue, 0, time, none));
+	pushAnimation(final);
+}
+
 /*
  * =================
  * START OF AnimFrame CODE
@@ -100,11 +119,13 @@ void Animator::animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, inter
 AnimFrame::AnimFrame()
 {
 	id = -1;
+	done = false;
 }
 
 AnimFrame::AnimFrame(int i)
 {
 	id = i;
+	done = false;
 }
 
 AnimFrame::~AnimFrame()
@@ -136,8 +157,12 @@ bool AnimFrame::UpdateGroup(unsigned int dt, AnimGroup *set)
 	}
 
 	if (set->event.size() == doneCounter)
+	{
+		done = true;
 		return true;
+	}
 
+	done = false;
 	return false;
 }
 
@@ -151,6 +176,11 @@ bool AnimFrame::addEvent(AnimGroup group)
 int AnimFrame::getID()
 {
 	return id;
+}
+
+bool AnimFrame::isFinished()
+{
+	return done;
 }
 
 /*

@@ -55,7 +55,7 @@ void Plane::Update(unsigned int dt)
 
 	translateBy(-flyVector*((float)dt/1000.0f)*throttle);
 	//rotate towards flyVector
-	rotateTo(glm::vec3(-flyVector.x, flyVector.y, flyVector.z), glm::vec3(0,1,0));
+	rotateTo(flyVector, glm::vec3(0,1,0));
 
 	//modify tilt
 	if (glm::abs(tilt - turn) > 0.01)

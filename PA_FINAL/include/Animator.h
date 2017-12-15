@@ -56,10 +56,12 @@ public:
 	bool Update(unsigned int dt);
 	bool addEvent(AnimGroup);
 	int getID();
+	bool isFinished();
 private:
 	bool UpdateGroup(unsigned int dt, AnimGroup*);
 	std::queue<AnimGroup> children;
 	int id;
+	bool done;
 };
 
 //the animator, animates each animation sequentially
@@ -70,15 +72,18 @@ public:
 	void Update(unsigned int dt);
 	void interrupt(int id);
 	bool isPending();
+	bool isPending(int id);
 	int getAnimationCount();
 
 	//TODO add animator functions
 	void animateFloat(float* value, float lerpTo, float time, interpolation interp, int id);
 	void animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, interpolation interp, int id);
+	void timer(float time, int id);
 
 private:
 	void pushAnimation(AnimGroup);
 	std::vector<AnimFrame> eventBuffer;
+	float nullValue;
 };
 
 

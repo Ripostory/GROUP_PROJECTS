@@ -237,7 +237,7 @@ void Object::rotateBy(float angle, glm::vec3 axis)
 
 void Object::rotateTo(glm::vec3 lookat, glm::vec3 up)
 {
-	mrotate = glm::lookAt(glm::vec3(0),lookat,up);
+	mrotate = glm::inverse(glm::lookAt(glm::vec3(0),lookat,up));
 	//reset model matrix
 	updateMatrices();
 }
