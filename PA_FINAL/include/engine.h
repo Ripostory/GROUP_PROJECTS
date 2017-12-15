@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <bullet/btBulletDynamicsCommon.h>
 
+#include "physObject.h"
 #include "window.h"
 #include "graphics.h"
 #include "event.h"

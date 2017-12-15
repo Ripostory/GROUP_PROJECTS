@@ -174,3 +174,14 @@ bool Plane::isTravelling()
 {
 	return atDestination;
 }
+
+
+
+void Plane::OnCollisionDetected (PhysObject* hit) {
+
+	cout << "Kinematic object hit another object" << endl;
+}
+void Plane::OnRaycastHit () {
+
+	cout << "Plane at " << this << " hit by ray" << endl;
+}

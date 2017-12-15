@@ -16,6 +16,10 @@ public:
 	~KinematicObject();
 	void Update(unsigned int dt);
 	void initPhysics();
+
+	virtual void OnCollisionDetected (PhysObject* hit);
+	virtual void OnRaycastHit ();
+
 private:
 };
 

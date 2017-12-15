@@ -85,6 +85,7 @@ void Gun::keyboard(eventType event)
 
 void Gun::spawnTracer()
 {
+	
 	KinematicObject *tracer = new KinematicObject();
 	tracer->loadModel("Plane.obj");
 	tracer->loadNormal("cleanNormal.png");
