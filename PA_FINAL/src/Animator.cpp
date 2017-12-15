@@ -215,10 +215,13 @@ bool AnimEvent::Update(unsigned int dt)
 		interpLinear(dt);
 		break;
 	case easein:
+		interpEasein(dt);
 		break;
 	case easeout:
+		interpEaseOut(dt);
 		break;
 	case easeinout:
+		interpEaseInOut(dt);
 		break;
 	case exponential:
 		break;
@@ -243,17 +246,24 @@ void AnimEvent::interpLinear(unsigned int dt)
 
 void AnimEvent::interpEasein(unsigned int dt)
 {
-
+	*value = initial + pow((progress/time),2)*(final-initial);
 }
 
 void AnimEvent::interpEaseOut(unsigned int dt)
 {
-
+	*value = initial + (progress/time)*((progress/time) -2) * -(final-initial);
 }
 
 void AnimEvent::interpEaseInOut(unsigned int dt)
 {
-
+	float change = (progress/(time/2));
+	if (change < 1.0)
+		*value = initial + (final-initial)/2*change*change;
+	else
+	{
+		change--;
+		*value = -(final-initial)/2 * (change*(change-2) - 1) + initial;
+	}
 }
 
 void AnimEvent::interpExponential(unsigned int dt)

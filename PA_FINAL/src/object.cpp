@@ -264,9 +264,41 @@ void Object::lerpBy(glm::vec3 position, float time)
 	animator.animateFloat(&mtranslate[3][2], position.z, time, linearadd, 15);
 }
 
+void Object::lerpX(float value, float time, interpolation lerp)
+{
+	animator.animateFloat(&mtranslate[3][0], value, time, lerp, 10);
+}
+
+void Object::lerpY(float value, float time, interpolation lerp)
+{
+	animator.animateFloat(&mtranslate[3][1], value, time, lerp, 11);
+}
+
+void Object::lerpZ(float value, float time, interpolation lerp)
+{
+	animator.animateFloat(&mtranslate[3][2], value, time, lerp, 12);
+}
+
+void Object::lerpXRot(float value, float time, interpolation lerp)
+{
+	//animator.animateFloat(&mtranslate[3][0], value, time, lerp, 10);
+}
+
+void Object::lerpYRot(float value, float time, interpolation lerp)
+{
+	//animator.animateFloat(&mtranslate[3][1], value, time, lerp, 11);
+}
+
+void Object::lerpZRot(float value, float time, interpolation lerp)
+{
+	//animator.animateFloat(&mtranslate[3][2], value, time, lerp, 12);
+}
+
 void Object::setParent(Object *newParent)
 {
 	parent = newParent;
+	if (parent != NULL)
+		updateMatrices();
 }
 
 void Object::updateMatrices()

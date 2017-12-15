@@ -39,6 +39,14 @@ class Object
     virtual void rotateTo(glm::vec3 lookat, glm::vec3 up);
     virtual void scale(float amount);
 
+    void lerpX(float, float, interpolation);
+    void lerpY(float, float, interpolation);
+    void lerpZ(float, float, interpolation);
+
+    void lerpXRot(float, float, interpolation);
+    void lerpYRot(float, float, interpolation);
+    void lerpZRot(float, float, interpolation);
+
     void lerpTo(glm::vec3, float);
     void lerpBy(glm::vec3, float);
 

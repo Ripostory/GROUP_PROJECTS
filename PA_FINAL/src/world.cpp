@@ -11,8 +11,10 @@ void World::loadWorld()
 	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  this->addChild(child);
 
-
-	  Gun *test = new Gun(currentCam);
+	  Light *muzzleFlash = new Light();
+	  Gun *test = new Gun(currentCam, muzzleFlash);
+	  addChild(test);
+	  addLight(muzzleFlash);
 	  //Object *test = new Object();
 	  //test->loadModel("gun_barrel.obj");
 	  //test->loadTexture("a_earth.jpg");
@@ -21,21 +23,10 @@ void World::loadWorld()
 	  //test->translate(glm::vec3(0,15,0));
 	  //test->scale(9.0f);
   	  //this->addChild(test);
-  	  addChild(test);
 
 	  cout << "Gun memory address " << test << endl;
 
 	  Light *light = new Light();
-	  light->translate(glm::vec3(20 ,0, 0));
-	  light->setColor(glm::vec3(1,1,1));
-	  light->setSize(50.0f);
-	  addLight(light);
-	  light = new Light();
-	  light->translate(glm::vec3(-20,-20,0));
-	  light->setColor(glm::vec3(0,0.8,1));
-	  light->setSize(50.0f);
-	  addLight(light);
-	  light = new Light();
 	  light->translate(glm::vec3(0,20,30));
 	  light->setSize(100.0f);
 	  light->setColor(glm::vec3(4,2.2,4.2));
@@ -46,13 +37,6 @@ void World::loadWorld()
 	  Plane *plane = new Plane();
 	  addChild(plane);
 		cout << "Plane memory address " << plane << endl;
-
-	  light = new Light();
-	  light->translate(glm::vec3(0,18,0));
-	  light->setSize(50.0f);
-	  light->setColor(glm::vec3(0,5,0));
-	  light->setParent(plane);
-	  addLight(light);
 
 	  light = new Light(LIGHT_DIR);
 	  light->translate(glm::vec3(1,0.3,0));

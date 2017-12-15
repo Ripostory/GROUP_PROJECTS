@@ -27,12 +27,11 @@ public:
 	void Render();
 	void setSize(float);
 	void setColor(glm::vec3);
-	void setParent(Object*);
 	LightData* getLight();
+	void changeColor(glm::vec3, float, interpolation);
 protected:
 private:
 	LightData light;
-	Object *parent;
 };
 
 

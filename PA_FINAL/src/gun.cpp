@@ -3,17 +3,16 @@
 Gun::Gun()
 {
 	Cam = NULL;
-	//add barrel children
-	barrel1 = new Object();
-	initBarrel(barrel1);
-	barrel1->translate(glm::vec3(0,-1,0));
-
-	barrel2 = new Object();
-	initBarrel(barrel2);
-	barrel2->translate(glm::vec3(0,-1,0));
+	muzzle = NULL;
+	barrel1 = NULL;
+	barrel2 = NULL;
+	activeBarrel = true;
+	barrel1z = 0;
+	barrel2z = 0;
+	keyBind = SDLK_SPACE;
 }
 
-Gun::Gun(camera *cam)
+Gun::Gun(camera *cam, Light *flash)
 {
 	Cam = cam;
 	loadModel("gun_invNorm.obj");
@@ -30,10 +29,19 @@ Gun::Gun(camera *cam)
 	initBarrel(barrel2);
 	barrel2->translate(glm::vec3(0.7,-0.2,0));
 	addChild(barrel2);
+
+	muzzle = flash;
+	muzzle->setParent(this);
+	muzzle->setSize(20.0);
+	muzzle->translate(glm::vec3(0.5,0,-6));
+	muzzle->setColor(glm::vec3(0));
+	activeBarrel = true;
+	keyBind = SDLK_SPACE;
 }
 
 Gun::~Gun()
 {
+	delete muzzle;
 }
 
 void Gun::Update(unsigned int dt)
@@ -49,6 +57,8 @@ void Gun::Update(unsigned int dt)
 	mrotate = glm::inverse(glm::lookAt(glm::vec3(0), lastLookat, glm::vec3(0,1,0)));
 	model = mtranslate * mrotate;
 
+	barrel1->rotate(barrel1z, glm::vec3(1,0,0));
+	barrel2->rotate(barrel2z, glm::vec3(1,0,0));
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn
 	if (children.size() != 2)
@@ -71,7 +81,7 @@ void Gun::keyboard(eventType event)
 {
 	if (event.eventVer == SDL_KEYDOWN)
 	{
-		if (event.key == SDLK_a)
+		if (event.key == keyBind)
 			spawnTracer();
 	}
 }
@@ -88,6 +98,53 @@ void Gun::spawnTracer()
 	tracer->setCollisionMesh(PHYS_SPHERE, 3);
 	tracer->initPhysics();
 	addChild(tracer);
+
+	//muzzle flash
+	muzzle->animator.interrupt(20);
+	muzzle->animator.interrupt(10);
+	muzzle->animator.interrupt(11);
+	muzzle->animator.interrupt(12);
+	muzzle->setColor(glm::vec3(10*4,8*4,3*4));
+	muzzle->changeColor(glm::vec3(1,0.2,0), 0.1, linear);
+	muzzle->changeColor(glm::vec3(0), 0.1, linear);
+	//set animation barrel
+	if (activeBarrel)
+	{
+		//shoot top
+		muzzle->translate(glm::vec3(0.5,1,-6));
+		muzzle->lerpTo(glm::vec3(-0.2,1,-6),0.2);
+
+		barrel1->animator.interrupt(12);
+		barrel1->lerpZ(0.7, 0.07, easeout);
+		barrel1->lerpZ(0.0, 0.7, easeout);
+
+		//animate z barrel animation
+		animator.interrupt(20);
+		animator.animateFloat(&barrel1z, 1*3.14/180, 0.1, easeout, 20);
+		animator.animateFloat(&barrel1z, -1*3.14/180, 0.2, easeinout, 20);
+		animator.animateFloat(&barrel1z, 0.5*3.14/180, 0.3, easeinout, 20);
+		animator.animateFloat(&barrel1z, 0, 0.8, easeinout, 20);
+		activeBarrel = false;
+	}
+	else
+	{
+		//shoot bottom
+		muzzle->translate(glm::vec3(0.5,-1,-6));
+		muzzle->lerpTo(glm::vec3(-0.2,-1,-6),0.2);
+
+		barrel2->animator.interrupt(12);
+		barrel2->lerpZ(0.7, 0.07, easeout);
+		barrel2->lerpZ(0.0, 0.7, easeout);
+
+		//animate z barrel animation
+		animator.interrupt(21);
+		animator.animateFloat(&barrel2z, 1*3.14/180, 0.1, easeout, 21);
+		animator.animateFloat(&barrel2z, -1*3.14/180, 0.2, easeinout, 21);
+		animator.animateFloat(&barrel2z, 0.5*3.14/180, 0.3, easeinout, 21);
+		animator.animateFloat(&barrel2z, 0, 0.8, easeinout, 21);
+		activeBarrel = true;
+	}
+
 }
 
 void Gun::initBarrel(Object* newBarrel)
