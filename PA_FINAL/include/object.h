@@ -40,6 +40,7 @@ class Object
     virtual void scale(float amount);
 
     void lerpTo(glm::vec3, float);
+    void lerpBy(glm::vec3, float);
 
     float getSize();
     glm::mat4 GetModel();

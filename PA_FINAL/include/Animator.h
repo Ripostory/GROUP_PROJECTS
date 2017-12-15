@@ -9,7 +9,7 @@
 //Handles animating items
 
 enum interpolation {
-	none, linear, easein, easeout, easeinout, exponential
+	none, linear, easein, easeout, easeinout, exponential, linearadd
 };
 
 //a single animated float
@@ -34,6 +34,9 @@ private:
 	void interpEaseOut(unsigned int dt);
 	void interpEaseInOut(unsigned int dt);
 	void interpExponential(unsigned int dt);
+
+	void interpNoneAdd(unsigned int dt);
+	void interpLinearAdd(unsigned int dt);
 };
 
 //a group of floats
@@ -72,6 +75,7 @@ public:
 	//TODO add animator functions
 	void animateFloat(float* value, float lerpTo, float time, interpolation interp, int id);
 	void animateVec3(glm::vec3* value, glm::vec3 lerpTo, float time, interpolation interp, int id);
+
 private:
 	void pushAnimation(AnimGroup);
 	std::vector<AnimFrame> eventBuffer;

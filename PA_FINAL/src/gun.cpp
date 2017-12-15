@@ -23,17 +23,17 @@ Gun::Gun(camera *cam)
 	//add barrel children
 	barrel1 = new Object();
 	initBarrel(barrel1);
-	barrel1->translate(glm::vec3(0,-1,0));
+	barrel1->translate(glm::vec3(0.7,0.25,0));
+	addChild(barrel1);
 
 	barrel2 = new Object();
 	initBarrel(barrel2);
-	barrel2->translate(glm::vec3(0,-1,0));
+	barrel2->translate(glm::vec3(0.7,-0.2,0));
+	addChild(barrel2);
 }
 
 Gun::~Gun()
 {
-	delete barrel1;
-	delete barrel2;
 }
 
 void Gun::Update(unsigned int dt)
@@ -46,32 +46,25 @@ void Gun::Update(unsigned int dt)
 	glm::vec3 offset = (Cam->getLookat()-lastLookat)*0.2f;
 	lastLookat += offset;
 	translate(glm::vec3(base.x-offset.x,base.y-offset.y,base.z-offset.z));
-	mrotate = glm::lookAt(glm::vec3(0), lastLookat, glm::vec3(0,1,0));
-	model = mtranslate * glm::inverse(mrotate);
+	mrotate = glm::inverse(glm::lookAt(glm::vec3(0), lastLookat, glm::vec3(0,1,0)));
+	model = mtranslate * mrotate;
 
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn
-	if (children.size() != 0)
+	if (children.size() != 2)
 	{
-		if (!children.front()->animator.isPending())
+		if (!children[2]->animator.isPending())
 		{
-			delete *children.begin();
-			children.erase(children.begin());
+			vector<Object*>::iterator it = children.begin();
+			delete *(it+2);
+			children.erase(it+2);
 		}
 	}
-
-	//update barrels
-	barrel1->translate(glm::vec3(0,-1,0));
-	barrel2->translate(glm::vec3(0,1,0));
-	barrel1->Update(dt);
-	barrel2->Update(dt);
 }
 
 void Gun::Render()
 {
 	Object::Render();
-	barrel1->Render();
-	barrel2->Render();
 }
 
 void Gun::keyboard(eventType event)

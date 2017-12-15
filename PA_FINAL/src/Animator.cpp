@@ -198,7 +198,8 @@ bool AnimEvent::Update(unsigned int dt)
 		if (progress/time >= 1)
 		{
 			isDone = true;
-			*value = final;
+			if (lerp != linearadd)
+				*value = final;
 			return true;
 		}
 	}
@@ -220,6 +221,9 @@ bool AnimEvent::Update(unsigned int dt)
 	case easeinout:
 		break;
 	case exponential:
+		break;
+	case linearadd:
+		interpLinearAdd(dt);
 		break;
 	}
 	return false;
@@ -255,6 +259,18 @@ void AnimEvent::interpEaseInOut(unsigned int dt)
 void AnimEvent::interpExponential(unsigned int dt)
 {
 
+}
+
+
+void AnimEvent::interpNoneAdd(unsigned int dt)
+{
+	*value += final;
+}
+
+void AnimEvent::interpLinearAdd(unsigned int dt)
+{
+	//update value
+	*value += (((float) dt/1000.0f)/time)*(final-initial);
 }
 
 

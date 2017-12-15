@@ -257,6 +257,13 @@ void Object::lerpTo(glm::vec3 position, float time)
 	animator.animateFloat(&mtranslate[3][2], position.z, time, linear, 12);
 }
 
+void Object::lerpBy(glm::vec3 position, float time)
+{
+	animator.animateFloat(&mtranslate[3][0], position.x, time, linearadd, 13);
+	animator.animateFloat(&mtranslate[3][1], position.y, time, linearadd, 14);
+	animator.animateFloat(&mtranslate[3][2], position.z, time, linearadd, 15);
+}
+
 void Object::setParent(Object *newParent)
 {
 	parent = newParent;
