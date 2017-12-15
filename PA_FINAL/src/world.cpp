@@ -12,13 +12,16 @@ void World::loadWorld()
 	  this->addChild(child);
 
 
-	  Gun *test = new Gun(currentCam);
-	  //test->loadModel("planet.obj");
+	  Gun *gunTest = new Gun(currentCam);
+	  //Object *test = new Object();
+	  //test->loadModel("gun_barrel.obj");
 	  //test->loadTexture("a_earth.jpg");
 	  //test->loadTexture("s_earth.jpg", 2);
 	  //test->loadNormal("n_earth.jpg");
+	  //test->translate(glm::vec3(0,15,0));
 	  //test->scale(9.0f);
-  	  this->addChild(test);
+  	  //this->addChild(test);
+  	  addChild(gunTest);
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
@@ -73,7 +76,7 @@ World::World(camera *final)
 	  initPhys();
 	  loadModel("cube.obj");
 	  loadWorld();
-	  loadCubeMap("beach", skybox);
+	  loadCubeMap("yoko", skybox);
 }
 
 World::~World()

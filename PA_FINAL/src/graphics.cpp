@@ -188,6 +188,8 @@ void Graphics::Render()
   glDepthFunc(GL_EQUAL);
 
   //render lightless world
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   renderDeferred(m_ambientShader, NULL);
 
   //render all lights
@@ -221,13 +223,19 @@ void Graphics::Render()
   }
 
   //render a test quad
-  //TODO create a billboard world
-  //m_billboard->Enable();
-  //Billboard test;
-  //test.Update(0);
-  //passMatrices(test.getMatrix());
-  //test.setImage("ERROR_TEXTURE.jpg");
-  //test.Render();
+  glDisable(GL_CULL_FACE);
+  m_billboard->Enable();
+  for (int i = 0; i < world->getChildren().size(); i++)
+  {
+	  //note: only renders UI elements of objects
+	  //TODO: probably fix
+	  std::vector<Billboard*> elements = world->getChildren()[i]->getUI();
+	  for (int c = 0; c < elements.size(); c++) {
+		  passMatrices(elements[c]->getMatrix());
+		  elements[c]->Render();
+	  }
+  }
+  glEnable(GL_CULL_FACE);
 
   //render user interface
   glViewport(0,0, width, height);

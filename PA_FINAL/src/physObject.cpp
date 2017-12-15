@@ -41,6 +41,12 @@ void PhysObject::Update(unsigned int dt)
 		  model *= mscale;
 	  }
 
+	  //update ui elements
+	  for (int i = 0; i <  ui.size(); i++)
+	  {
+		  ui[i]->Update(dt);
+	  }
+
 	  animator.Update(dt);
 	  //update children
 	  for (int i = 0; i < children.size(); i++)

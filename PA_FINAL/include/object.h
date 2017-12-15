@@ -7,6 +7,7 @@
 #include "obj.h"
 #include "event.h"
 #include "Animator.h"
+#include "billboard.h"
 
 #define SPEED_STEP 		0.02f
 
@@ -46,12 +47,18 @@ class Object
 
     Animator animator;
 
+    void addUI(Billboard*);
+    void renderUI();
+    void setParent(Object*);
+    std::vector<Billboard*> getUI();
+
   protected:
     glm::mat4 model;
     glm::mat4 mtranslate;
     glm::mat4 mscale;
     glm::mat4 mrotate;
     std::vector<Object*> children;
+    std::vector<Billboard*> ui;
     std::vector<unsigned int> texIndex;
     std::vector<GLuint> texPointer;
     event listener;
@@ -64,6 +71,9 @@ class Object
     virtual void keyboard(eventType);
 
   private:
+    void updateMatrices();
+
+    Object *parent;
     TexInstance textureData;
     TexInstance normal;
 };

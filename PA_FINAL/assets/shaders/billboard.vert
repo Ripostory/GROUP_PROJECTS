@@ -14,7 +14,7 @@ void main(void)
   vec4 v = vec4(position, 1.0);
   vec4 position = modelMatrix * vec4(0,0,0,1);
   mat4 inv = inverse(viewMatrix);
-  mat4 billMatrix = mat4(inv[0], inv[1], inv[2], position);
-  gl_Position = projectionMatrix * viewMatrix * billMatrix * v; 
+  mat4 billMatrix = mat4(inv[0], inv[1], inv[2], vec4(0,0,0,1));
+  gl_Position = projectionMatrix * viewMatrix * modelMatrix * billMatrix * v;
   texCoord = texcoord;
 }

@@ -21,10 +21,6 @@ vec3 fresnel(float cTheta, vec3 F0);
 void main()
 {
 	vec2 Texcoord = gl_FragCoord.xy / gScreenSize;
-    //ignore background
-    if (texture(albedo, Texcoord) == vec4(0,0,0,0))
-        discard;
-        
         
     //get material properties from material buffer
     float metallic = texture(material, Texcoord).r;
@@ -73,7 +69,7 @@ void main()
     float lightAngle = max(dot(N, L), 0.0);
     vec3 finalColor = (finalDiff * finalAlbedo / 3.1415 + specular) * attenuation * color * lightAngle;
 
-    frag_color = vec4(finalColor, 1.0f);
+    frag_color = vec4(finalColor, texture(albedo, Texcoord).a);
 }
 
 float normalDistr(vec3 N, vec3 H, float roughness)

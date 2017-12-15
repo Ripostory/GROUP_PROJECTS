@@ -24,6 +24,12 @@ Plane::Plane()
 	events.push(glm::vec3(0, pitch, 0));
 	events.push(glm::vec3(-168, pitch, -99));
 	events.push(glm::vec3(221, pitch, -76));
+
+	Billboard *test = new Billboard();
+	test->setImage("a_earth.jpg");
+	test->translate(glm::vec3(0,20,0));
+	test->scale(1.0);
+	addUI(test);
 }
 
 Plane::~Plane()

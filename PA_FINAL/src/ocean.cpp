@@ -19,6 +19,7 @@ Ocean::~Ocean()
 void Ocean::Update(unsigned int dt)
 {
 	//update waves
+	scale(5.0f);
 	offset += (float)dt/1000.0f;
 }
 

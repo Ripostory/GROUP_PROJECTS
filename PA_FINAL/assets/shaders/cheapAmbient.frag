@@ -15,10 +15,7 @@ vec3 fresnel(float cTheta, vec3 F0);
 void main()
 {	
 	vec2 Texcoord = gl_FragCoord.xy / gScreenSize;
-    //ignore background
-    if (texture(albedo, Texcoord) == vec4(0,0,0,0))
-        discard;
-        
+
     //low color and high color
     vec3 sky = vec3(0.7,0.9,0.9);
     vec3 side = vec3(0.4,0.4,0.4);
@@ -49,7 +46,7 @@ void main()
     vec3 finalColor = sky*skyAngle + ground*invskyAngle + side*sideAngle;
     vec3 ambient = (finalDiff * finalAlbedo) * finalColor;
     
-    frag_color = vec4(ambient, 1.0f);
+    frag_color = vec4(ambient, texture(albedo, Texcoord).a);
 }
 
 float normalDistr(vec3 N, vec3 H, float roughness)

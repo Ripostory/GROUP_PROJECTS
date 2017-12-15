@@ -5,6 +5,7 @@ Object::Object()
 	multiplier = 1.0f;
 	size = 1.0f;
 	model = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
+	parent = NULL;
 
 	//load default textures
 	loadTexture("ERROR_TEXTURE.jpg");
@@ -106,12 +107,19 @@ void Object::Update(unsigned int dt)
 	  //update animator
 	  animator.Update(dt);
 
-	  //render
-	  model = mtranslate * mscale * mrotate;
+	  //update matrices
+	  updateMatrices();
+
 	  //update keyboard
 	  for (int i = 0; i < listener.getSize(); i++)
 	  {
 		  keyboard(listener.getEvent(i));
+	  }
+
+	  //update ui elements
+	  for (int i = 0; i <  ui.size(); i++)
+	  {
+		  ui[i]->Update(dt);
 	  }
 
 	  //update children
@@ -176,44 +184,62 @@ void Object::addChild(Object *child)
 	children.push_back(child);
 }
 
+void Object::addUI(Billboard* uiElement)
+{
+	ui.push_back(uiElement);
+}
+
+void Object::renderUI()
+{
+	for (int i = 0; i < ui.size(); i++)
+	{
+		ui[i]->Render();
+	}
+}
+
 float Object::getSize()
 {
 	return size;
+}
+
+std::vector<Billboard*> Object::getUI()
+{
+	return ui;
 }
 
 void Object::translate(glm::vec3 translation)
 {
 	mtranslate = glm::translate(translation);
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::rotate(float angle, glm::vec3 axis)
 {
 	mrotate = glm::rotate(angle, axis);
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::translateBy(glm::vec3 translation)
 {
 	mtranslate = glm::translate(mtranslate, translation);
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::rotateBy(float angle, glm::vec3 axis)
 {
 	mrotate = glm::rotate(mrotate, angle, axis);
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::rotateTo(glm::vec3 lookat, glm::vec3 up)
 {
 	mrotate = glm::lookAt(glm::vec3(0),lookat,up);
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::scale(float amount)
@@ -221,12 +247,25 @@ void Object::scale(float amount)
 	size  = amount;
 	mscale = glm::scale(glm::vec3(size));
 	//reset model matrix
-	model = mtranslate * mscale * mrotate;
+	updateMatrices();
 }
 
 void Object::lerpTo(glm::vec3 position, float time)
 {
-	animator.animateFloat(&model[3][0], position.x, time, linear, 10);
-	animator.animateFloat(&model[3][1], position.y, time, linear, 11);
-	animator.animateFloat(&model[3][2], position.z, time, linear, 12);
+	animator.animateFloat(&mtranslate[3][0], position.x, time, linear, 10);
+	animator.animateFloat(&mtranslate[3][1], position.y, time, linear, 11);
+	animator.animateFloat(&mtranslate[3][2], position.z, time, linear, 12);
+}
+
+void Object::setParent(Object *newParent)
+{
+	parent = newParent;
+}
+
+void Object::updateMatrices()
+{
+	  if (parent != NULL)
+		  model = parent->GetModel() * mtranslate * mscale * mrotate;
+	  else
+		  model = mtranslate * mscale * mrotate;
 }
