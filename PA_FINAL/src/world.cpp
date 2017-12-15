@@ -12,7 +12,7 @@ void World::loadWorld()
 	  this->addChild(child);
 
 
-	  Gun *gunTest = new Gun(currentCam);
+	  Gun *test = new Gun(currentCam);
 	  //Object *test = new Object();
 	  //test->loadModel("gun_barrel.obj");
 	  //test->loadTexture("a_earth.jpg");
@@ -21,9 +21,9 @@ void World::loadWorld()
 	  //test->translate(glm::vec3(0,15,0));
 	  //test->scale(9.0f);
   	  //this->addChild(test);
-  	  addChild(gunTest);
+  	  addChild(test);
 
-		cout << "Gun memory address " << test << endl;
+	  cout << "Gun memory address " << test << endl;
 
 	  Light *light = new Light();
 	  light->translate(glm::vec3(20 ,0, 0));
