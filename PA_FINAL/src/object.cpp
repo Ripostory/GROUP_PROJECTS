@@ -62,6 +62,19 @@ bool Object::loadModel(string filename)
 		  return false;
 }
 
+bool Object::loadModelFB(string filename)
+{
+	  loader modelLoader;
+	  ModelInstance model = modelLoader.loadModelFB(filename);
+	  if (model.VB != 0)
+	  {
+		  modelData = model;
+		  return true;
+	  }
+	  else
+		  return false;
+}
+
 bool Object::loadTexture(string filename)
 {
 	loader texLoader;

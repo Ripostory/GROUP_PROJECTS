@@ -111,7 +111,7 @@ void Gun::spawnTracer()
 	
 	KinematicObject *tracer = new KinematicObject();
 	glm::vec3 spawnPos = Cam->GetPosition() + lastLookat*25.0f;
-	tracer->loadModel("planet.obj");
+	tracer->loadModelFB("planet.obj");
 	tracer->loadNormal("cleanNormal.png");
 	tracer->translate(spawnPos);
 	tracer->lerpTo(lastLookat*5000.0f, 5);

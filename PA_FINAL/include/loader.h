@@ -62,8 +62,10 @@ public:
 	static void end();
 	bool loadTexture(string, Texture&);
 	bool loadObject(string, obj&);
+	bool loadObjectNoLight(string, obj&);
 	bool loadShader(string, string&);
 	ModelInstance loadModel(string);
+	ModelInstance loadModelFB(string);
 	TexInstance loadTexture(string);
 	TexInstance loadTexture(string, GLenum);
 	TexInstance loadCubemap(string);

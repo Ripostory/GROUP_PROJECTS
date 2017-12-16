@@ -47,6 +47,11 @@ void main()
     vec3 ambient = (finalDiff * finalAlbedo) * finalColor;
     
     frag_color = vec4(ambient, texture(albedo, Texcoord).a);
+
+    //set fullbright if the normals are 0
+    if (texture(normal, Texcoord) == vec4(0,0,0,1))
+    	frag_color = texture(albedo, Texcoord);
+
 }
 
 float normalDistr(vec3 N, vec3 H, float roughness)

@@ -119,6 +119,101 @@ bool loader::loadObject(string filename, obj &inputObj)
 	return true;
 }
 
+bool loader::loadObjectNoLight(string filename, obj& inputObj) {
+	aiMesh *mesh;
+	aiVector3D vert;
+	aiVector3D texture;
+	aiFace face;
+	glm::vec3 tempVec;
+	glm::vec3 tempColor;
+	glm::vec2 tempTex;
+	glm::vec3 tempTan;
+	glm::vec3 bitangent;
+	int indice;
+	string finalFilename = rootDir + "models/" + filename;
+
+	//load object from file
+	Assimp::Importer import;
+	const aiScene *scene = import.ReadFile(finalFilename, \
+			aiProcess_CalcTangentSpace      |  \
+			aiProcess_GenNormals            |  \
+			aiProcess_JoinIdenticalVertices |  \
+			aiProcess_Triangulate           |  \
+			aiProcess_SortByPType			|  \
+			aiProcess_FlipUVs				|  \
+			0
+			);
+
+	//if fail, throw error
+	if (scene == NULL)
+	{
+		//read failed, return empty object
+		cout << "FILE " << finalFilename << " UNABLE TO BE READ" << endl;
+		return false;
+	}
+
+	//otherwise, pack object data into the OBJ ADT and send to inputObj
+	//get mesh (should be at index 0 since it's the only mesh)
+	mesh = scene->mMeshes[0];
+
+	obj final;
+	for (int i = 0; i < mesh->mNumVertices; i++)
+	{
+		//get vertices
+		vert = mesh->mVertices[i];
+		tempVec.x = vert.x;
+		tempVec.y = vert.y;
+		tempVec.z = vert.z;
+
+		//get color (get them from normals)
+		//clear normals for non lit objects
+		vert = mesh->mNormals[i];
+		tempColor = glm::vec3(0.0,0.0,0.0);
+		tempTan = glm::vec3(0.0,0.0,0.0);
+
+		//get texture coordinates and tangents
+		if (mesh->HasTextureCoords(0))
+		{
+			texture = mesh->mTextureCoords[0][i];
+			tempTex.x = texture.x;
+			tempTex.y = texture.y;
+
+			vert = mesh->mTangents[i];
+			tempTan.x = vert.x;
+			tempTan.y = vert.y;
+			tempTan.z = vert.z;
+
+
+			//if fails, default to 0,0 coords
+ 		}
+		else
+		{
+			tempTex = glm::vec2(0,0);
+			tempTan = glm::vec3(0.0);
+		}
+
+		//push into object
+		final.addVert(Vertex(tempVec, tempColor, tempTex, tempTan));
+	}
+
+	//load indices
+	for (int i = 0; i < mesh->mNumFaces; i++)
+	{
+		face = mesh->mFaces[i];
+
+		for (int c = 0; c < face.mNumIndices; c++)
+		{
+			final.addIndice(face.mIndices[c]+1);
+		}
+	}
+
+	mesh = NULL;
+	scene = NULL;
+
+	inputObj = final;
+	return true;
+}
+
 bool loader::loadShader(string filename, string& output) {
 	isEOF = false;
 	string final = "";
@@ -209,6 +304,12 @@ ModelInstance loader::loadModel(string filename)
 {
 	return pushModel(filename);
 }
+
+ModelInstance loader::loadModelFB(string filename)
+{
+	return pushModel(filename.append("_NOLIGHT"));
+}
+
 TexInstance loader::loadTexture(string filename)
 {
 	return loadTexture(filename, GL_TEXTURE0);
@@ -239,7 +340,22 @@ ModelInstance loader::pushModel(string filename)
 	//model doesn't exist yet, add
 	  obj object;
 	  ModelInstance final;
-	  if (loadObject(filename, object))
+	  string modFilename = filename;
+	  int len = filename.length();
+	  bool isNolight = false;
+	  bool success = false;
+	  if (len > 8 && modFilename.substr(len-8,len).compare("_NOLIGHT") == 0)
+	  {
+		  isNolight = true;
+		  modFilename = filename.substr(0, len-8);
+	  }
+
+	  if (isNolight)
+		  success = loadObjectNoLight(modFilename, object);
+	  else
+		  success = loadObject(modFilename, object);
+
+	  if (success)
 	  {
 		  GLuint tempVB;
 		  GLuint tempIB;

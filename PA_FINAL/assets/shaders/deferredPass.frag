@@ -25,9 +25,16 @@ void main(void)
    
    //pack normal
    vec3 normal = texture2D(normalMap, texCoordModel).xyz;
-   normal = normalize(normal * 2.0 - 1.0);
-   normal = normalize(TBN * normal);
-   gl_FragData[1] = vec4(normal, 1.0);
+   if (TBN != mat3(0))
+   {
+	   normal = normalize(normal * 2.0 - 1.0);
+	   normal = normalize(TBN * normal);
+	   gl_FragData[1] = vec4(normal, 1.0);
+   }
+   else
+	   gl_FragData[1] = vec4(0,0,0,0);
+
+
 
    //pass material information
    gl_FragData[2] = vec4(metallic, roughness, 0, 0);

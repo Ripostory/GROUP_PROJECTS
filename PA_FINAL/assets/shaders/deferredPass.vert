@@ -23,5 +23,8 @@ void main(void)
   vec3 v_bitangent = cross(v_tangent, v_normal);
   TBN = mat3(v_tangent, v_bitangent, v_normal);
   TBN = mat3(modelMatrix) * TBN;
+
+  if (v_normal == vec3(0))
+	  TBN = mat3(0);
 }
           

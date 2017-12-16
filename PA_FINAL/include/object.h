@@ -21,6 +21,7 @@ class Object
     static void end();
 
     bool loadModel(string filename);
+    bool loadModelFB(string filename);
     bool loadTexture(string filename);
     void loadTexture(string filename, int index);
     void loadCubeMap(string filename, GLuint &target);
