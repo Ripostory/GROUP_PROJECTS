@@ -13,13 +13,16 @@
 
 class Plane : public KinematicObject {
 public:
-	Plane(Light*);
+	Plane(Light*, float height, float speed, float hp);
 	~Plane();
 
 	void moveTo(glm::vec3);
 	void turnTo(glm::vec3);
 	void Update(unsigned int dt);
 	bool isTravelling();
+
+	bool isDead();
+	bool isDeletable();
 
 	void OnCollisionDetected (PhysObject* hit);
 	void OnRaycastHit ();
@@ -45,6 +48,7 @@ private:
 
 	void regularUpdate(unsigned int dt);
 	void generateFlyPath();
+	void explode();
 
 	float hp;
 

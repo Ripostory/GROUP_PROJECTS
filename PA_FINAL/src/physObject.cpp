@@ -275,12 +275,21 @@ PhysObject* PhysObject::Raycast (btVector3 origin, btVector3 direction, bool loc
 
 void PhysObject::OnCollisionDetected (PhysObject* hit) {
 	
-	cout << "Collision with other object detected" << endl;
 }
 
 void PhysObject::OnRaycastHit () {
 
-	cout << "Raycast hit on object at " << this << endl;
+}
+
+void PhysObject::applyForce(glm::vec3 force)
+{
+	physics->activate(false);
+	physics->applyCentralImpulse(glmToBt(force));
+}
+
+void PhysObject::setDamping(float directional, float rotational)
+{
+	physics->setDamping(directional, rotational);
 }
 
 PhysObject* PhysObject::btToPhysObject (const btCollisionObject* obj) {

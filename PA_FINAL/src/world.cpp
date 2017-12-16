@@ -35,7 +35,17 @@ void World::loadWorld()
 
 	  //test kinematic object
 	  light = new Light();
-	  Plane *plane = new Plane(light);
+	  Plane *plane = new Plane(light,100,100,100);
+	  addLight(light);
+	  addChild(plane);
+
+	  light = new Light();
+	  plane = new Plane(light,120,100,100);
+	  addLight(light);
+	  addChild(plane);
+
+	  light = new Light();
+	  plane = new Plane(light,140,100,100);
 	  addLight(light);
 	  addChild(plane);
 		cout << "Plane memory address " << plane << endl;

@@ -1,21 +1,21 @@
 
 #include "plane.h"
 
-Plane::Plane(Light *effect)
+Plane::Plane(Light *effect, float spnHeight, float spnSpeed, float spnHP)
 {
-	baseSpeed = 100;
+	baseSpeed = spnSpeed;
 
 	throttle = baseSpeed;
 	turn = 0;
 	pitch = 0;
 	tilt = 0;
-	height = 100;
+	height = spnHeight;
 	atDestination = true;
-	destination = glm::vec3(500, height, -100);
+	destination = glm::vec3(900, height, 0);
 	flyVector = glm::vec3(1,0,0);
 	turning = false;
 	idling = true;
-	hp = 100;
+	hp = spnHP;
 	crashing = false;
 	startedCrashing = false;
 	explosion = false;
@@ -32,13 +32,14 @@ Plane::Plane(Light *effect)
 	effectLight->setColor(glm::vec3(0,0,0));
 	effectLight->setParent(this);
 
-	translate(glm::vec3(500, height, -100));
+	translate(glm::vec3(900, height, 0));
 	generateFlyPath();
 
 	Billboard *test = new Billboard();
 	test->setImage("a_earth.jpg");
 	test->translate(glm::vec3(0,20,0));
 	test->scale(1.0);
+
 	addUI(test);
 
 }
@@ -76,7 +77,7 @@ void Plane::Update(unsigned int dt)
 			startedCrashing = true;
 		}
 		glm::vec3 position = getPosition();
-		if (position.y > -10)
+		if (position.y > -2)
 			translateBy(glm::vec3(0, pitch,0));
 		else
 		{
@@ -91,23 +92,7 @@ void Plane::Update(unsigned int dt)
 			//explode if we hit the water
 			if (!explosion)
 			{
-				glm::vec3 finalPos = getPosition();
-				finalPos.y += 40;
-				effectLight->animator.interrupt(10);
-				effectLight->animator.interrupt(11);
-				effectLight->animator.interrupt(12);
-				effectLight->animator.interrupt(20);
-				effectLight->setSize(150.0f);
-				effectLight->setParent(NULL);
-				effectLight->translate(finalPos);
-				effectLight->lerpTo(glm::vec3(finalPos.x+2,finalPos.y,finalPos.z-2), 0.1);
-				effectLight->lerpTo(glm::vec3(finalPos.x-4,finalPos.y,finalPos.z+2), 0.3);
-				effectLight->lerpTo(glm::vec3(finalPos.x+1,finalPos.y-20,finalPos.z-1), 0.4);
-				effectLight->changeColor(glm::vec3(100,90,80), 0.1, easeinout);
-				effectLight->changeColor(glm::vec3(12*7,10*7,4*7), 0.4, easeinout);
-				effectLight->changeColor(glm::vec3(5,2,0), 0.6, easeinout);
-				effectLight->changeColor(glm::vec3(0),1, easeinout);
-				explosion = true;
+				explode();
 			}
 		}
 	}
@@ -115,6 +100,15 @@ void Plane::Update(unsigned int dt)
 		regularUpdate(dt);
 
 	model *= glm::rotate(-tilt/(3.14f), glm::vec3(0,0,1));
+
+	//clean gibs
+	if (children.size() != 0)
+	{
+		if (!children.front()->animator.isPending(999))
+		{
+			children.erase(children.begin());
+		}
+	}
 
 	ImGui::Text("Plane vector: <%.02f, %.02f, %.02f>", flyVector.x, flyVector.y, flyVector.z);
 	ImGui::Text("Plane Throttle: <%.02f>", throttle);
@@ -279,12 +273,82 @@ void Plane::OnRaycastHit ()
 void Plane::generateFlyPath()
 {
 	for (int i = 0; i < (rand() % 3 + 4); i++) {
-		float xrand = rand() % 200 + 100;
+		float xrand = rand() % 200 + 150;
 		float zrand = rand() % 400 - 200;
 		events.push(glm::vec3(xrand, height, zrand));
 	}
 
 	//final pass
-	events.push(glm::vec3(200, height, 0));
+	events.push(glm::vec3(600, height, 0));
 	events.push(glm::vec3(-400, height, 0));
 }
+
+void Plane::explode()
+{
+
+	//animate effect light
+	glm::vec3 finalPos = getPosition();
+	finalPos.y += 40;
+	effectLight->animator.interrupt(10);
+	effectLight->animator.interrupt(11);
+	effectLight->animator.interrupt(12);
+	effectLight->animator.interrupt(20);
+	effectLight->setSize(150.0f);
+	effectLight->setParent(NULL);
+	effectLight->translate(finalPos);
+	effectLight->lerpTo(glm::vec3(finalPos.x+2,finalPos.y,finalPos.z-2), 0.1);
+	effectLight->lerpTo(glm::vec3(finalPos.x-4,finalPos.y,finalPos.z+2), 0.3);
+	effectLight->lerpTo(glm::vec3(finalPos.x+1,finalPos.y-20,finalPos.z-1), 0.4);
+	effectLight->changeColor(glm::vec3(100,90,80), 0.1, easeinout);
+	effectLight->changeColor(glm::vec3(12*7,10*7,4*7), 0.4, easeinout);
+	effectLight->changeColor(glm::vec3(5,2,0), 0.6, easeinout);
+	effectLight->changeColor(glm::vec3(0),1, easeinout);
+
+	//add gibs
+	PhysObject *gib;
+	float randforcex;
+	float randforcey;
+	float randforcez;
+	glm::vec3 force;
+
+	for (int i = 0; i < 3; i++) {
+		randforcex = (rand() % 200 - 100) - flyVector.x*100;
+		randforcez = (rand() % 200 - 100) - flyVector.z*100;
+		randforcey = rand() % 40 - 20;
+		force = glm::vec3(randforcex,randforcey+flyVector.y*750, randforcez);
+
+		gib = new PhysObject();
+		gib->loadModel("Plane.obj");
+		gib->loadNormal("cleanNormal.png");
+		gib->setCollisionMesh(PHYS_SPHERE, 3);
+		gib->setProperties((rand()%5)/2 + 0.5,1,0.4);
+		gib->translate(getPosition());
+		gib->initPhysics();
+		gib->applyForce(force);
+		gib->setDamping(0.3,0.7);
+		gib->animator.timer(10,999);
+		addChild(gib);
+	}
+
+
+	explosion = true;
+}
+
+bool Plane::isDead()
+{
+	return crashing;
+}
+
+bool Plane::isDeletable()
+{
+	return (explosion && children.size() == 0);
+}
+
+
+
+
+
+
+
+
+

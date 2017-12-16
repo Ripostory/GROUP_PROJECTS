@@ -98,8 +98,6 @@ void Engine::Run()
 
 				if (physObA != NULL && physObB != NULL)
 					physObA -> OnCollisionDetected (physObB);
-				else
-					cout << "On collision detected found null obj" << endl;
     }
 
 

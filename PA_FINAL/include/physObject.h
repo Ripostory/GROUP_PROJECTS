@@ -34,6 +34,7 @@ public:
   virtual void initPhysics();
 	virtual void OnCollisionDetected (PhysObject* hit);
 	virtual void OnRaycastHit ();
+	void applyForce(glm::vec3);
 
     void setCollisionMesh(int base);
     void setCollisionMesh(int box, glm::vec3 size);
@@ -41,6 +42,7 @@ public:
     void setCollisionMesh(int capCylCone, float, float);
     void setCollisionMesh(int mesh, string filename);
     void setProperties(float mass, float friction, float restitution);
+    void setDamping(float, float);
 
 	PhysObject* Raycast (btVector3 origin, btVector3 direction, bool worldNormal);
 protected:
