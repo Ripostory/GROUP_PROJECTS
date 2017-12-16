@@ -20,6 +20,7 @@ Gun::Gun(camera *cam, Light *flash)
 	loadModel("gun_invNorm.obj");
 	loadNormal("cleanNormal.png");
 	loadTexture("s_earth.jpg", 2);
+	this->setCollisionMesh(PHYS_SPHERE,0.001);
 
 	//add barrel children
 	barrel1 = new Object();
@@ -71,6 +72,12 @@ void Gun::Update(unsigned int dt)
 		{
 			spawnTracer();
 			animator.timer(0.15, 100);
+			PhysObject* hitObj = Raycast(glmToBt(base), glmToBt(base+lastLookat*10000.0f), true);
+			if (hitObj != NULL)
+			{
+				//plane hit
+				hitObj->OnRaycastHit();
+			}
 		}
 	}
 
@@ -109,15 +116,15 @@ void Gun::keyboard(eventType event)
 void Gun::spawnTracer()
 {
 	
-	KinematicObject *tracer = new KinematicObject();
+	Object *tracer = new Object();
 	glm::vec3 spawnPos = Cam->GetPosition() + lastLookat*25.0f;
 	tracer->loadModelFB("planet.obj");
 	tracer->loadNormal("cleanNormal.png");
 	tracer->translate(spawnPos);
 	tracer->lerpTo(lastLookat*5000.0f, 5);
 	tracer->rotateTo(-lastLookat, glm::vec3(0,1,0));
-	tracer->setCollisionMesh(PHYS_SPHERE, 3);
-	tracer->initPhysics();
+	//tracer->setCollisionMesh(PHYS_SPHERE, 3);
+	//tracer->initPhysics();
 	addChild(tracer);
 
 	//muzzle flash

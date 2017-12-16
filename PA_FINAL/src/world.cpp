@@ -3,13 +3,13 @@
 void World::loadWorld()
 {
 	  //TODO load world here
-	  PhysObject *child = new PhysObject();
-	  child->loadModel("newBoard.obj");
-	  child->loadNormal("cleanNormal.png");
-	  child->translate(glm::vec3(0,0,0));
-	  child->rotate(0, glm::vec3(1,0,0));
-	  child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
-	  this->addChild(child);
+	  //PhysObject *child = new PhysObject();
+	  //child->loadModel("newBoard.obj");
+	  //child->loadNormal("cleanNormal.png");
+	  //child->translate(glm::vec3(0,0,0));
+	  //child->rotate(0, glm::vec3(1,0,0));
+	  //child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
+	  //this->addChild(child);
 
 	  Light *muzzleFlash = new Light();
 	  Gun *test = new Gun(currentCam, muzzleFlash);
@@ -34,7 +34,9 @@ void World::loadWorld()
 	  cursor.y = -6;
 
 	  //test kinematic object
-	  Plane *plane = new Plane();
+	  light = new Light();
+	  Plane *plane = new Plane(light);
+	  addLight(light);
 	  addChild(plane);
 		cout << "Plane memory address " << plane << endl;
 

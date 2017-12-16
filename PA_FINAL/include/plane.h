@@ -5,6 +5,7 @@
 
 #include "kineObject.h"
 #include "imgui.h"
+#include "Light.h"
 
 #define THROTTLE 	1
 #define TURN 		2
@@ -12,14 +13,13 @@
 
 class Plane : public KinematicObject {
 public:
-	Plane();
+	Plane(Light*);
 	~Plane();
 
 	void moveTo(glm::vec3);
 	void turnTo(glm::vec3);
 	void Update(unsigned int dt);
 	bool isTravelling();
-
 
 	void OnCollisionDetected (PhysObject* hit);
 	void OnRaycastHit ();
@@ -29,12 +29,24 @@ private:
 	float turn;
 	float tilt;
 	float pitch;
+	float height;
+	float baseSpeed;
 	bool atDestination;
 	bool turning;
 	bool idling;
+	bool crashing;
+	bool startedCrashing;
+	bool explosion;
+
+	Light *effectLight;
 	glm::vec3 destination;
 	glm::vec3 flyVector;
 	glm::vec3 targetArea;
+
+	void regularUpdate(unsigned int dt);
+	void generateFlyPath();
+
+	float hp;
 
 	std::queue<glm::vec3> events;
 

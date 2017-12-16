@@ -82,28 +82,6 @@ void camera::Update(unsigned int dt)
 				if (velocity < -MAX_VELOCITY)
 					velocity = -MAX_VELOCITY;
 			}
-
-			if (type.key == SDLK_a) {
-
-				glm::vec3 viewDir;
-				float magnitude = 10000.0f;
-
-				viewDir.x = glm::cos(xAngle) * glm::cos(yAngle) * magnitude;
-				viewDir.z = glm::sin(xAngle) * glm::cos(yAngle) * magnitude;
-				viewDir.y = glm::sin(yAngle) * magnitude;
-
-				btVector3 origin (position.x, position.y, position.z);
-				btVector3 direction (position.x + viewDir.x, position.x + viewDir.y, position.x + viewDir.z);
-
-				btCollisionWorld::ClosestRayResultCallback	closestResults(origin, direction);
-				listener.getWorld () -> rayTest(origin, direction, closestResults);
-
-				if (closestResults.hasHit ()) {
-					PhysObject* hit = PhysObject::btToPhysObject(closestResults.m_collisionObject);
-					if (hit != NULL)
-						hit -> OnRaycastHit ();
-				}
-			}
 		}
 	}
 

@@ -52,6 +52,7 @@ class Object
     void lerpBy(glm::vec3, float);
 
     float getSize();
+    glm::vec3 getPosition();
     glm::mat4 GetModel();
     std::vector<Object*> getChildren();
 

@@ -1,17 +1,25 @@
 
 #include "plane.h"
 
-Plane::Plane()
+Plane::Plane(Light *effect)
 {
-	throttle = 50;
+	baseSpeed = 100;
+
+	throttle = baseSpeed;
 	turn = 0;
-	pitch = 60;
+	pitch = 0;
 	tilt = 0;
-	atDestination = false;
-	destination = glm::vec3(0);
+	height = 100;
+	atDestination = true;
+	destination = glm::vec3(500, height, -100);
 	flyVector = glm::vec3(1,0,0);
 	turning = false;
-	idling = false;
+	idling = true;
+	hp = 100;
+	crashing = false;
+	startedCrashing = false;
+	explosion = false;
+	effectLight = effect;
 
 	loadModel("Plane.obj");
 	loadTexture("n_plane.png");
@@ -19,17 +27,20 @@ Plane::Plane()
 	loadNormal("cleanNormal.png");
 	setCollisionMesh(PHYS_SPHERE, 10);
 
-	translate(glm::vec3(0, pitch, 0));
-	events.push(glm::vec3(254, pitch , 162));
-	events.push(glm::vec3(0, pitch, 0));
-	events.push(glm::vec3(-168, pitch, -99));
-	events.push(glm::vec3(221, pitch, -76));
+	effectLight->translate(glm::vec3(0, -3, 0));
+	effectLight->setSize(50);
+	effectLight->setColor(glm::vec3(0,0,0));
+	effectLight->setParent(this);
+
+	translate(glm::vec3(500, height, -100));
+	generateFlyPath();
 
 	Billboard *test = new Billboard();
 	test->setImage("a_earth.jpg");
 	test->translate(glm::vec3(0,20,0));
 	test->scale(1.0);
 	addUI(test);
+
 }
 
 Plane::~Plane()
@@ -39,6 +50,82 @@ Plane::~Plane()
 
 void Plane::Update(unsigned int dt)
 {
+	KinematicObject::Update(dt);
+
+	//update flyVector
+	glm::mat4 rotationmat = glm::rotate(pitch*((float)dt/1000.0f), glm::vec3(1,0,0));
+	rotationmat *= glm::rotate(turn*((float)dt/1000.0f), glm::vec3(0,1,0));
+
+	flyVector = glm::vec3(rotationmat * glm::vec4(flyVector, 1.0));
+
+	translateBy(-flyVector*((float)dt/1000.0f)*throttle);
+	//rotate towards flyVector
+	rotateTo(flyVector, glm::vec3(0,1,0));
+
+	if (crashing)
+	{
+		if (!startedCrashing)
+		{
+			turn = 0;
+			animator.interrupt(TURN);
+			animator.interrupt(THROTTLE);
+			animator.interrupt(PITCH);
+			animator.animateFloat(&tilt, 500, 10, easein, TURN);
+			animator.animateFloat(&pitch, -1, 5, linear, PITCH);
+			animator.animateFloat(&throttle, 100, 5, linear, THROTTLE);
+			startedCrashing = true;
+		}
+		glm::vec3 position = getPosition();
+		if (position.y > -10)
+			translateBy(glm::vec3(0, pitch,0));
+		else
+		{
+			//TODO add completed crash stuff here
+			turn = 0;
+			pitch = 0;
+			throttle = 0;
+			animator.interrupt(TURN);
+			animator.interrupt(THROTTLE);
+			animator.interrupt(PITCH);
+
+			//explode if we hit the water
+			if (!explosion)
+			{
+				glm::vec3 finalPos = getPosition();
+				finalPos.y += 40;
+				effectLight->animator.interrupt(10);
+				effectLight->animator.interrupt(11);
+				effectLight->animator.interrupt(12);
+				effectLight->animator.interrupt(20);
+				effectLight->setSize(150.0f);
+				effectLight->setParent(NULL);
+				effectLight->translate(finalPos);
+				effectLight->lerpTo(glm::vec3(finalPos.x+2,finalPos.y,finalPos.z-2), 0.1);
+				effectLight->lerpTo(glm::vec3(finalPos.x-4,finalPos.y,finalPos.z+2), 0.3);
+				effectLight->lerpTo(glm::vec3(finalPos.x+1,finalPos.y-20,finalPos.z-1), 0.4);
+				effectLight->changeColor(glm::vec3(100,90,80), 0.1, easeinout);
+				effectLight->changeColor(glm::vec3(12*7,10*7,4*7), 0.4, easeinout);
+				effectLight->changeColor(glm::vec3(5,2,0), 0.6, easeinout);
+				effectLight->changeColor(glm::vec3(0),1, easeinout);
+				explosion = true;
+			}
+		}
+	}
+	else
+		regularUpdate(dt);
+
+	model *= glm::rotate(-tilt/(3.14f), glm::vec3(0,0,1));
+
+	ImGui::Text("Plane vector: <%.02f, %.02f, %.02f>", flyVector.x, flyVector.y, flyVector.z);
+	ImGui::Text("Plane Throttle: <%.02f>", throttle);
+	ImGui::Text("Plane tilt: <%.02f>", tilt);
+	ImGui::Text("Plane turn: <%.02f>", turn);
+	ImGui::Text("Queued animations: %i", animator.getAnimationCount());
+}
+
+void Plane::regularUpdate(unsigned int dt)
+{
+	//keep moving to target area
 	if (!events.empty())
 	{
 		if (!animator.isPending() && idling)
@@ -48,14 +135,6 @@ void Plane::Update(unsigned int dt)
 		}
 	}
 	moveTo(targetArea);
-	//TODO figure out translation height
-	//update flyVector
-	glm::mat4 rotationmat = glm::rotate(turn*((float)dt/1000.0f), glm::vec3(0,1,0));
-	flyVector = glm::vec3(rotationmat * glm::vec4(flyVector, 1.0));
-
-	translateBy(-flyVector*((float)dt/1000.0f)*throttle);
-	//rotate towards flyVector
-	rotateTo(flyVector, glm::vec3(0,1,0));
 
 	//modify tilt
 	if (glm::abs(tilt - turn) > 0.01)
@@ -65,15 +144,6 @@ void Plane::Update(unsigned int dt)
 		else if (tilt < turn)
 			tilt += glm::abs(turn-tilt)*0.05;
 	}
-
-	model *= glm::rotate(-tilt/(3.14f), glm::vec3(0,0,1));
-	KinematicObject::Update(dt);
-
-	ImGui::Text("Plane vector: <%.02f, %.02f, %.02f>", flyVector.x, flyVector.y, flyVector.z);
-	ImGui::Text("Plane Throttle: <%.02f>", throttle);
-	ImGui::Text("Plane tilt: <%.02f>", tilt);
-	ImGui::Text("Plane turn: <%.02f>", turn);
-	ImGui::Text("Queued animations: %i", animator.getAnimationCount());
 }
 
 void Plane::keyboard(eventType event)
@@ -93,7 +163,7 @@ void Plane::keyboard(eventType event)
 
 void Plane::moveTo(glm::vec3 newDestination)
 {
-	glm::vec3 position = glm::vec3(model[3][0],model[3][1],model[3][2]);
+	glm::vec3 position = getPosition();
 	if (newDestination != destination)
 	{
 		atDestination = false;
@@ -127,7 +197,7 @@ void Plane::moveTo(glm::vec3 newDestination)
 			if (turn < 1 && turn > -1)
 			{
 				animator.animateFloat(&turn,1,2,linear,TURN);
-				animator.animateFloat(&throttle,50,3,linear,THROTTLE);
+				animator.animateFloat(&throttle,baseSpeed,3,linear,THROTTLE);
 				//delay
 				animator.animateFloat(&turn,1,5,none,TURN);
 				atDestination = true;
@@ -175,13 +245,46 @@ bool Plane::isTravelling()
 	return atDestination;
 }
 
-
-
-void Plane::OnCollisionDetected (PhysObject* hit) {
+void Plane::OnCollisionDetected (PhysObject* hit)
+{
 
 	cout << "Kinematic object hit another object" << endl;
 }
-void Plane::OnRaycastHit () {
 
-	cout << "Plane at " << this << " hit by ray" << endl;
+void Plane::OnRaycastHit ()
+{
+	if (!crashing)
+	{
+		hp -= 5.0;
+		if (hp < 0.0)
+			crashing = true;
+	}
+	else
+	{
+
+	}
+
+	//animate plane light
+	float damage = (hp-100)/100;
+	effectLight->animator.interrupt(10);
+	effectLight->animator.interrupt(11);
+	effectLight->animator.interrupt(12);
+	effectLight->animator.interrupt(20);
+	effectLight->translate(glm::vec3(-10, 5, 10));
+	effectLight->lerpTo(glm::vec3(10,-5,-10), 0.2);
+	effectLight->setColor(glm::vec3(5*7,3*7,1*7));
+	effectLight->changeColor(glm::vec3(1*damage,0.2*damage,0),0.5, linear);
+}
+
+void Plane::generateFlyPath()
+{
+	for (int i = 0; i < (rand() % 3 + 4); i++) {
+		float xrand = rand() % 200 + 100;
+		float zrand = rand() % 400 - 200;
+		events.push(glm::vec3(xrand, height, zrand));
+	}
+
+	//final pass
+	events.push(glm::vec3(200, height, 0));
+	events.push(glm::vec3(-400, height, 0));
 }

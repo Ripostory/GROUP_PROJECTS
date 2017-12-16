@@ -215,6 +215,11 @@ float Object::getSize()
 	return size;
 }
 
+glm::vec3 Object::getPosition()
+{
+	return glm::vec3(model[3][0],model[3][1],model[3][2]);
+}
+
 std::vector<Billboard*> Object::getUI()
 {
 	return ui;
