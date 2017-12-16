@@ -61,6 +61,7 @@ class Object
     void addUI(Billboard*);
     void renderUI();
     void setParent(Object*);
+    void setRenderable(bool);
     std::vector<Billboard*> getUI();
 
   protected:
@@ -87,6 +88,8 @@ class Object
     Object *parent;
     TexInstance textureData;
     TexInstance normal;
+
+    bool renderable;
 };
 
 #endif /* OBJECT_H */

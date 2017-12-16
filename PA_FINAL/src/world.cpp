@@ -11,50 +11,48 @@ void World::loadWorld()
 	  //child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
 	  //this->addChild(child);
 
+	  //load Gun and muzzle flash
 	  Light *muzzleFlash = new Light();
-	  Gun *test = new Gun(currentCam, muzzleFlash);
-	  addChild(test);
+	  Gun *gun = new Gun(currentCam, muzzleFlash);
+	  addChild(gun);
 	  addLight(muzzleFlash);
-	  //Object *test = new Object();
-	  //test->loadModel("gun_barrel.obj");
-	  //test->loadTexture("a_earth.jpg");
-	  //test->loadTexture("s_earth.jpg", 2);
-	  //test->loadNormal("n_earth.jpg");
-	  //test->translate(glm::vec3(0,15,0));
-	  //test->scale(9.0f);
-  	  //this->addChild(test);
 
-	  cout << "Gun memory address " << test << endl;
+	  //load sun/moon
+	  Light *sun;
+	  sun = new Light(LIGHT_DIR);
+	  sun->translate(glm::vec3(1,0.3,0));
+	  sun->setSize(50.0f);
+	  sun->setColor(glm::vec3(1,0.7,0.3));
+	  addLight(sun);
 
-	  Light *light = new Light();
-	  light->translate(glm::vec3(0,20,30));
+	  //load local light
+	  Light *light;
+	  light = new Light();
+	  light->translate(glm::vec3(30,60,-40));
 	  light->setSize(100.0f);
-	  light->setColor(glm::vec3(4,2.2,4.2));
+	  light->setColor(glm::vec3(2.0,2.2,4.2));
 	  addLight(light);
 	  cursor.y = -6;
 
-	  //test kinematic object
-	  light = new Light();
-	  Plane *plane = new Plane(light,100,100,100);
-	  addLight(light);
-	  addChild(plane);
+	  //generate light list
+	  Light *planeLights;
+	  for (int i = 0; i < 15; i++)
+	  {
+		  planeLights = new Light();
+		  planeLights->translate(glm::vec3(0,-1000,0));
+		  addLight(planeLights);
+	  }
 
-	  light = new Light();
-	  plane = new Plane(light,120,100,100);
-	  addLight(light);
-	  addChild(plane);
+	  Squadron *wave = new Squadron(lights,1);
+	  addChild(wave);
 
-	  light = new Light();
-	  plane = new Plane(light,140,100,100);
-	  addLight(light);
-	  addChild(plane);
-		cout << "Plane memory address " << plane << endl;
-
-	  light = new Light(LIGHT_DIR);
-	  light->translate(glm::vec3(1,0.3,0));
-	  light->setSize(50.0f);
-	  light->setColor(glm::vec3(1,0.7,0.3));
-	  addLight(light);
+	  //add boat
+	  Object *testBoat = new Object();
+	  testBoat->loadModel("Ship.obj");
+	  testBoat->loadTexture("a_ship.png");
+	  testBoat->loadNormal("cleanNormal.png");
+	  testBoat->translate(glm::vec3(800,0,0));
+	  addChild(testBoat);
 }
 
 World::World()

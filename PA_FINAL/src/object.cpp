@@ -6,6 +6,7 @@ Object::Object()
 	size = 1.0f;
 	model = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
 	parent = NULL;
+	renderable = true;
 
 	//load default textures
 	loadTexture("ERROR_TEXTURE.jpg");
@@ -160,32 +161,35 @@ glm::mat4 Object::GetModel()
 
 void Object::Render()
 {
-  glBindBuffer(GL_ARRAY_BUFFER, modelData.VB);
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-  glEnableVertexAttribArray(2);
-  glEnableVertexAttribArray(3);
+	if (renderable)
+	{
+		  glBindBuffer(GL_ARRAY_BUFFER, modelData.VB);
+		  glEnableVertexAttribArray(0);
+		  glEnableVertexAttribArray(1);
+		  glEnableVertexAttribArray(2);
+		  glEnableVertexAttribArray(3);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
-  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,tangent));
+		  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+		  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+		  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texCoord));
+		  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,tangent));
 
-  bindTex(textureData.texture, GL_TEXTURE0);
-  bindTex(normal.texture, GL_TEXTURE1);
+		  bindTex(textureData.texture, GL_TEXTURE0);
+		  bindTex(normal.texture, GL_TEXTURE1);
 
-  for (int i = 0; i < texPointer.size(); i++)
-  {
-	  bindTex(texPointer[i], GL_TEXTURE0 + texIndex[i]);
-  }
+		  for (int i = 0; i < texPointer.size(); i++)
+		  {
+			  bindTex(texPointer[i], GL_TEXTURE0 + texIndex[i]);
+		  }
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelData.IB);
-  glDrawElements(GL_TRIANGLES, modelData.size, GL_UNSIGNED_INT, 0);
+		  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelData.IB);
+		  glDrawElements(GL_TRIANGLES, modelData.size, GL_UNSIGNED_INT, 0);
 
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
-  glDisableVertexAttribArray(2);
-  glDisableVertexAttribArray(3);
+		  glDisableVertexAttribArray(0);
+		  glDisableVertexAttribArray(1);
+		  glDisableVertexAttribArray(2);
+		  glDisableVertexAttribArray(3);
+	}
 }
 
 std::vector<Object*> Object::getChildren()
@@ -325,4 +329,9 @@ void Object::updateMatrices()
 		  model = parent->GetModel() * mtranslate * mscale * mrotate;
 	  else
 		  model = mtranslate * mscale * mrotate;
+}
+
+void Object::setRenderable(bool newRender)
+{
+	renderable = newRender;
 }
