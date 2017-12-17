@@ -3,13 +3,10 @@
 void World::loadWorld()
 {
 	  //TODO load world here
-	  //PhysObject *child = new PhysObject();
-	  //child->loadModel("newBoard.obj");
-	  //child->loadNormal("cleanNormal.png");
-	  //child->translate(glm::vec3(0,0,0));
-	  //child->rotate(0, glm::vec3(1,0,0));
-	  //child->setCollisionMesh(PHYS_S_MESH, "newBoard.obj");
-	  //this->addChild(child);
+	  //load ambience
+	  ambience = new Sound();
+	  ambience->LoadAudio("assets/sounds/r_ambience_wind2.wav", 27);
+	  ambience->PlayAudio();
 
 	  //load Gun and muzzle flash
 	  Light *muzzleFlash = new Light();
@@ -73,6 +70,8 @@ void World::loadWorld()
  	  testBoat->loadNormal("cleanNormal.png");
  	  testBoat->translate(glm::vec3(750,0,-600));
  	  addChild(testBoat);
+
+ 	 playSound("assets/sounds/soundscape_farchopper1.wav", 1);
 }
 
 World::World()
@@ -166,6 +165,9 @@ void World::Update(unsigned int dt)
 			difficulty += 0.8;
 			currentWave = new Squadron(lights, difficulty);
 			addChild(currentWave);
+
+			//play sound
+			playSound("assets/sounds/soundscape_farchopper1.wav", 1);
 	  }
 
 	  if (currentWave->isPlaneEscape() && !deathAnimation)

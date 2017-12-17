@@ -1,20 +1,5 @@
 #include "gun.h"
 
-Gun::Gun()
-{
-	Cam = NULL;
-	muzzle = NULL;
-	barrel1 = NULL;
-	barrel2 = NULL;
-	activeBarrel = true;
-	barrel1z = 0;
-	barrel2z = 0;
-	keyBind = SDLK_SPACE;
-	firing = false;
-	recoil = 0;
-	enabled = true;
-}
-
 Gun::Gun(camera *cam, Light *flash)
 {
 	Cam = cam;
@@ -44,8 +29,6 @@ Gun::Gun(camera *cam, Light *flash)
 	keyBind = SDLK_SPACE;
 
 	enabled = true;
-	sample = new Sound ();
-	sample -> LoadAudio ("assets/sounds/Sample.wav", 10);
 }
 
 Gun::~Gun()
@@ -75,9 +58,6 @@ void Gun::Update(unsigned int dt)
 	{
 		if (!animator.isPending(100))
 		{
-
-			sample -> PlayAudio ();
-
 			spawnTracer();
 			animator.timer(0.15, 100);
 			PhysObject* hitObj = Raycast(glmToBt(base), glmToBt(base+lastLookat*10000.0f), true);
@@ -88,7 +68,6 @@ void Gun::Update(unsigned int dt)
 			}
 		}
 	}
-	else sample -> KillAudio ();
 
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn
@@ -121,6 +100,7 @@ void Gun::keyboard(eventType event)
 		{
 			if (event.key == keyBind)
 				firing = false;
+			playSound("assets/sounds/shell1.wav", 1);
 		}
 	}
 	else
@@ -171,6 +151,9 @@ void Gun::spawnTracer()
 		animator.animateFloat(&barrel1z, 0.5*3.14/180, 0.3, easeinout, 20);
 		animator.animateFloat(&barrel1z, 0, 0.8, easeinout, 20);
 		activeBarrel = false;
+
+		//play sound
+		playSound("assets/sounds/single1.wav", 1);
 	}
 	else
 	{
@@ -189,6 +172,9 @@ void Gun::spawnTracer()
 		animator.animateFloat(&barrel2z, 0.5*3.14/180, 0.3, easeinout, 21);
 		animator.animateFloat(&barrel2z, 0, 0.8, easeinout, 21);
 		activeBarrel = true;
+
+		//play sound
+		playSound("assets/sounds/single2.wav", 1);
 	}
 
 }
@@ -253,4 +239,6 @@ void Gun::kill()
 	animator.animateFloat(&barrel1z, -2*3.14/180, 0.2, easeinout, 20);
 	animator.animateFloat(&barrel1z, -6*3.14/180, 0.3, easeinout, 20);
 	animator.animateFloat(&barrel1z, -8*3.14/180, 0.8, easeinout, 20);
+
+	playSound("assets/sounds/explode1.wav", 8);
 }

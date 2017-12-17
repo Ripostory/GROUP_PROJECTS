@@ -10,7 +10,6 @@
 
 class Gun : public KinematicObject {
 public:
-	Gun();
 	Gun(camera*, Light*);
 	~Gun();
 	virtual void Update(unsigned int dt);
@@ -19,7 +18,7 @@ public:
 	void kill();
 	void spawnTracer();
 
-	Sound* sample;
+
 
 private:
 	virtual void keyboard(eventType);

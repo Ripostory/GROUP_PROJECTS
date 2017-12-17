@@ -35,6 +35,7 @@ private:
 	vector<Light*> lights;
 	Squadron *currentWave;
 	Gun *gun;
+	Sound *ambience;
 	float difficulty;
 
 	bool deathAnimation;

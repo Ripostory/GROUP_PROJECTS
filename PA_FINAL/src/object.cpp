@@ -136,6 +136,18 @@ void Object::Update(unsigned int dt)
 		  ui[i]->Update(dt);
 	  }
 
+	  //update audio
+	  for (int i = 0; i < audio.size(); i++)
+	  {
+		  audio[i]->Update(dt);
+	  }
+
+	  if (audio.size() != 0)
+	  {
+		  if (audio.front()->isDone())
+			  audio.erase(audio.begin());
+	  }
+
 	  //update children
 	  for (int i = 0; i < children.size(); i++)
 	  {
@@ -335,3 +347,12 @@ void Object::setRenderable(bool newRender)
 {
 	renderable = newRender;
 }
+
+void Object::playSound(string filename, int length)
+{
+	Sound *sound = new Sound();
+	sound->LoadAudio(filename, length);
+	sound->PlaySingle();
+	audio.push_back(sound);
+}
+

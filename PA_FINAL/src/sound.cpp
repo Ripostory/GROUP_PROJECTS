@@ -3,6 +3,7 @@
 Sound::Sound () { 
 
 	isPlaying = false;
+	isSingle = false;
 }
 Sound::~Sound () {
 
@@ -13,7 +14,7 @@ Sound::~Sound () {
 		SDL_FreeWAV (start);
 }
 
-bool Sound::LoadAudio (string file, int time) {
+bool Sound::LoadAudio (string file, float time) {
 
 	if (isPlaying) {
 
@@ -39,7 +40,6 @@ bool Sound::LoadAudio (string file, int time) {
 }
 
 bool Sound::PlayAudio () {
-
 	if (isPlaying)
 		return true;
 
@@ -62,6 +62,19 @@ bool Sound::PlayAudio () {
 	}
 
 	return true;
+}
+
+bool Sound::PlaySingle()
+{
+	if (!PlayAudio())
+		return false;
+	else
+	{
+		//add a timer to stop audio
+		animator.timer(time, 100);
+		isSingle = true;
+		return true;
+	}
 }
 
 bool Sound::KillAudio () {
@@ -94,3 +107,30 @@ void Sound::AudioCallback(void *userdata, Uint8 *stream, int len) {
 	data -> position += len;
 	data -> length -= len;
 }
+
+void Sound::Update(unsigned int dt)
+{
+	//update animator
+	animator.Update(dt);
+
+	if (isSingle && isPlaying)
+	{
+		if (!animator.isPending(100))
+		{
+			KillAudio();
+		}
+	}
+}
+
+bool Sound::isDone()
+{
+	if (isPlaying)
+		return false;
+	else
+	{
+		if (isSingle)
+			return true;
+		return false;
+	}
+}
+

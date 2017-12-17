@@ -292,6 +292,9 @@ void Plane::generateFlyPath()
 void Plane::explode()
 {
 
+	//play sound
+	playSound("assets/sounds/explode3edit.wav", 5);
+
 	//animate effect light
 	glm::vec3 finalPos = getPosition();
 	finalPos.y += 40;

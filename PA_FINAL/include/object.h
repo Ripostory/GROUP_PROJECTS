@@ -8,6 +8,7 @@
 #include "event.h"
 #include "Animator.h"
 #include "billboard.h"
+#include "sound.h"
 
 #define SPEED_STEP 		0.02f
 
@@ -62,6 +63,7 @@ class Object
     void renderUI();
     void setParent(Object*);
     void setRenderable(bool);
+    void playSound(string, int);
     std::vector<Billboard*> getUI();
 
   protected:
@@ -73,6 +75,7 @@ class Object
     std::vector<Billboard*> ui;
     std::vector<unsigned int> texIndex;
     std::vector<GLuint> texPointer;
+    std::vector<Sound*> audio;
     event listener;
     ModelInstance modelData;
     float multiplier;
