@@ -33,9 +33,11 @@ private:
 
 	btRigidBody *planeCollider;
 	vector<Light*> lights;
+	Squadron *currentWave;
+	Gun *gun;
+	float difficulty;
 
-	glm::vec3 cursor;
-	KinematicObject *testphy;
+	bool deathAnimation;
 
 	void initPhys();
 };

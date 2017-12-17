@@ -12,6 +12,7 @@ Gun::Gun()
 	keyBind = SDLK_SPACE;
 	firing = false;
 	recoil = 0;
+	enabled = true;
 }
 
 Gun::Gun(camera *cam, Light *flash)
@@ -41,6 +42,7 @@ Gun::Gun(camera *cam, Light *flash)
 	activeBarrel = true;
 	firing = false;
 	keyBind = SDLK_SPACE;
+	enabled = true;
 }
 
 Gun::~Gun()
@@ -101,16 +103,21 @@ void Gun::Render()
 
 void Gun::keyboard(eventType event)
 {
-	if (event.eventVer == SDL_KEYDOWN)
+	if(enabled)
 	{
-		if (event.key == keyBind)
-			firing = true;
+		if (event.eventVer == SDL_KEYDOWN)
+		{
+			if (event.key == keyBind)
+				firing = true;
+		}
+		else if (event.eventVer == SDL_KEYUP)
+		{
+			if (event.key == keyBind)
+				firing = false;
+		}
 	}
-	else if (event.eventVer == SDL_KEYUP)
-	{
-		if (event.key == keyBind)
-			firing = false;
-	}
+	else
+		firing = false;
 }
 
 void Gun::spawnTracer()
@@ -118,7 +125,8 @@ void Gun::spawnTracer()
 	
 	Object *tracer = new Object();
 	glm::vec3 spawnPos = Cam->GetPosition() + lastLookat*25.0f;
-	tracer->loadModelFB("planet.obj");
+	tracer->loadModelFB("tracer.obj");
+	tracer->loadTexture("a_tracer.png");
 	tracer->loadNormal("cleanNormal.png");
 	tracer->translate(spawnPos);
 	tracer->lerpTo(lastLookat*5000.0f, 5);
@@ -184,4 +192,58 @@ void Gun::initBarrel(Object* newBarrel)
 	newBarrel->loadNormal("cleanNormal.png");
 	newBarrel->loadTexture("s_earth.jpg", 2);
 	newBarrel->setParent(this);
+}
+
+void Gun::setEnabled(bool enable)
+{
+	enabled = enable;
+}
+
+void Gun::kill()
+{
+	//kill gun
+	enabled = false;
+	recoil = 0.2;
+	animator.interrupt(200);
+	animator.animateFloat(&recoil, 0, 0.8, easeout, 200);
+	muzzle->animator.interrupt(20);
+	muzzle->animator.interrupt(10);
+	muzzle->animator.interrupt(11);
+	muzzle->animator.interrupt(12);
+	muzzle->setColor(glm::vec3(100,98,50));
+	muzzle->translate(glm::vec3(-0.5,-1,6));
+	muzzle->lerpTo(glm::vec3(0,-5,0), 0.5);
+	muzzle->changeColor(glm::vec3(40,20,3), 0.1, easeinout);
+	muzzle->changeColor(glm::vec3(0,0,0), 0.4, easeinout);
+
+	//shoot bottom
+	muzzle->translate(glm::vec3(0.5,1,-6));
+	muzzle->lerpTo(glm::vec3(-0.2,-1,-6),0.2);
+
+	barrel2->animator.interrupt(12);
+	barrel2->lerpZ(0.0, 0.07, easeout);
+	barrel2->lerpZ(1.0, 0.7, easeout);
+
+	//animate z barrel animation
+	animator.interrupt(21);
+	animator.animateFloat(&barrel2z, 2*3.14/180, 0.1, easeout, 21);
+	animator.animateFloat(&barrel2z, -7*3.14/180, 0.1, easeout, 21);
+	animator.animateFloat(&barrel2z, -2*3.14/180, 0.2, easeinout, 21);
+	animator.animateFloat(&barrel2z, -6*3.14/180, 0.3, easeinout, 21);
+	animator.animateFloat(&barrel2z, -8*3.14/180, 0.8, easeinout, 21);
+
+	//shoot top
+	muzzle->translate(glm::vec3(0.5,1,-6));
+	muzzle->lerpTo(glm::vec3(-0.2,1,-6),0.2);
+
+	barrel1->animator.interrupt(12);
+	barrel1->lerpZ(0.0, 0.07, easeout);
+	barrel1->lerpZ(1.0, 0.7, easeout);
+
+	//animate z barrel animation
+	animator.interrupt(20);
+	animator.animateFloat(&barrel1z, -7*3.14/180, 0.1, easeout, 20);
+	animator.animateFloat(&barrel1z, -2*3.14/180, 0.2, easeinout, 20);
+	animator.animateFloat(&barrel1z, -6*3.14/180, 0.3, easeinout, 20);
+	animator.animateFloat(&barrel1z, -8*3.14/180, 0.8, easeinout, 20);
 }

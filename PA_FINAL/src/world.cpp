@@ -13,7 +13,7 @@ void World::loadWorld()
 
 	  //load Gun and muzzle flash
 	  Light *muzzleFlash = new Light();
-	  Gun *gun = new Gun(currentCam, muzzleFlash);
+	  gun = new Gun(currentCam, muzzleFlash);
 	  addChild(gun);
 	  addLight(muzzleFlash);
 
@@ -32,7 +32,6 @@ void World::loadWorld()
 	  light->setSize(100.0f);
 	  light->setColor(glm::vec3(2.0,2.2,4.2));
 	  addLight(light);
-	  cursor.y = -6;
 
 	  //generate light list
 	  Light *planeLights;
@@ -43,8 +42,8 @@ void World::loadWorld()
 		  addLight(planeLights);
 	  }
 
-	  Squadron *wave = new Squadron(lights,1);
-	  addChild(wave);
+	  currentWave = new Squadron(lights,difficulty);
+	  addChild(currentWave);
 
 	  //add boat
 	  Object *testBoat = new Object();
@@ -92,10 +91,13 @@ World::World(camera *final)
 	  //initialize ground plane
 	  size = 1.0f;
 	  currentCam = final;
+	  currentWave = NULL;
+	  difficulty = 1;
 	  initPhys();
 	  loadModel("cube.obj");
 	  loadWorld();
 	  loadCubeMap("night", skybox);
+	  deathAnimation = false;
 }
 
 World::~World()
@@ -115,73 +117,65 @@ void World::keyboard(eventType event)
 {
 	if (event.eventVer == SDL_KEYDOWN)
 	{
-		if (event.key == SDLK_j)
-		{
-			//spawn item
-			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("planet.obj");
-			newItem->loadNormal("n_earth.jpg");
-			newItem->loadTexture("a_earth.jpg");
-			newItem->setCollisionMesh(PHYS_SPHERE, 1);
-			newItem->translate(glm::vec3(0,40,0));
-			newItem->scale(1);
-			newItem->initPhysics();
-			this->addChild(newItem);
-		}
-		if (event.key == SDLK_k)
-		{
-			//spawn item
-			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("planet.obj");
-			newItem->loadNormal("cleanNormal.png");
-			newItem->setCollisionMesh(PHYS_SPHERE, 3);
-			newItem->translate(glm::vec3(0,40,0));
-			newItem->scale(3);
-			newItem->setProperties(3,0.5,0.2);
-			newItem->initPhysics();
-			this->addChild(newItem);
-		}
-		if (event.key == SDLK_l)
-		{
-			//spawn item
-			PhysObject *newItem = new PhysObject();
-			newItem->loadModel("cube.obj");
-			newItem->loadNormal("cleanNormal.png");
-			newItem->loadTexture("a_earth.jpg");
-			newItem->setCollisionMesh(PHYS_BOX, glm::vec3(1,1,1));
-			newItem->translate(glm::vec3(1,40,0));
-			newItem->initPhysics();
-			this->addChild(newItem);
-		}
+		//TODO add any additional binds
 		if (event.key == SDLK_p)
 		{
-			//add light
-			  Light *light = new Light();
-			  light->translate(cursor);
-			  light->setSize(10.0f);
-			  addLight(light);
+			//clean itself from children and spawn new squadron
+			vector<Object*>::iterator it;
+			for (it = children.begin(); it != children.end(); it++)
+			{
+				if (*it == currentWave)
+				{
+					children.erase(it);
+					break;
+				}
+			}
+
+			delete currentWave;
+			difficulty++;
+			currentWave = new Squadron(lights, difficulty);
+			addChild(currentWave);
+
 		}
-		if (event.key == SDLK_UP)
+		if (event.key == SDLK_o)
 		{
-			  cursor.z--;
-		}
-		if (event.key == SDLK_DOWN)
-		{
-			  cursor.z++;
-		}
-		if (event.key == SDLK_LEFT)
-		{
-			  cursor.x--;
-		}
-		if (event.key == SDLK_RIGHT)
-		{
-			  cursor.x++;
+			gun->kill();
 		}
 	}
 }
 
 void World::Update(unsigned int dt)
 {
+
+	  //TODO add gameloop here
+	  if (currentWave->isDefeated())
+	  {
+			//clean itself from children and spawn new squadron
+			vector<Object*>::iterator it;
+			for (it = children.begin(); it != children.end(); it++)
+			{
+				if (*it == currentWave)
+				{
+					children.erase(it);
+					break;
+				}
+			}
+
+			delete currentWave;
+			difficulty += 0.8;
+			currentWave = new Squadron(lights, difficulty);
+			addChild(currentWave);
+	  }
+
+	  if (currentWave->isPlaneEscape() && !deathAnimation)
+	  {
+		  //kill gun
+		  //do deathAnimation
+		  gun->kill();
+		  deathAnimation = true;
+	  }
+
+
 	  model = mtranslate * mscale * mrotate;
 	  //update keyboard
 	  for (int i = 0; i < listener.getSize(); i++)
@@ -207,8 +201,6 @@ void World::Update(unsigned int dt)
 
 	  //output world amount
 	  ImGui::Text("Object Count: %lu", children.size());
-	  ImGui::Text("Cursor Pos: <%.1f, %.1f, %.1f>", cursor.x, cursor.y, cursor.z);
-
 }
 
 void World::Render()

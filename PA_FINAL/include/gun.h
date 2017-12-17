@@ -14,6 +14,8 @@ public:
 	~Gun();
 	virtual void Update(unsigned int dt);
 	virtual void Render();
+	void setEnabled(bool);
+	void kill();
 	void spawnTracer();
 private:
 	virtual void keyboard(eventType);
@@ -27,6 +29,7 @@ private:
 	Light *muzzle;
 	bool activeBarrel;
 	bool firing;
+	bool enabled;
 
 	float barrel1z;
 	float barrel2z;

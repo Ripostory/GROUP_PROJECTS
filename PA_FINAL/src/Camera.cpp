@@ -62,8 +62,8 @@ void camera::Update(unsigned int dt)
 		//implement FPS style camera
 		if (type.eventVer == SDL_MOUSEMOTION)
 		{
-			xAngle += (float) type.x * dt * 0.001 * speed;
-			yAngle -= (float) type.y * dt * 0.0005 * speed;
+			xAngle += (float) type.x * dt * 0.0005 * speed;
+			yAngle -= (float) type.y * dt * 0.00025 * speed;
 		}
 		else if (type.eventVer == SDL_MOUSEWHEEL)
 		{

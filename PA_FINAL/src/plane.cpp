@@ -22,7 +22,7 @@ Plane::Plane(Light *effect, float spnHeight, float spnSpeed, float spnHP)
 	effectLight = effect;
 
 	loadModel("Plane.obj");
-	loadTexture("n_plane.png");
+	loadTexture("a_plane.png");
 	loadTexture("n_plane.png", 2);
 	loadNormal("cleanNormal.png");
 	setCollisionMesh(PHYS_SPHERE, 10);
@@ -41,6 +41,7 @@ Plane::Plane(Light *effect, float spnHeight, float spnSpeed, float spnHP)
 	test->scale(1.0);
 
 	addUI(test);
+	initPhysics();
 
 }
 
