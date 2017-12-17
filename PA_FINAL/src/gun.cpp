@@ -41,6 +41,11 @@ Gun::Gun(camera *cam, Light *flash)
 	activeBarrel = true;
 	firing = false;
 	keyBind = SDLK_SPACE;
+
+	//Sample for sound effects
+	sample = new Sound ();
+	sample -> LoadAudio ("assets/sounds/Sample.wav", 10);
+	sample -> PlayAudio ();
 }
 
 Gun::~Gun()
@@ -70,6 +75,9 @@ void Gun::Update(unsigned int dt)
 	{
 		if (!animator.isPending(100))
 		{
+
+			sample -> PlayAudio ();
+
 			spawnTracer();
 			animator.timer(0.15, 100);
 			PhysObject* hitObj = Raycast(glmToBt(base), glmToBt(base+lastLookat*10000.0f), true);

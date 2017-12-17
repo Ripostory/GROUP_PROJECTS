@@ -6,6 +6,7 @@
 #include "kineObject.h"
 #include "Camera.h"
 #include "Light.h"
+#include "sound.h"
 
 class Gun : public KinematicObject {
 public:
@@ -15,6 +16,9 @@ public:
 	virtual void Update(unsigned int dt);
 	virtual void Render();
 	void spawnTracer();
+
+	Sound* sample;
+
 private:
 	virtual void keyboard(eventType);
 	void initBarrel(Object*);
