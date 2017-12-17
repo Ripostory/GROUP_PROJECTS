@@ -20,9 +20,9 @@ void World::loadWorld()
 	  //load sun/moon
 	  Light *sun;
 	  sun = new Light(LIGHT_DIR);
-	  sun->translate(glm::vec3(1,0.3,0));
+	  sun->translate(glm::vec3(1,0.1,-0.05));
 	  sun->setSize(50.0f);
-	  sun->setColor(glm::vec3(1,0.7,0.3));
+	  sun->setColor(glm::vec3(0.6863,0.902,0.9373));
 	  addLight(sun);
 
 	  //load local light
@@ -53,6 +53,27 @@ void World::loadWorld()
 	  testBoat->loadNormal("cleanNormal.png");
 	  testBoat->translate(glm::vec3(800,0,0));
 	  addChild(testBoat);
+
+	  testBoat = new Object();
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(200,0,-400));
+ 	  addChild(testBoat);
+ 
+ 	  testBoat = new Object();
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(300,0,400));
+ 	  addChild(testBoat);
+ 
+ 	  testBoat = new Object();
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(750,0,-600));
+ 	  addChild(testBoat);
 }
 
 World::World()

@@ -42,10 +42,8 @@ Gun::Gun(camera *cam, Light *flash)
 	firing = false;
 	keyBind = SDLK_SPACE;
 
-	//Sample for sound effects
 	sample = new Sound ();
 	sample -> LoadAudio ("assets/sounds/Sample.wav", 10);
-	sample -> PlayAudio ();
 }
 
 Gun::~Gun()
@@ -88,6 +86,7 @@ void Gun::Update(unsigned int dt)
 			}
 		}
 	}
+	else sample -> KillAudio ();
 
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn

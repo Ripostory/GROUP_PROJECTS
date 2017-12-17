@@ -21,6 +21,7 @@ public:
 	~Sound ();
 	bool LoadAudio (string, int);
 	bool PlayAudio ();
+	bool KillAudio ();
 
 private:
 
@@ -31,6 +32,8 @@ private:
 
 	Uint8* start;
 	Uint32 length;
+
+	bool isPlaying;
 
 	static void AudioCallback (void*, Uint8*, int);
 };
