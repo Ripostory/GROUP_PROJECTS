@@ -350,6 +350,7 @@ void Graphics::renderDeferred(Shader *shader, Light *light)
 	  else
 	  {
 		  //no light, render ambient light
+		  //TODO worldpos not used in ambient
 		  drawQuad();
 	  }
 

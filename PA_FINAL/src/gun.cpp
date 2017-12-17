@@ -42,7 +42,10 @@ Gun::Gun(camera *cam, Light *flash)
 	activeBarrel = true;
 	firing = false;
 	keyBind = SDLK_SPACE;
+
 	enabled = true;
+	sample = new Sound ();
+	sample -> LoadAudio ("assets/sounds/Sample.wav", 10);
 }
 
 Gun::~Gun()
@@ -72,6 +75,9 @@ void Gun::Update(unsigned int dt)
 	{
 		if (!animator.isPending(100))
 		{
+
+			sample -> PlayAudio ();
+
 			spawnTracer();
 			animator.timer(0.15, 100);
 			PhysObject* hitObj = Raycast(glmToBt(base), glmToBt(base+lastLookat*10000.0f), true);
@@ -82,6 +88,7 @@ void Gun::Update(unsigned int dt)
 			}
 		}
 	}
+	else sample -> KillAudio ();
 
 	//clean tracers
 	//assume the most recent tracer is the first tracer to despawn

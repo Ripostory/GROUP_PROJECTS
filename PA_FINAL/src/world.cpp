@@ -54,25 +54,25 @@ void World::loadWorld()
 	  addChild(testBoat);
 
 	  testBoat = new Object();
-	  testBoat->loadModel("Ship.obj");
-	  testBoat->loadTexture("a_ship.png");
-	  testBoat->loadNormal("cleanNormal.png");
-	  testBoat->translate(glm::vec3(200,0,-400));
-	  addChild(testBoat);
-
-	  testBoat = new Object();
-	  testBoat->loadModel("Ship.obj");
-	  testBoat->loadTexture("a_ship.png");
-	  testBoat->loadNormal("cleanNormal.png");
-	  testBoat->translate(glm::vec3(300,0,400));
-	  addChild(testBoat);
-
-	  testBoat = new Object();
-	  testBoat->loadModel("Ship.obj");
-	  testBoat->loadTexture("a_ship.png");
-	  testBoat->loadNormal("cleanNormal.png");
-	  testBoat->translate(glm::vec3(750,0,-600));
-	  addChild(testBoat);
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(200,0,-400));
+ 	  addChild(testBoat);
+ 
+ 	  testBoat = new Object();
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(300,0,400));
+ 	  addChild(testBoat);
+ 
+ 	  testBoat = new Object();
+ 	  testBoat->loadModel("Ship.obj");
+ 	  testBoat->loadTexture("a_ship.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(750,0,-600));
+ 	  addChild(testBoat);
 }
 
 World::World()
@@ -96,6 +96,7 @@ World::World(camera *final)
 	  initPhys();
 	  loadModel("cube.obj");
 	  loadWorld();
+
 	  loadCubeMap("night", skybox);
 	  deathAnimation = false;
 }
