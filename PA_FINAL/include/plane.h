@@ -10,7 +10,6 @@
 #define THROTTLE 	1
 #define TURN 		2
 #define	PITCH 		3
-#define MAX_PLANES 	15
 
 class Plane : public KinematicObject {
 public:
@@ -21,7 +20,7 @@ public:
 	void turnTo(glm::vec3);
 	void Update(unsigned int dt);
 	bool isTravelling();
-	bool isEscaped();
+
 	bool isDead();
 	bool isDeletable();
 
@@ -58,20 +57,6 @@ private:
 	void keyboard(eventType);
 };
 
-class Squadron : public Object {
-public:
-	Squadron(vector<Light*>, float difficulty);
-	~Squadron();
 
-	void Update(unsigned int dt);
-	bool isDefeated();
-	bool isPlaneEscape();
-
-private:
-	bool defeated;
-	bool planeEscape;
-	int planeCount;
-	vector<Plane*> planeList;
-};
 
 #endif /* SRC_PLANE_H_ */

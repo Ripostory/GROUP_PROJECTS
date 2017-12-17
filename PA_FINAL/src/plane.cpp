@@ -94,10 +94,6 @@ void Plane::Update(unsigned int dt)
 			{
 				explode();
 			}
-
-			//reset to default location once the explosion ends
-			if (!effectLight->animator.isPending())
-				effectLight->translate(glm::vec3(0,-1000,0));
 		}
 	}
 	else
@@ -114,11 +110,11 @@ void Plane::Update(unsigned int dt)
 		}
 	}
 
-	//ImGui::Text("Plane vector: <%.02f, %.02f, %.02f>", flyVector.x, flyVector.y, flyVector.z);
-	//ImGui::Text("Plane Throttle: <%.02f>", throttle);
-	//ImGui::Text("Plane tilt: <%.02f>", tilt);
-	//ImGui::Text("Plane turn: <%.02f>", turn);
-	//ImGui::Text("Queued animations: %i", animator.getAnimationCount());
+	ImGui::Text("Plane vector: <%.02f, %.02f, %.02f>", flyVector.x, flyVector.y, flyVector.z);
+	ImGui::Text("Plane Throttle: <%.02f>", throttle);
+	ImGui::Text("Plane tilt: <%.02f>", tilt);
+	ImGui::Text("Plane turn: <%.02f>", turn);
+	ImGui::Text("Queued animations: %i", animator.getAnimationCount());
 }
 
 void Plane::regularUpdate(unsigned int dt)
@@ -245,9 +241,8 @@ bool Plane::isTravelling()
 
 void Plane::OnCollisionDetected (PhysObject* hit)
 {
-	//we hit a ship, explode
-	if (crashing && !explosion)
-		explode();
+
+	cout << "Kinematic object hit another object" << endl;
 }
 
 void Plane::OnRaycastHit ()
@@ -335,8 +330,6 @@ void Plane::explode()
 		addChild(gib);
 	}
 
-	//hide plane
-	setRenderable(false);
 
 	explosion = true;
 }
@@ -351,106 +344,9 @@ bool Plane::isDeletable()
 	return (explosion && children.size() == 0);
 }
 
-bool Plane::isEscaped()
-{
-	return (events.size() == 0 && idling);
-}
 
 
-/*=============
- * START OF SQUADRON CODE
- ==============*/
 
-Squadron::Squadron(vector<Light*> source, float difficulty)
-{
-	setRenderable(false);
-	defeated = false;
-	planeEscape = false;
-	planeCount = rand() % 4 + 3;
-	Plane *plane;
-	float hpScale;
-	float speedScale;
-	float height;
-
-	//scale speed and hp based on difficulty
-	hpScale = 20 + difficulty*10;
-	speedScale = 50 + difficulty*10;
-	if (speedScale > 100)
-		speedScale = 100;
-
-	//set base height
-	height = 100;
-
-	//get list of lights for planes
-	vector<Light*>::iterator it;
-	it = source.begin();
-	it += 3;
-
-	//spawn planes
-	for (int i = 0; i < planeCount; i++, height += 20)
-	{
-		plane = new Plane(*it, height, speedScale, hpScale);
-		addChild(plane);
-		planeList.push_back(plane);
-		it++;
-	}
-}
-
-Squadron::~Squadron()
-{
-
-}
-
-void Squadron::Update(unsigned int dt)
-{
-	Object::Update(dt);
-
-	int destroyed = 0;
-	int endAnimation = 0;
-	Plane *plane;
-	//check if all planes have been defeated
-	for (int i = 0; i < planeCount; i++)
-	{
-		plane = planeList[i];
-		if (plane->isDead())
-			destroyed++;
-
-		if (plane->isDeletable())
-			endAnimation++;
-
-		if (plane->isEscaped())
-			planeEscape = true;
-	}
-
-	ImGui::Text("Planes destroyed: %i", destroyed);
-
-	if (destroyed == planeCount)
-	{
-		//all planes destroyed
-		ImGui::Text("All planes destroyed!");
-	}
-
-	if (endAnimation == planeCount)
-	{
-		defeated = true;
-		ImGui::Text("Plane squadron safe to delete");
-	}
-
-	if (planeEscape)
-	{
-		ImGui::Text("Plane ESCAPED");
-	}
-}
-
-bool Squadron::isDefeated()
-{
-	return defeated;
-}
-
-bool Squadron::isPlaneEscape()
-{
-	return planeEscape;
-}
 
 
 
