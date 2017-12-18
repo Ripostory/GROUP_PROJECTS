@@ -7,6 +7,7 @@ void World::loadWorld()
 	  ambience = new Sound();
 	  ambience->LoadAudio("assets/sounds/r_ambience_wind2.wav", 27);
 	  ambience->PlayAudio();
+	  ambience->animator.timer(27, 99);
 
 	  //load Gun and muzzle flash
 	  Light *muzzleFlash = new Light();
@@ -69,6 +70,13 @@ void World::loadWorld()
  	  testBoat->loadTexture("a_ship.png");
  	  testBoat->loadNormal("cleanNormal.png");
  	  testBoat->translate(glm::vec3(750,0,-600));
+ 	  addChild(testBoat);
+
+ 	  testBoat = new Object();
+ 	  testBoat->loadModel("playerShip.obj");
+ 	  testBoat->loadTexture("playerShip.png");
+ 	  testBoat->loadNormal("cleanNormal.png");
+ 	  testBoat->translate(glm::vec3(0,32,0));
  	  addChild(testBoat);
 
  	 playSound("assets/sounds/soundscape_farchopper1.wav", 1);
@@ -200,6 +208,15 @@ void World::Update(unsigned int dt)
 	  {
 		  children[i]->setMultiplier(multiplier);
 		  children[i]->Update(dt);
+	  }
+
+	  //update looping ambience
+	  ambience->Update(dt);
+	  if (!ambience->animator.isPending(99))
+	  {
+		  ambience->KillAudio();
+		  ambience->PlayAudio();
+		  ambience->animator.timer(27,99);
 	  }
 
 	  //output world amount

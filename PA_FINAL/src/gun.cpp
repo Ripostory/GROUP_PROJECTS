@@ -4,8 +4,9 @@ Gun::Gun(camera *cam, Light *flash)
 {
 	Cam = cam;
 	loadModel("gun_invNorm.obj");
-	loadNormal("cleanNormal.png");
-	loadTexture("s_earth.jpg", 2);
+	loadNormal("n_gun.png");
+	loadTexture("s_gun.png", 2);
+	loadTexture("a_gun.png");
 	this->setCollisionMesh(PHYS_SPHERE,0.001);
 
 	//add barrel children
@@ -99,8 +100,10 @@ void Gun::keyboard(eventType event)
 		else if (event.eventVer == SDL_KEYUP)
 		{
 			if (event.key == keyBind)
+			{
 				firing = false;
-			playSound("assets/sounds/shell1.wav", 1);
+				playSound("assets/sounds/shell1.wav", 1);
+			}
 		}
 	}
 	else
@@ -182,8 +185,9 @@ void Gun::spawnTracer()
 void Gun::initBarrel(Object* newBarrel)
 {
 	newBarrel->loadModel("gun_barrel.obj");
-	newBarrel->loadNormal("cleanNormal.png");
-	newBarrel->loadTexture("s_earth.jpg", 2);
+	newBarrel->loadNormal("n_barrel.png");
+	newBarrel->loadTexture("s_barrel.png", 2);
+	newBarrel->loadTexture("a_barrel.png");
 	newBarrel->setParent(this);
 }
 

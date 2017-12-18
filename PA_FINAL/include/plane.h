@@ -65,10 +65,12 @@ public:
 
 	void Update(unsigned int dt);
 	bool isDefeated();
+	bool isAllKilled();
 	bool isPlaneEscape();
 
 private:
 	bool defeated;
+	bool allKilled;
 	bool planeEscape;
 	int planeCount;
 	vector<Plane*> planeList;

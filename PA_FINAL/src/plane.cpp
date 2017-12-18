@@ -320,15 +320,16 @@ void Plane::explode()
 	float randforcez;
 	glm::vec3 force;
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < rand() % 15; i++) {
 		randforcex = (rand() % 200 - 100) - flyVector.x*100;
 		randforcez = (rand() % 200 - 100) - flyVector.z*100;
 		randforcey = rand() % 40 - 20;
 		force = glm::vec3(randforcex,randforcey+flyVector.y*750, randforcez);
 
 		gib = new PhysObject();
-		gib->loadModel("Plane.obj");
+		gib->loadModel("cube.obj");
 		gib->loadNormal("cleanNormal.png");
+		gib->loadTexture("a_plane.png");
 		gib->setCollisionMesh(PHYS_SPHERE, 3);
 		gib->setProperties((rand()%5)/2 + 0.5,1,0.4);
 		gib->translate(getPosition());
@@ -370,6 +371,7 @@ Squadron::Squadron(vector<Light*> source, float difficulty)
 	setRenderable(false);
 	defeated = false;
 	planeEscape = false;
+	allKilled = false;
 	planeCount = rand() % 4 + 3;
 	Plane *plane;
 	float hpScale;
@@ -428,9 +430,10 @@ void Squadron::Update(unsigned int dt)
 
 	ImGui::Text("Planes destroyed: %i", destroyed);
 
-	if (destroyed == planeCount)
+	if (destroyed == planeCount && !allKilled)
 	{
 		//all planes destroyed
+		allKilled = true;
 		ImGui::Text("All planes destroyed!");
 	}
 
@@ -456,7 +459,10 @@ bool Squadron::isPlaneEscape()
 	return planeEscape;
 }
 
-
+bool Squadron::isAllKilled()
+{
+	return allKilled;
+}
 
 
 

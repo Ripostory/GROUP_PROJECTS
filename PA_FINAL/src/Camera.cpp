@@ -70,7 +70,7 @@ void camera::Update(unsigned int dt)
 		}
 		else if (type.eventVer == SDL_KEYDOWN)
 		{
-			if (type.key == SDLK_w)
+			/*			if (type.key == SDLK_w)
 			{
 				velocity += dt * 0.05;
 				if (velocity > MAX_VELOCITY)
@@ -82,6 +82,8 @@ void camera::Update(unsigned int dt)
 				if (velocity < -MAX_VELOCITY)
 					velocity = -MAX_VELOCITY;
 			}
+			 *
+			 */
 		}
 	}
 
